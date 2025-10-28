@@ -70,6 +70,23 @@ export function DistributorInvoiceSystem() {
     loadInitialData();
   }, []);
 
+  const handleLogout = () => {
+    // Clear all session data
+    setDistributorId('');
+    setDistributorInfo(null);
+    setSelectedProducts({});
+    setInvoiceHistory([]);
+    setSavedClients({});
+    setInventory({});
+    setDefaultPrices({});
+    
+    // Clear localStorage to force new login
+    localStorage.removeItem('lastLoggedIn');
+    
+    // Return to login view
+    setCurrentView('login');
+  };
+
   const loadInitialData = async () => {
     try {
       if (!supabase) {
@@ -945,113 +962,109 @@ export function DistributorInvoiceSystem() {
     const selectedCount = Object.keys(selectedProducts).length;
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
-        <div className="max-w-7xl mx-auto">
+      <div className="min-h-screen bg-white py-8 md:py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="bg-white rounded-2xl shadow-xl p-6 mb-8">
-            <div className="flex justify-between items-center flex-wrap gap-4">
-              <div>
-                <h1 className="text-3xl font-bold text-como">Sistema de Facturación</h1>
-                <p className="text-gray-600 mt-1">
-                  {distributorInfo.name} {distributorInfo.last_name} • {distributorInfo.state} • ID: {distributorInfo.code}
-                </p>
-              </div>
-              <div className="flex gap-2">
-                <button onClick={() => setCurrentView('dashboard')} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-                  📊 Dashboard
-                </button>
-                <button onClick={() => setCurrentView('history')} className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
-                  📋 Historial ({invoiceHistory.length})
-                </button>
-              </div>
-              <div className="bg-como text-white px-6 py-3 rounded-lg">
-                <span className="text-2xl font-bold">{selectedCount}</span> seleccionados
-              </div>
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8">
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-light text-gray-900 mb-2">Facturación</h1>
+              <p className="text-sm text-gray-500">
+                {distributorInfo.name} {distributorInfo.last_name} • {distributorInfo.state} • {distributorInfo.code}
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button 
+                onClick={handleLogout} 
+                className="px-4 py-2 text-sm text-gray-500 hover:text-gray-900 transition-colors"
+              >
+                Cerrar Sesión
+              </button>
+              <button 
+                onClick={() => setCurrentView('dashboard')} 
+                className="px-6 py-2 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium"
+              >
+                Dashboard
+              </button>
             </div>
           </div>
 
-          {/* Instructions */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <p className="text-sm text-blue-800">
-              💡 Haz clic en las imágenes para agregar productos. Usa +/- para ajustar cantidades.
-            </p>
-          </div>
+          {/* Start Button */}
+          {selectedCount > 0 && (
+            <div className="mb-8">
+              <button
+                onClick={() => setShowInvoiceForm(true)}
+                className="w-full sm:w-auto px-8 py-3 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium"
+              >
+                Comenzar Facturación ({selectedCount})
+              </button>
+            </div>
+          )}
 
           {/* Product Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
             {PRODUCTS.map((product, index) => {
               const quantity = selectedProducts[product.name] || 0;
               
               return (
-                <div key={`product-${index}-${product.name}`} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
-                  <div 
-                    className="relative aspect-[5/6] cursor-pointer"
-                    onClick={() => {
-                      try {
-                        handleProductClick(product.name);
-                      } catch (error) {
-                        console.error('Error clicking product:', error);
-                      }
-                    }}
-                  >
+                <div 
+                  key={`product-${index}-${product.name}`} 
+                  className="group cursor-pointer"
+                  onClick={() => {
+                    try {
+                      handleProductClick(product.name);
+                    } catch (error) {
+                      console.error('Error clicking product:', error);
+                    }
+                  }}
+                >
+                  <div className="relative aspect-square mb-3 bg-gray-50">
                     <img 
                       src={product.image} 
                       alt={product.name} 
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                       onError={(e) => {
                         console.error('Error loading image:', product.name);
-                        e.target.src = 'https://via.placeholder.com/400x480?text=Imagen+No+Disponible';
+                        e.target.src = 'https://via.placeholder.com/400x400?text=No+Image';
                       }}
                     />
                     {quantity > 0 && (
-                      <div className="absolute inset-0 bg-como/20 flex items-center justify-center">
-                        <div className="bg-como text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl shadow-lg">
-                          {quantity}
-                        </div>
+                      <div className="absolute top-2 right-2 bg-black text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium">
+                        {quantity}
                       </div>
                     )}
-                    
+                  </div>
+                  <div className="pb-4 border-b border-gray-200">
+                    <p className="text-xs text-gray-900 text-center">{product.name}</p>
                     {quantity > 0 && (
-                      <div className="absolute bottom-2 left-2 right-2 flex items-center gap-2 bg-white rounded-lg p-2 shadow-lg">
+                      <div 
+                        className="flex items-center justify-center gap-2 mt-2"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             updateQuantity(product.name, quantity - 1);
                           }}
-                          className="bg-red-500 text-white p-1 rounded hover:bg-red-600"
+                          className="w-6 h-6 flex items-center justify-center border border-gray-300 hover:border-black transition-colors"
                         >
-                          <BiMinus className="w-4 h-4" />
+                          <BiMinus className="w-3 h-3" />
                         </button>
-                        <span className="font-bold text-como flex-1 text-center">{quantity}</span>
+                        <span className="text-sm font-medium w-8 text-center">{quantity}</span>
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             updateQuantity(product.name, quantity + 1);
                           }}
-                          className="bg-green-500 text-white p-1 rounded hover:bg-green-600"
+                          className="w-6 h-6 flex items-center justify-center border border-gray-300 hover:border-black transition-colors"
                         >
-                          <BiPlus className="w-4 h-4" />
+                          <BiPlus className="w-3 h-3" />
                         </button>
                       </div>
                     )}
                   </div>
-                  <div className="p-3 text-center">
-                    <h3 className="font-semibold text-sm">{product.name}</h3>
-                  </div>
                 </div>
               );
             })}
-          </div>
-
-          {/* Start Invoicing Button */}
-          <div className="sticky bottom-4 bg-white rounded-xl shadow-2xl p-4">
-            <button
-              onClick={handleStartInvoicing}
-              disabled={selectedCount === 0}
-              className="w-full bg-como hover:bg-[#3d6849] text-white font-bold py-4 rounded-lg transition-all disabled:bg-gray-300 disabled:cursor-not-allowed"
-            >
-              Comenzar Facturación ({selectedCount} productos)
-            </button>
           </div>
         </div>
       </div>
