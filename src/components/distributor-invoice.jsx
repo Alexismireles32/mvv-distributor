@@ -589,7 +589,6 @@ export function DistributorInvoiceSystem() {
 
   // Preview view (MUST BE FIRST - can be shown from anywhere)
   if (showPreview && currentInvoice) {
-    console.log('RENDERING PREVIEW - showPreview:', showPreview, 'currentInvoice:', currentInvoice);
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
         <div className="max-w-6xl mx-auto">
@@ -904,8 +903,6 @@ export function DistributorInvoiceSystem() {
                     </div>
                     <button
                       onClick={() => {
-                        console.log('CLICKING VER - Invoice data:', inv);
-                        console.log('Distributor info:', distributorInfo);
                         const invoiceData = inv.fullData || {
                           distributor: distributorInfo,
                           client: {
@@ -924,10 +921,8 @@ export function DistributorInvoiceSystem() {
                           shipping: inv.shipping || 0,
                           date: inv.date
                         };
-                        console.log('Setting invoice data:', invoiceData);
                         setCurrentInvoice(invoiceData);
                         setShowPreview(true);
-                        console.log('Preview should show now');
                       }}
                       className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                     >
