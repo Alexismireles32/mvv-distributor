@@ -822,7 +822,26 @@ export function DistributorInvoiceSystem() {
                     </div>
                     <button
                       onClick={() => {
-                        setCurrentInvoice(inv.fullData || inv);
+                        console.log('Invoice data:', inv);
+                        const invoiceData = inv.fullData || {
+                          distributor: distributorInfo,
+                          client: {
+                            firstName: inv.client.split(' ')[0] || '',
+                            lastName: inv.client.split(' ').slice(1).join(' ') || '',
+                            address: '',
+                            city: '',
+                            state: '',
+                            zipCode: '',
+                            phone: '',
+                            email: '',
+                            clientNumber: ''
+                          },
+                          products: inv.products,
+                          productPrices: inv.productPrices || {},
+                          shipping: inv.shipping || 0,
+                          date: inv.date
+                        };
+                        setCurrentInvoice(invoiceData);
                         setShowPreview(true);
                       }}
                       className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
