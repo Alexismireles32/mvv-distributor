@@ -97,31 +97,6 @@ export function Navbar6() {
               💼 Distribuidores
             </a>
           </div>
-          <div className="flex items-center gap-3">
-            <Button
-              title="Contactar WhatsApp México"
-              size="sm"
-              asChild
-              className="bg-como hover:bg-[#3d6849] text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300"
-            >
-              <a href="https://wa.me/526312982043?text=Hola,%20quisiera%20saber%20más%20sobre%20los%20productos%20MVV%20Natural" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                <span className="text-lg">🇲🇽</span>
-                WhatsApp México
-              </a>
-            </Button>
-            <Button 
-              title="Contactar WhatsApp USA" 
-              variant="secondary" 
-              size="sm" 
-              asChild
-              className="bg-white border-2 border-como text-como hover:bg-ecru-white font-medium transition-all duration-300"
-            >
-              <a href="https://wa.me/15202161443?text=Hola,%20quisiera%20saber%20más%20sobre%20los%20productos%20MVV%20Natural" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                <span className="text-lg">🇺🇸</span>
-                WhatsApp USA
-              </a>
-            </Button>
-          </div>
         </div>
         <button
           className="-mr-2 flex size-12 cursor-pointer flex-col items-center justify-center lg:hidden"
@@ -226,28 +201,6 @@ export function Navbar6() {
               >
                 💼 Distribuidores
               </a>
-              
-              {/* WhatsApp buttons for mobile menu */}
-              <div className="mt-6 flex flex-col gap-3 border-t border-border-primary pt-6">
-                <a
-                  href="https://wa.me/526312982043?text=Hola,%20quisiera%20saber%20más%20sobre%20los%20productos%20MVV%20Natural"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 bg-como hover:bg-[#3d6849] text-white font-semibold text-base px-6 py-4 rounded min-h-[44px] transition-all duration-300"
-                >
-                  <span className="text-xl">🇲🇽</span>
-                  <span>WhatsApp México</span>
-                            </a>
-                            <a
-                  href="https://wa.me/15202161443?text=Hola,%20quisiera%20saber%20más%20sobre%20los%20productos%20MVV%20Natural"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 bg-white border-2 border-como text-como hover:bg-ecru-white font-medium text-base px-6 py-4 rounded min-h-[44px] transition-all duration-300"
-                >
-                  <span className="text-xl">🇺🇸</span>
-                  <span>WhatsApp USA</span>
-                </a>
-              </div>
             </div>
           </motion.div>
         </motion.div>
