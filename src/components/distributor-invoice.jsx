@@ -90,7 +90,7 @@ export function DistributorInvoiceSystem() {
         if (!error && data) {
           setDistributorId(lastDistributor);
           setDistributorInfo(data);
-          setCurrentView('products');
+          setCurrentView('dashboard');
           
           // Load clients
           await loadClients(data.code);
@@ -235,7 +235,7 @@ export function DistributorInvoiceSystem() {
       alert(`¡Registro exitoso! Tu código es: ${distributorCode}`);
       setDistributorId(distributorCode);
       setDistributorInfo(newDistributor);
-      setCurrentView('products');
+      setCurrentView('dashboard');
       setLoading(false);
     } catch (error) {
       console.error('Error in registration:', error);
@@ -265,7 +265,7 @@ export function DistributorInvoiceSystem() {
       }
 
       setDistributorInfo(data);
-      setCurrentView('products');
+      setCurrentView('dashboard');
       localStorage.setItem('lastLoggedIn', distributorId);
       
       // Load clients and invoices
@@ -784,6 +784,46 @@ export function DistributorInvoiceSystem() {
     );
   }
 
+  // New feature views (must be before products view)
+  if (currentView === 'dashboard') {
+    return <DistributorDashboard 
+      distributorInfo={distributorInfo}
+      invoiceHistory={invoiceHistory}
+      inventory={inventory}
+      onViewChange={setCurrentView}
+    />;
+  }
+
+  if (currentView === 'inventory') {
+    return <InventoryManager 
+      distributorCode={distributorInfo.code}
+      onBack={() => setCurrentView('dashboard')}
+    />;
+  }
+
+  if (currentView === 'prices') {
+    return <PriceManager 
+      distributorCode={distributorInfo.code}
+      onBack={() => setCurrentView('dashboard')}
+    />;
+  }
+
+  if (currentView === 'reminders') {
+    return <ReminderManager 
+      distributorCode={distributorInfo.code}
+      invoiceHistory={invoiceHistory}
+      onBack={() => setCurrentView('dashboard')}
+    />;
+  }
+
+  if (currentView === 'pdf-export') {
+    return <PDFExporter 
+      distributorInfo={distributorInfo}
+      invoiceHistory={invoiceHistory}
+      onBack={() => setCurrentView('dashboard')}
+    />;
+  }
+
   // Main products view
   if (currentView === 'products' && !showInvoiceForm) {
     const selectedCount = Object.keys(selectedProducts).length;
@@ -801,6 +841,9 @@ export function DistributorInvoiceSystem() {
                 </p>
               </div>
               <div className="flex gap-2">
+                <button onClick={() => setCurrentView('dashboard')} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                  📊 Dashboard
+                </button>
                 <button onClick={() => setCurrentView('history')} className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
                   📋 Historial ({invoiceHistory.length})
                 </button>
