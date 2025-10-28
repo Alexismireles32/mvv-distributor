@@ -60,6 +60,37 @@ export function DistributorDashboard({ distributorInfo, invoiceHistory, inventor
             </button>
           </div>
 
+          {/* Quick Navigation */}
+          <div className="mb-8">
+            <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">Herramientas</h2>
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={() => onViewChange('inventory')}
+                className="px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
+              >
+                Inventario
+              </button>
+              <button
+                onClick={() => onViewChange('prices')}
+                className="px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
+              >
+                Precios
+              </button>
+              <button
+                onClick={() => onViewChange('contacts')}
+                className="px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
+              >
+                Contactos
+              </button>
+              <button
+                onClick={() => onViewChange('pdf-export')}
+                className="px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
+              >
+                Exportar PDF
+              </button>
+            </div>
+          </div>
+
           {/* Stats - Clean Text Only */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-12 pb-12 border-b border-gray-200">
             <div>

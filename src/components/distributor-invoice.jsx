@@ -6,7 +6,7 @@ import { supabase } from '../lib/supabase';
 import { DistributorDashboard } from './distributor-dashboard';
 import { InventoryManager } from './inventory-manager';
 import { PriceManager } from './price-manager';
-import { ReminderManager } from './reminder-manager';
+import { ContactManager } from './contact-manager';
 import { PDFExporter } from './pdf-exporter';
 import { AdminDashboard } from './admin-dashboard';
 
@@ -1009,8 +1009,8 @@ export function DistributorInvoiceSystem() {
     />;
   }
 
-  if (currentView === 'reminders') {
-    return <ReminderManager 
+  if (currentView === 'contacts') {
+    return <ContactManager 
       distributorCode={distributorInfo.code}
       invoiceHistory={invoiceHistory}
       onBack={() => setCurrentView('dashboard')}
