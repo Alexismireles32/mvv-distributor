@@ -586,6 +586,57 @@ export function DistributorInvoiceSystem() {
     uniqueClients: new Set(invoiceHistory.map(inv => inv.client)).size
   };
 
+  // Preview view (MUST BE FIRST - can be shown from anywhere)
+  if (showPreview && currentInvoice) {
+    console.log('RENDERING PREVIEW - showPreview:', showPreview, 'currentInvoice:', currentInvoice);
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
+            <div className="flex justify-between items-center">
+              <h1 className="text-3xl font-bold text-como">Vista Previa de Factura</h1>
+              <button
+                onClick={() => {
+                  setShowPreview(false);
+                  setCurrentInvoice(null);
+                  if (!showInvoiceForm) {
+                    setCurrentView('history');
+                  }
+                }}
+                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg"
+              >
+                {showInvoiceForm ? 'Editar' : 'Volver'}
+              </button>
+            </div>
+          </div>
+
+          {/* Invoice Preview */}
+          <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <div dangerouslySetInnerHTML={{ __html: createInvoiceHTML(currentInvoice) }} />
+          </div>
+
+          {/* Actions - Only show if coming from form, not from history */}
+          {showInvoiceForm && (
+            <div className="flex gap-4">
+              <button
+                onClick={generateInvoiceFile}
+                className="flex-1 bg-como hover:bg-[#3d6849] text-white font-bold py-4 rounded-lg transition-all"
+              >
+                📄 Generar Factura JPG
+              </button>
+              <button
+                onClick={resetForm}
+                className="px-6 bg-gray-200 hover:bg-gray-300 rounded-lg"
+              >
+                Cancelar
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   // Login view
   if (currentView === 'login') {
     return (
@@ -880,57 +931,6 @@ export function DistributorInvoiceSystem() {
               ))
             )}
           </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Preview view (can be shown from history or after form)
-  if (showPreview && currentInvoice) {
-    console.log('RENDERING PREVIEW - showPreview:', showPreview, 'currentInvoice:', currentInvoice);
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
-            <div className="flex justify-between items-center">
-              <h1 className="text-3xl font-bold text-como">Vista Previa de Factura</h1>
-              <button
-                onClick={() => {
-                  setShowPreview(false);
-                  setCurrentInvoice(null);
-                  if (!showInvoiceForm) {
-                    setCurrentView('history');
-                  }
-                }}
-                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg"
-              >
-                {showInvoiceForm ? 'Editar' : 'Volver'}
-              </button>
-            </div>
-          </div>
-
-          {/* Invoice Preview */}
-          <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-            <div dangerouslySetInnerHTML={{ __html: createInvoiceHTML(currentInvoice) }} />
-          </div>
-
-          {/* Actions - Only show if coming from form, not from history */}
-          {showInvoiceForm && (
-            <div className="flex gap-4">
-              <button
-                onClick={generateInvoiceFile}
-                className="flex-1 bg-como hover:bg-[#3d6849] text-white font-bold py-4 rounded-lg transition-all"
-              >
-                📄 Generar Factura JPG
-              </button>
-              <button
-                onClick={resetForm}
-                className="px-6 bg-gray-200 hover:bg-gray-300 rounded-lg"
-              >
-                Cancelar
-              </button>
-            </div>
-          )}
         </div>
       </div>
     );
