@@ -887,24 +887,27 @@ export function DistributorInvoiceSystem() {
             <div dangerouslySetInnerHTML={{ __html: createInvoiceHTML(currentInvoice) }} />
           </div>
 
-          {/* Actions - Only show if coming from form, not from history */}
-          {showInvoiceForm ? (
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={generateInvoiceFile}
-                className="flex-1 px-6 py-3 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium"
-              >
-                Descargar Factura JPG
-              </button>
+          {/* Actions - Show download button for all invoices */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button
+              onClick={generateInvoiceFile}
+              className="flex-1 px-6 py-3 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium"
+            >
+              Descargar Factura JPG
+            </button>
+            {showInvoiceForm && (
               <button
                 onClick={resetForm}
                 className="px-6 py-3 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
               >
                 Cancelar
               </button>
-            </div>
-          ) : (
-            <div className="text-center py-4">
+            )}
+          </div>
+
+          {/* Status message */}
+          {!showInvoiceForm && (
+            <div className="text-center py-4 mt-4">
               <p className="text-sm text-gray-500">
                 {isConfirmed ? 'Esta venta ha sido confirmada y el inventario fue actualizado.' : 'Esta factura está pendiente de confirmación.'}
               </p>
