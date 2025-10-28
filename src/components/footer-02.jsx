@@ -47,9 +47,6 @@ export function Footer2() {
                 </a>
               </li>
               <li>
-                <a href="/blog" className="flex items-center py-2 text-sm text-white/90 md:py-1.5 min-h-[44px] hover:text-white transition-colors">
-                  Blog
-                </a>
               </li>
               <li>
                 <a href="/contacto" className="flex items-center py-2 text-sm text-white/90 md:py-1.5 min-h-[44px] hover:text-white transition-colors">

@@ -73,22 +73,10 @@ export function Navbar6() {
               Catálogo
             </a>
             <a
-              href="/blog"
-              className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
-            >
-              Blog
-            </a>
-            <a
               href="/testimonios"
               className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
             >
               Testimonios
-            </a>
-            <a
-              href="/recursos"
-              className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
-            >
-              Recursos
             </a>
             <a
               href="/distribuidores"
@@ -184,22 +172,10 @@ export function Navbar6() {
                 Catálogo
               </a>
               <a
-                href="/blog"
-                className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
-              >
-                Blog
-                            </a>
-                            <a
                 href="/testimonios"
                 className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
               >
                 Testimonios
-                            </a>
-                            <a
-                href="/recursos"
-                className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
-              >
-                Recursos
               </a>
               <a
                 href="/distribuidores"
