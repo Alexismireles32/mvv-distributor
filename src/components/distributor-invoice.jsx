@@ -3,6 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { BiPlus, BiMinus } from 'react-icons/bi';
 import { supabase } from '../lib/supabase';
+import { DistributorDashboard } from './distributor-dashboard';
+import { InventoryManager } from './inventory-manager';
+import { PriceManager } from './price-manager';
+import { ReminderManager } from './reminder-manager';
+import { PDFExporter } from './pdf-exporter';
 
 // Product catalog
 const PRODUCTS = [
@@ -52,6 +57,13 @@ export function DistributorInvoiceSystem() {
   });
   const [savedClients, setSavedClients] = useState({});
   const [loading, setLoading] = useState(false);
+  
+  // New states for new features
+  const [inventory, setInventory] = useState({});
+  const [defaultPrices, setDefaultPrices] = useState({});
+  const [reminderSettings, setReminderSettings] = useState({
+    days: ['30']
+  });
 
   // Load from Supabase
   useEffect(() => {
