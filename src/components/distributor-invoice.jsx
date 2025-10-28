@@ -262,19 +262,29 @@ export function DistributorInvoiceSystem() {
   };
 
   const handleProductClick = (productName) => {
-    setSelectedProducts({
-      ...selectedProducts,
-      [productName]: (selectedProducts[productName] || 0) + 1
-    });
+    try {
+      setSelectedProducts({
+        ...selectedProducts,
+        [productName]: (selectedProducts[productName] || 0) + 1
+      });
+    } catch (error) {
+      console.error('Error adding product:', error);
+      alert('Error al agregar producto. Intenta nuevamente.');
+    }
   };
 
   const updateQuantity = (productName, newQuantity) => {
-    if (newQuantity <= 0) {
-      const newSelected = { ...selectedProducts };
-      delete newSelected[productName];
-      setSelectedProducts(newSelected);
-    } else {
-      setSelectedProducts({ ...selectedProducts, [productName]: newQuantity });
+    try {
+      if (newQuantity <= 0) {
+        const newSelected = { ...selectedProducts };
+        delete newSelected[productName];
+        setSelectedProducts(newSelected);
+      } else {
+        setSelectedProducts({ ...selectedProducts, [productName]: newQuantity });
+      }
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+      alert('Error al actualizar cantidad. Intenta nuevamente.');
     }
   };
 
@@ -731,12 +741,26 @@ export function DistributorInvoiceSystem() {
               const quantity = selectedProducts[product.name] || 0;
               
               return (
-                <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+                <div key={`product-${index}-${product.name}`} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
                   <div 
                     className="relative aspect-[5/6] cursor-pointer"
-                    onClick={() => handleProductClick(product.name)}
+                    onClick={() => {
+                      try {
+                        handleProductClick(product.name);
+                      } catch (error) {
+                        console.error('Error clicking product:', error);
+                      }
+                    }}
                   >
-                    <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                    <img 
+                      src={product.image} 
+                      alt={product.name} 
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        console.error('Error loading image:', product.name);
+                        e.target.src = 'https://via.placeholder.com/400x480?text=Imagen+No+Disponible';
+                      }}
+                    />
                     {quantity > 0 && (
                       <div className="absolute inset-0 bg-como/20 flex items-center justify-center">
                         <div className="bg-como text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl shadow-lg">
