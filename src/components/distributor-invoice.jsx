@@ -60,6 +60,11 @@ export function DistributorInvoiceSystem() {
 
   const loadInitialData = async () => {
     try {
+      if (!supabase) {
+        console.warn('Supabase client not available');
+        return;
+      }
+
       // Load from local storage as fallback
       const lastDistributor = localStorage.getItem('lastLoggedIn');
       if (lastDistributor) {
@@ -89,6 +94,8 @@ export function DistributorInvoiceSystem() {
 
   const loadClients = async (distCode) => {
     try {
+      if (!supabase) return;
+      
       const { data, error } = await supabase
         .from('clients')
         .select('*')
@@ -117,6 +124,8 @@ export function DistributorInvoiceSystem() {
 
   const loadInvoices = async (distCode) => {
     try {
+      if (!supabase) return;
+      
       const { data, error } = await supabase
         .from('invoices')
         .select('*')
@@ -142,6 +151,11 @@ export function DistributorInvoiceSystem() {
   };
 
   const generateDistributorCode = async () => {
+    if (!supabase) {
+      // Fallback if Supabase unavailable
+      return Math.floor(Math.random() * 900) + 100 + '';
+    }
+
     let newCode;
     do {
       newCode = Math.floor(Math.random() * 900) + 100;
@@ -189,11 +203,13 @@ export function DistributorInvoiceSystem() {
       };
 
       // Insert into Supabase
-      const { error } = await supabase
-        .from('distributors')
-        .insert([newDistributor]);
+      if (supabase) {
+        const { error } = await supabase
+          .from('distributors')
+          .insert([newDistributor]);
 
-      if (error) throw error;
+        if (error) throw error;
+      }
 
       localStorage.setItem('lastLoggedIn', distributorCode);
       
@@ -211,6 +227,11 @@ export function DistributorInvoiceSystem() {
 
   const handleLogin = async () => {
     try {
+      if (!supabase) {
+        alert('Sistema no disponible. Verifica la conexión.');
+        return;
+      }
+
       setLoading(true);
       const { data, error } = await supabase
         .from('distributors')
