@@ -76,11 +76,6 @@ export function InventoryManager({ distributorCode, onBack }) {
     }
   };
 
-  const getStockStatus = (qty) => {
-    if (qty === 0) return 'bg-red-100 text-red-800 border-red-300';
-    if (qty < 10) return 'bg-orange-100 text-orange-800 border-orange-300';
-    return 'bg-green-100 text-green-800 border-green-300';
-  };
 
   if (loading) {
     return (
@@ -93,117 +88,84 @@ export function InventoryManager({ distributorCode, onBack }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
+    <div className="min-h-screen bg-white py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
-          <div className="flex justify-between items-center">
+        <div className="mb-12">
+          <div className="flex justify-between items-start mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-como flex items-center gap-3">
-                <BiPackage className="w-8 h-8" />
-                Gestión de Inventario
-              </h1>
-              <p className="text-gray-600 mt-2">Administra el stock de tus productos</p>
+              <h1 className="text-4xl font-light text-gray-900 mb-2">Inventario</h1>
+              <p className="text-sm text-gray-500">Administra el stock de tus productos</p>
             </div>
             <button
               onClick={onBack}
-              className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg"
+              className="text-sm text-gray-500 hover:text-gray-900"
             >
               ← Volver
             </button>
           </div>
         </div>
 
-        {/* Instructions */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-          <p className="text-sm text-blue-800">
-            💡 Ingresa la cantidad de cada producto que tienes en stock. 
-            El sistema restará automáticamente al generar facturas y te alertará cuando esté bajo.
-          </p>
-        </div>
-
         {/* Inventory List */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-          <div className="space-y-4">
-            {PRODUCTS.map((product) => {
-              const currentStock = inventory[product.name] || 0;
-              const status = getStockStatus(currentStock);
+        <div className="space-y-8 mb-12">
+          {PRODUCTS.map((product) => {
+            const currentStock = inventory[product.name] || 0;
 
-              return (
-                <div key={product.name} className="border-2 rounded-lg p-4 hover:shadow-md transition-shadow">
-                  <div className="flex items-center gap-4">
-                    {/* Product Image */}
-                    <img 
-                      src={product.image} 
-                      alt={product.name}
-                      className="w-20 h-20 object-contain rounded-lg border"
-                    />
-
-                    {/* Product Info */}
-                    <div className="flex-1">
-                      <h3 className="font-bold text-lg text-gray-800">{product.name}</h3>
-                      <div className="flex items-center gap-4 mt-2">
-                        {/* Quantity Control */}
-                        <div className="flex items-center gap-3 bg-gray-100 rounded-lg px-4 py-2">
-                          <button
-                            onClick={() => updateStock(product.name, currentStock - 1)}
-                            className="w-8 h-8 bg-red-500 text-white rounded hover:bg-red-600 flex items-center justify-center"
-                            disabled={currentStock === 0}
-                          >
-                            <BiMinus className="w-5 h-5" />
-                          </button>
-                          <input
-                            type="number"
-                            value={currentStock}
-                            onChange={(e) => updateStock(product.name, parseInt(e.target.value) || 0)}
-                            className="w-20 text-center font-bold text-lg border-0 bg-transparent"
-                            min="0"
-                          />
-                          <button
-                            onClick={() => updateStock(product.name, currentStock + 1)}
-                            className="w-8 h-8 bg-green-500 text-white rounded hover:bg-green-600 flex items-center justify-center"
-                          >
-                            <BiPlus className="w-5 h-5" />
-                          </button>
-                        </div>
-
-                        {/* Stock Status */}
-                        <div className={`px-4 py-2 rounded-lg border-2 ${status}`}>
-                          <span className="font-semibold">
-                            {currentStock === 0 ? '❌ Sin stock' :
-                             currentStock < 10 ? '⚠️ Stock bajo' :
-                             '✅ Stock disponible'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+            return (
+              <div key={product.name} className="flex items-center justify-between pb-8 border-b border-gray-200">
+                <div className="flex items-center gap-6">
+                  <img 
+                    src={product.image} 
+                    alt={product.name}
+                    className="w-16 h-16 object-contain"
+                  />
+                  <div>
+                    <h3 className="text-base text-gray-900 mb-2">{product.name}</h3>
+                    <p className="text-xs text-gray-500">
+                      {currentStock === 0 ? 'Sin stock' :
+                       currentStock < 10 ? 'Stock bajo' :
+                       'Stock disponible'}
+                    </p>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center border border-gray-300">
+                    <button
+                      onClick={() => updateStock(product.name, currentStock - 1)}
+                      className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                      disabled={currentStock === 0}
+                    >
+                      <BiMinus className="w-4 h-4 text-gray-900" />
+                    </button>
+                    <input
+                      type="number"
+                      value={currentStock}
+                      onChange={(e) => updateStock(product.name, parseInt(e.target.value) || 0)}
+                      className="w-20 text-center text-base border-0 border-l border-r border-gray-300 focus:outline-none"
+                      min="0"
+                    />
+                    <button
+                      onClick={() => updateStock(product.name, currentStock + 1)}
+                      className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                    >
+                      <BiPlus className="w-4 h-4 text-gray-900" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Save Button */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <button
-            onClick={saveInventory}
-            disabled={saving}
-            className="w-full bg-como hover:bg-[#3d6849] text-white font-bold py-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-          >
-            {saving ? (
-              <>
-                <span className="animate-spin">⏳</span>
-                <span>Guardando...</span>
-              </>
-            ) : (
-              <>
-                <span>💾</span>
-                <span>Guardar Inventario</span>
-              </>
-            )}
-          </button>
-        </div>
+        <button
+          onClick={saveInventory}
+          disabled={saving}
+          className="px-6 py-2 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium disabled:opacity-50"
+        >
+          {saving ? 'Guardando...' : 'Guardar Inventario'}
+        </button>
       </div>
     </div>
   );

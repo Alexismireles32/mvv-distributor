@@ -87,93 +87,65 @@ export function PriceManager({ distributorCode, onBack }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
+    <div className="min-h-screen bg-white py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
-          <div className="flex justify-between items-center">
+        <div className="mb-12">
+          <div className="flex justify-between items-start mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-como flex items-center gap-3">
-                <BiDollar className="w-8 h-8" />
-                Mis Precios
-              </h1>
-              <p className="text-gray-600 mt-2">Configura tus precios por defecto</p>
+              <h1 className="text-4xl font-light text-gray-900 mb-2">Precios</h1>
+              <p className="text-sm text-gray-500">Configura tus precios por defecto</p>
             </div>
             <button
               onClick={onBack}
-              className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg"
+              className="text-sm text-gray-500 hover:text-gray-900"
             >
               ← Volver
             </button>
           </div>
         </div>
 
-        {/* Instructions */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-          <p className="text-sm text-blue-800">
-            💡 Configura tus precios estándar. Estos se autocompletarán al crear facturas (podrás modificarlos).
-          </p>
-        </div>
-
         {/* Prices List */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {PRODUCTS.map((product) => {
-              const currentPrice = prices[product.name] || 0;
+        <div className="space-y-6 mb-12">
+          {PRODUCTS.map((product) => {
+            const currentPrice = prices[product.name] || 0;
 
-              return (
-                <div key={product.name} className="border-2 rounded-lg p-4 hover:shadow-md transition-shadow">
-                  <div className="flex items-center gap-4">
-                    {/* Product Image */}
-                    <img 
-                      src={product.image} 
-                      alt={product.name}
-                      className="w-16 h-16 object-contain rounded-lg border"
-                    />
-
-                    {/* Product Info */}
-                    <div className="flex-1">
-                      <h3 className="font-bold text-sm text-gray-800 mb-2">{product.name}</h3>
-                      <div className="flex items-center gap-2">
-                        <span className="text-gray-600">$</span>
-                        <input
-                          type="number"
-                          value={currentPrice}
-                          onChange={(e) => updatePrice(product.name, e.target.value)}
-                          className="w-full px-3 py-2 border rounded-lg text-lg font-bold focus:ring-2 focus:ring-como"
-                          placeholder="0.00"
-                          step="0.01"
-                          min="0"
-                        />
-                      </div>
-                    </div>
-                  </div>
+            return (
+              <div key={product.name} className="flex items-center justify-between pb-6 border-b border-gray-200">
+                <div className="flex items-center gap-6">
+                  <img 
+                    src={product.image} 
+                    alt={product.name}
+                    className="w-16 h-16 object-contain"
+                  />
+                  <h3 className="text-base text-gray-900">{product.name}</h3>
                 </div>
-              );
-            })}
-          </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="text-base text-gray-900">$</span>
+                  <input
+                    type="number"
+                    value={currentPrice}
+                    onChange={(e) => updatePrice(product.name, e.target.value)}
+                    className="w-32 px-3 py-2 border border-gray-300 text-base focus:outline-none focus:border-black"
+                    placeholder="0.00"
+                    step="0.01"
+                    min="0"
+                  />
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Save Button */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <button
-            onClick={savePrices}
-            disabled={saving}
-            className="w-full bg-como hover:bg-[#3d6849] text-white font-bold py-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-          >
-            {saving ? (
-              <>
-                <span className="animate-spin">⏳</span>
-                <span>Guardando...</span>
-              </>
-            ) : (
-              <>
-                <span>💾</span>
-                <span>Guardar Precios</span>
-              </>
-            )}
-          </button>
-        </div>
+        <button
+          onClick={savePrices}
+          disabled={saving}
+          className="px-6 py-2 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium disabled:opacity-50"
+        >
+          {saving ? 'Guardando...' : 'Guardar Precios'}
+        </button>
       </div>
     </div>
   );
