@@ -344,10 +344,23 @@ export function DistributorInvoiceSystem() {
     tempDiv.style.width = '1200px';
     document.body.appendChild(tempDiv);
 
+    // Wait for images to load before capturing
+    const images = tempDiv.getElementsByTagName('img');
+    await Promise.all(Array.from(images).map(img => {
+      if (img.complete) return Promise.resolve();
+      return new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+      });
+    }));
+
     const canvas = await html2canvas(tempDiv, {
       width: 1200,
       height: tempDiv.scrollHeight,
-      scale: 2
+      scale: 2,
+      useCORS: true, // Allow cross-origin images
+      allowTaint: true, // Allow images from other domains
+      logging: false // Disable console logs
     });
 
     const link = document.createElement('a');
