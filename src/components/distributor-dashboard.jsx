@@ -1,31 +1,62 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { BiTrendingUp, BiMoney, BiUser, BiPackage, BiBell } from 'react-icons/bi';
 
 export function DistributorDashboard({ distributorInfo, invoiceHistory, inventory, onViewChange }) {
-  // Calculate statistics from invoice history
-  const stats = {
-    totalInvoices: invoiceHistory.length,
-    totalRevenue: invoiceHistory.reduce((sum, inv) => sum + (inv.total || 0), 0),
-    uniqueClients: new Set(invoiceHistory.map(inv => inv.client)).size,
-    thisMonth: invoiceHistory.filter(inv => {
-      const invDate = new Date(inv.date);
-      const now = new Date();
-      return invDate.getMonth() === now.getMonth() && invDate.getYear() === now.getYear();
-    }).length,
-    thisMonthRevenue: invoiceHistory
-      .filter(inv => {
-        const invDate = new Date(inv.date);
-        const now = new Date();
-        return invDate.getMonth() === now.getMonth() && invDate.getYear() === now.getYear();
-      })
-      .reduce((sum, inv) => sum + (inv.total || 0), 0)
-  };
+  const [timeFilter, setTimeFilter] = useState('monthly'); // daily, weekly, monthly, yearly
 
-  // Calculate top products
+  // Filter confirmed invoices only
+  const confirmedInvoices = invoiceHistory.filter(inv => inv.confirmed);
+
+  // Calculate statistics based on time filter
+  const stats = useMemo(() => {
+    const now = new Date();
+    let filteredInvoices = [];
+
+    switch (timeFilter) {
+      case 'daily':
+        filteredInvoices = confirmedInvoices.filter(inv => {
+          const invDate = new Date(inv.date);
+          return invDate.toDateString() === now.toDateString();
+        });
+        break;
+      case 'weekly':
+        const weekStart = new Date(now);
+        weekStart.setDate(now.getDate() - now.getDay());
+        weekStart.setHours(0, 0, 0, 0);
+        filteredInvoices = confirmedInvoices.filter(inv => {
+          const invDate = new Date(inv.date);
+          return invDate >= weekStart;
+        });
+        break;
+      case 'monthly':
+        filteredInvoices = confirmedInvoices.filter(inv => {
+          const invDate = new Date(inv.date);
+          return invDate.getMonth() === now.getMonth() && invDate.getFullYear() === now.getFullYear();
+        });
+        break;
+      case 'yearly':
+        filteredInvoices = confirmedInvoices.filter(inv => {
+          const invDate = new Date(inv.date);
+          return invDate.getFullYear() === now.getFullYear();
+        });
+        break;
+      default:
+        filteredInvoices = confirmedInvoices;
+    }
+
+    return {
+      totalInvoices: filteredInvoices.length,
+      totalRevenue: filteredInvoices.reduce((sum, inv) => sum + (inv.total || 0), 0),
+      uniqueClients: new Set(filteredInvoices.map(inv => inv.client)).size,
+      pendingInvoices: invoiceHistory.filter(inv => !inv.confirmed).length
+    };
+  }, [confirmedInvoices, timeFilter]);
+
+  // Calculate top products from confirmed invoices only
   const productCounts = {};
-  invoiceHistory.forEach(inv => {
+  confirmedInvoices.forEach(inv => {
     if (inv.products) {
       Object.keys(inv.products).forEach(product => {
         productCounts[product] = (productCounts[product] || 0) + inv.products[product];
@@ -39,6 +70,13 @@ export function DistributorDashboard({ distributorInfo, invoiceHistory, inventor
 
   // Calculate inventory alerts
   const lowStockProducts = inventory ? Object.entries(inventory).filter(([_, qty]) => qty < 10) : [];
+
+  const timeFilterOptions = [
+    { value: 'daily', label: 'Hoy' },
+    { value: 'weekly', label: 'Esta Semana' },
+    { value: 'monthly', label: 'Este Mes' },
+    { value: 'yearly', label: 'Este Año' }
+  ];
 
   return (
     <div className="min-h-screen bg-white py-8 md:py-12 px-4 sm:px-6 lg:px-8">
@@ -58,6 +96,26 @@ export function DistributorDashboard({ distributorInfo, invoiceHistory, inventor
             >
               Crear Factura
             </button>
+          </div>
+
+          {/* Time Filter */}
+          <div className="mb-8">
+            <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">Período de Análisis</h2>
+            <div className="flex flex-wrap gap-2">
+              {timeFilterOptions.map(option => (
+                <button
+                  key={option.value}
+                  onClick={() => setTimeFilter(option.value)}
+                  className={`px-4 py-2 text-sm font-medium transition-colors ${
+                    timeFilter === option.value
+                      ? 'bg-black text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Quick Navigation */}
@@ -94,22 +152,22 @@ export function DistributorDashboard({ distributorInfo, invoiceHistory, inventor
           {/* Stats - Clean Text Only */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-12 pb-12 border-b border-gray-200">
             <div>
-              <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Ventas Totales</p>
+              <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Ventas Confirmadas</p>
               <p className="text-3xl font-light text-gray-900">${stats.totalRevenue.toFixed(2)}</p>
-              {stats.thisMonthRevenue > 0 && (
-                <p className="text-xs text-gray-500 mt-1">${stats.thisMonthRevenue.toFixed(2)} este mes</p>
+              {stats.pendingInvoices > 0 && (
+                <p className="text-xs text-gray-500 mt-1">{stats.pendingInvoices} pendientes</p>
+              )}
+            </div>
+            <div>
+              <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Facturas</p>
+              <p className="text-3xl font-light text-gray-900">{stats.totalInvoices}</p>
+              {stats.pendingInvoices > 0 && (
+                <p className="text-xs text-gray-500 mt-1">{stats.pendingInvoices} por confirmar</p>
               )}
             </div>
             <div>
               <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Clientes</p>
               <p className="text-3xl font-light text-gray-900">{stats.uniqueClients}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Facturas</p>
-              <p className="text-3xl font-light text-gray-900">{stats.totalInvoices}</p>
-              {stats.thisMonth > 0 && (
-                <p className="text-xs text-gray-500 mt-1">{stats.thisMonth} este mes</p>
-              )}
             </div>
             <div>
               <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Alertas Stock</p>

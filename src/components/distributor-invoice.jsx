@@ -180,7 +180,9 @@ export function DistributorInvoiceSystem() {
           products: inv.products,
           productPrices: inv.product_prices,
           shipping: parseFloat(inv.shipping_price),
-          fullData: inv.full_data
+          fullData: inv.full_data,
+          confirmed: inv.confirmed || false,
+          confirmedAt: inv.confirmed_at ? new Date(inv.confirmed_at) : null
         }));
         setInvoiceHistory(history);
       }
@@ -230,6 +232,68 @@ export function DistributorInvoiceSystem() {
       }
     } catch (error) {
       console.error('Error loading inventory:', error);
+    }
+  };
+
+  // Confirm sale and update inventory
+  const confirmSale = async (invoiceId) => {
+    try {
+      if (!supabase) return;
+
+      // Update invoice as confirmed
+      const { data, error } = await supabase
+        .from('invoices')
+        .update({
+          confirmed: true,
+          confirmed_at: new Date().toISOString()
+        })
+        .eq('id', invoiceId)
+        .select()
+        .single();
+
+      if (!error && data) {
+        // Update local state
+        setInvoiceHistory(prev => 
+          prev.map(inv => 
+            inv.id === invoiceId 
+              ? { ...inv, confirmed: true, confirmedAt: new Date() }
+              : inv
+          )
+        );
+
+        // Now update inventory since sale is confirmed
+        await updateInventoryAfterSale(data.distributor_code, data.products);
+        
+        alert('✅ Venta confirmada e inventario actualizado');
+      }
+    } catch (error) {
+      console.error('Error confirming sale:', error);
+      alert('Error al confirmar la venta');
+    }
+  };
+
+  // Cancel/unconfirm sale
+  const cancelSale = async (invoiceId) => {
+    try {
+      if (!supabase) return;
+
+      const confirmed = window.confirm('¿Estás seguro de que quieres cancelar esta venta?');
+      if (!confirmed) return;
+
+      // Delete the invoice
+      const { error } = await supabase
+        .from('invoices')
+        .delete()
+        .eq('id', invoiceId);
+
+      if (!error) {
+        // Remove from local state
+        setInvoiceHistory(prev => prev.filter(inv => inv.id !== invoiceId));
+        alert('✅ Venta cancelada');
+      }
+    } catch (error) {
+      console.error('Error canceling sale:', error);
+      alert('Error al cancelar la venta');
     }
   };
 
@@ -583,7 +647,7 @@ export function DistributorInvoiceSystem() {
 
       if (clientError) console.error('Error saving client:', clientError);
 
-      // Save invoice
+      // Save invoice (unconfirmed by default)
       const total = calculateTotal(currentInvoice);
       const { data, error: invError } = await supabase
         .from('invoices')
@@ -596,7 +660,9 @@ export function DistributorInvoiceSystem() {
           products: currentInvoice.products,
           product_prices: currentInvoice.productPrices,
           shipping_price: currentInvoice.shipping,
-          full_data: currentInvoice
+          full_data: currentInvoice,
+          confirmed: false, // Invoice starts as unconfirmed
+          confirmed_at: null
         })
         .select()
         .single();
@@ -610,11 +676,11 @@ export function DistributorInvoiceSystem() {
           products: data.products,
           productPrices: data.product_prices,
           shipping: parseFloat(data.shipping_price),
-          fullData: data.full_data
+          fullData: data.full_data,
+          confirmed: false // Track confirmation status
         }, ...invoiceHistory]);
         
-        // Update inventory - subtract sold quantities
-        await updateInventoryAfterSale(currentInvoice.distributor.code, currentInvoice.products);
+        // DO NOT update inventory yet - wait for confirmation
       }
     } catch (error) {
       console.error('Error saving to Supabase:', error);
@@ -1142,58 +1208,107 @@ export function DistributorInvoiceSystem() {
   // History view
   if (currentView === 'history') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
-            <div className="flex justify-between items-center">
-              <h1 className="text-3xl font-bold text-como">Historial de Facturas</h1>
-              <button onClick={() => setCurrentView('products')} className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg">
-                Volver
-              </button>
+      <div className="min-h-screen bg-white py-8 md:py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-light text-gray-900">Historial de Facturas</h1>
+              <p className="text-sm text-gray-500 mt-2">Gestiona y confirma tus ventas</p>
             </div>
+            <button
+              onClick={() => setCurrentView('products')}
+              className="w-full sm:w-auto px-6 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
+            >
+              Volver a Productos
+            </button>
           </div>
 
+          {/* Invoices List */}
           <div className="space-y-4">
             {invoiceHistory.length === 0 ? (
-              <div className="bg-white rounded-xl shadow-lg p-8 text-center">
-                <p className="text-gray-600">No hay facturas generadas aún</p>
+              <div className="text-center py-12">
+                <p className="text-sm text-gray-500">No hay facturas generadas aún</p>
               </div>
             ) : (
               invoiceHistory.map((inv) => (
-                <div key={inv.id} className="bg-white rounded-xl shadow-lg p-6">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="text-xl font-bold text-como">{inv.client}</h3>
-                      <p className="text-gray-600 mt-1">{inv.date.toLocaleDateString('es-MX')}</p>
-                      <p className="text-gray-600 mt-1">Total: ${inv.total.toFixed(2)}</p>
+                <div key={inv.id} className="border border-gray-200 rounded-lg p-6 hover:bg-gray-50 transition-colors">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-base font-medium text-gray-900">{inv.client}</h3>
+                        {inv.confirmed ? (
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            ✅ Confirmada
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                            ⏳ Pendiente
+                          </span>
+                        )}
+                      </div>
+                      
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm text-gray-500">
+                        <div>
+                          <span className="font-medium">Fecha:</span> {inv.date.toLocaleDateString('es-MX')}
+                        </div>
+                        <div>
+                          <span className="font-medium">Total:</span> ${inv.total.toFixed(2)}
+                        </div>
+                        {inv.confirmedAt && (
+                          <div>
+                            <span className="font-medium">Confirmada:</span> {inv.confirmedAt.toLocaleDateString('es-MX')}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <button
-                      onClick={() => {
-                        const invoiceData = inv.fullData || {
-                          distributor: distributorInfo,
-                          client: {
-                            firstName: inv.client.split(' ')[0] || '',
-                            lastName: inv.client.split(' ').slice(1).join(' ') || '',
-                            address: '',
-                            city: '',
-                            state: '',
-                            zipCode: '',
-                            phone: '',
-                            email: '',
-                            clientNumber: ''
-                          },
-                          products: inv.products,
-                          productPrices: inv.productPrices || {},
-                          shipping: inv.shipping || 0,
-                          date: inv.date
-                        };
-                        setCurrentInvoice(invoiceData);
-                        setShowPreview(true);
-                      }}
-                      className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                    >
-                      👁️ Ver
-                    </button>
+
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <button
+                        onClick={() => {
+                          const invoiceData = inv.fullData || {
+                            distributor: distributorInfo,
+                            client: {
+                              firstName: inv.client.split(' ')[0] || '',
+                              lastName: inv.client.split(' ').slice(1).join(' ') || '',
+                              address: '',
+                              city: '',
+                              state: '',
+                              zipCode: '',
+                              phone: '',
+                              email: '',
+                              clientNumber: ''
+                            },
+                            products: inv.products,
+                            productPrices: inv.productPrices || {},
+                            shipping: inv.shipping || 0,
+                            date: inv.date
+                          };
+                          setCurrentInvoice(invoiceData);
+                          setShowPreview(true);
+                        }}
+                        className="px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
+                      >
+                        Ver Factura
+                      </button>
+                      
+                      {!inv.confirmed && (
+                        <>
+                          <button
+                            onClick={() => confirmSale(inv.id)}
+                            className="px-4 py-2 bg-green-600 text-white hover:bg-green-700 transition-colors text-sm font-medium"
+                          >
+                            ✅ Confirmar Venta
+                          </button>
+                          <button
+                            onClick={() => cancelSale(inv.id)}
+                            className="px-4 py-2 bg-red-600 text-white hover:bg-red-700 transition-colors text-sm font-medium"
+                          >
+                            ❌ Cancelar
+                          </button>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))
