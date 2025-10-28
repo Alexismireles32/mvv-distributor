@@ -535,6 +535,15 @@ export function DistributorInvoiceSystem() {
             </div>
           </div>
         </div>
+        
+        <!-- Legal Disclaimer -->
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+          <p style="font-size: 9px; color: #666; line-height: 1.4; text-align: center; margin: 0;">
+            Comprobante de venta oficial MVV Natural emitido por distribuidor autorizado. 
+            Los productos son naturales. El uso correcto es responsabilidad del cliente. 
+            Por ser agente de conexión, el distribuidor actúa en representación de la compañía.
+          </p>
+        </div>
       </div>
     `;
 
