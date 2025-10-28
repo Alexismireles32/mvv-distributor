@@ -6,42 +6,16 @@ import { Footer2 } from '../../components/footer-02.jsx';
 import BlogHero from '../../components/BlogHero.astro';
 import BlogSection from '../../components/BlogSection.astro';
 import BlogCTA from '../../components/BlogCTA.astro';
-
-// Article Schema
-const articleSchema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Cómo Acelerar tu Metabolismo Naturalmente",
-  "description": "Descubre cómo acelerar tu metabolismo lento con métodos naturales que SÍ funcionan. Suplementos, alimentos y ejercicios probados.",
-  "author": {
-    "@type": "Organization",
-    "name": "MVV Natural"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "MVV Natural",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png"
-    }
-  },
-  "datePublished": "2025-01-13",
-  "dateModified": "2025-01-13",
-  "image": "https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=1200&h=800&fit=crop"
-};
 ---
 
 <Layout 
   title="Cómo Acelerar tu Metabolismo Naturalmente: Guía Completa 2025"
   description="Descubre cómo acelerar tu metabolismo lento con métodos naturales que SÍ funcionan. Suplementos, alimentos y ejercicios probados. Guía completa con resultados reales."
 >
-  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)}></script>
-  
   <WhatsAppProvider client:load>
     <Navbar6 client:load />
     
     <article class="bg-white">
-      {/* Hero Section with Image */}
       <BlogHero
         title="Cómo Acelerar tu Metabolismo Naturalmente"
         subtitle="La guía más completa y honesta sobre cómo activar tu metabolismo sin pastillas raras ni dietas imposibles. Con ciencia real y experiencia de 15 años."
@@ -50,10 +24,10 @@ const articleSchema = {
         heroImage="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=1200&h=800&fit=crop"
       />
 
-      {/* Main Content */}
+      <!--  Main Content  -->
       <div class="container max-w-4xl mx-auto px-[5%] py-12 md:py-16 lg:py-20">
         
-        {/* Section 1: Qué es el Metabolismo */}
+        <!--  Section 1: Qué es el Metabolismo  -->
         <BlogSection heading="Primero Lo Primero: ¿Qué Es El Metabolismo?" variant="highlight" 
           image="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=800&fit=crop"
           imageAlt="Metabolismo y salud natural">
@@ -65,7 +39,7 @@ const articleSchema = {
           </p>
         </BlogSection>
 
-        {/* Section 2: Suplementos */}
+        <!--  Section 2: Suplementos  -->
         <BlogSection heading="1. Suplementos Naturales Que Realmente Aceleran El Metabolismo" 
           image="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=1200&h=800&fit=crop"
           imageAlt="Suplementos naturales para acelerar metabolismo">
@@ -113,7 +87,7 @@ const articleSchema = {
           </div>
         </BlogSection>
 
-        {/* Section 3: Alimentos */}
+        <!--  Section 3: Alimentos  -->
         <BlogSection heading="2. Alimentos Que Aceleran Tu Metabolismo" 
           image="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&h=800&fit=crop"
           imageAlt="Alimentos saludables para acelerar metabolismo">
@@ -149,7 +123,7 @@ const articleSchema = {
           </div>
         </BlogSection>
 
-        {/* Section 4: Ejercicios */}
+        <!--  Section 4: Ejercicios  -->
         <BlogSection heading="3. Ejercicios Específicos Para Metabolismo Lento" variant="success"
           image="https://images.unsplash.com/photo-1546519638-68e109498ffc?w=1200&h=800&fit=crop"
           imageAlt="Ejercicios para acelerar metabolismo">
@@ -184,7 +158,7 @@ const articleSchema = {
           </div>
         </BlogSection>
 
-        {/* Section 5: Hábitos Malos */}
+        <!--  Section 5: Hábitos Malos  -->
         <BlogSection heading="4. Hábitos Que Están Matando Tu Metabolismo" variant="warning"
           image="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=800&fit=crop"
           imageAlt="Hábitos que dañan el metabolismo">
@@ -220,7 +194,7 @@ const articleSchema = {
           </div>
         </BlogSection>
 
-        {/* CTA */}
+        <!--  CTA  -->
         <BlogCTA
           title="¿Listo para Acelerar tu Metabolismo?"
           description="Comienza tu transformación hoy. Nuestros productos naturales están probados por miles de clientes. 15 años de experiencia."

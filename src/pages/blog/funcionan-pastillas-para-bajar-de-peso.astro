@@ -6,37 +6,12 @@ import { Footer2 } from '../../components/footer-02.jsx';
 import BlogHero from '../../components/BlogHero.astro';
 import BlogSection from '../../components/BlogSection.astro';
 import BlogCTA from '../../components/BlogCTA.astro';
-
-// Article Schema
-const articleSchema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "¿Funcionan Las Pastillas Para Bajar de Peso?",
-  "description": "La verdad sin filtros sobre si funcionan las pastillas para adelgazar. Estudios reales, experiencia de 15 años y qué esperar.",
-  "author": {
-    "@type": "Organization",
-    "name": "MVV Natural"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "MVV Natural",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png"
-    }
-  },
-  "datePublished": "2025-01-13",
-  "dateModified": "2025-01-13",
-  "image": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&h=800&fit=crop"
-};
 ---
 
 <Layout 
   title="¿Funcionan Las Pastillas Para Bajar de Peso? La Verdad Completa 2025"
   description="La verdad sin filtros sobre si funcionan las pastillas para adelgazar. Estudios reales, experiencia de 15 años y qué esperar. No más mentiras ni falsas promesas."
 >
-  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)}></script>
-  
   <WhatsAppProvider client:load>
     <Navbar6 client:load />
     

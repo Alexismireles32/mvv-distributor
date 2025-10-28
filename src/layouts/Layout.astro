@@ -13,10 +13,13 @@ const {
   title = 'MVV Natural - Suplementos Naturales para Bajar de Peso | México y USA',
   description = 'Suplementos 100% naturales para bajar de peso, acelerar metabolismo y controlar antojos. 15 años de experiencia. Envíos a México y USA. Resultados reales comprobados.',
   image = 'https://res.cloudinary.com/dsulhqvza/image/upload/w_1200,h_630,c_pad,b_rgb:F5F1E8/v1761550208/mvvnatural_pbzwrl.png',
-  noindex = false
+  noindex = true // Default to true for distributor site - prevent indexing
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+// Point canonical URLs to main site to prevent duplicate content issues
+const mainSiteURL = 'https://www.mvvnatural.com';
+const canonicalURL = new URL(Astro.url.pathname, mainSiteURL);
+const currentPageURL = Astro.url;
 const siteName = 'MVV Natural';
 ---
 
@@ -43,7 +46,12 @@ const siteName = 'MVV Natural';
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <!-- COMPREHENSIVE ROBOTS TAGS - Prevent all indexing -->
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache, noyaca" />
+    <meta name="googlebot" content="noindex, nofollow" />
+    <meta name="bingbot" content="noindex, nofollow" />
+    
+    <!-- Point canonical to MAIN site to prevent duplicate content -->
     <link rel="canonical" href={canonicalURL} />
     
     <!-- Open Graph / Facebook -->
@@ -54,6 +62,8 @@ const siteName = 'MVV Natural';
     <meta property="og:image" content={new URL(image, Astro.url)} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:locale" content="es_MX" />
+    <!-- Prevent social sharing from indexing -->
+    <meta property="og:robots" content="noindex, nofollow" />
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -61,6 +71,8 @@ const siteName = 'MVV Natural';
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    <!-- Prevent Twitter bot from indexing -->
+    <meta name="twitter:robots" content="noindex, nofollow" />
     
     <!-- Google Fonts - Optimized for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -72,80 +84,9 @@ const siteName = 'MVV Natural';
       <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Lora:wght@400;600;700&display=swap" rel="stylesheet" />
     </noscript>
     
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "MVV Natural",
-        "alternateName": "MVV Natural México",
-        "url": "https://www.mvvnatural.com",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png",
-          "width": 500,
-          "height": 500
-        },
-        "description": "Suplementos 100% naturales para bajar de peso, acelerar metabolismo y controlar antojos. 15 años de experiencia. Envíos a México y USA. Resultados reales comprobados.",
-        "foundingDate": "2010",
-        "numberOfEmployees": {
-          "@type": "QuantitativeValue",
-          "minValue": 5,
-          "maxValue": 50
-        },
-        "address": [
-          {
-            "@type": "PostalAddress",
-            "addressCountry": "MX",
-            "areaServed": "Mexico"
-          },
-          {
-            "@type": "PostalAddress",
-            "addressCountry": "US",
-            "areaServed": "United States"
-          }
-        ],
-        "areaServed": [
-          {
-            "@type": "Country",
-            "name": "Mexico"
-          },
-          {
-            "@type": "Country",
-            "name": "United States"
-          }
-        ],
-        "contactPoint": [
-          {
-            "@type": "ContactPoint",
-            "contactType": "customer service",
-            "telephone": "+52-631-298-2043",
-            "email": "info@mvvnatural.com",
-            "availableLanguage": ["Spanish", "English"],
-            "areaServed": "MX"
-          },
-          {
-            "@type": "ContactPoint",
-            "contactType": "customer service",
-            "telephone": "+1-520-216-1443",
-            "email": "info@mvvnatural.com",
-            "availableLanguage": ["Spanish", "English"],
-            "areaServed": "US"
-          }
-        ],
-        "sameAs": [
-          "https://www.facebook.com/mvvnatural",
-          "https://www.instagram.com/mvvnatural"
-        ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.8",
-          "reviewCount": "1",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
+    <!-- Structured Data (JSON-LD) - DISABLED for distributor site -->
+    <!-- Removed to prevent Google from crawling and indexing this internal tool -->
+    <!-- Structured data should only be on the main public site (www.mvvnatural.com) -->
   </head>
   <body>
     <slot />

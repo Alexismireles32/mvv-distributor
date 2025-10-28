@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { DistributorInvoiceSystem } from '../components/distributor-invoice.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+---
+
+<Layout 
+  title="Sistema de Facturación Distribuidores | MVV Natural"
+  description="Herramienta de facturación para distribuidores MVV Natural"
+>
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    
+    <DistributorInvoiceSystem client:only="react" />
+    
+    <Footer2 client:load />
+  </WhatsAppProvider>
+</Layout>
+

@@ -19,50 +19,29 @@ import Cta25_1 from '../components/cta-25_1.astro';
 import { Layout401 } from '../components/layout-401.jsx';
 import { Faq7 } from '../components/faq-07.jsx';
 
-// BreadcrumbList for Homepage
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Inicio",
-      "item": "https://www.mvvnatural.com/"
-    }
-  ]
-};
 ---
 
 <Layout 
   title="Pastillas Para Bajar de Peso México | Suplementos Naturales MVV"
   description="Pierde 15-25 kilos con pastillas naturales para adelgazar. Quemadores de grasa que SÍ funcionan. 15 años de resultados reales. Envío rápido México y USA con rastreo."
 >
-  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
-  
   <WhatsAppProvider client:load>
     <Navbar6 client:load />
     <HomeWrapper client:idle />
     <HeroIntro />
     
-    {/* PRODUCTO ESTRELLA: Duo-60 Fusion Xtreme */}
     <BestSellerSection />
     
-    {/* PRIORIDAD: Productos y Testimonios primero para mejor conversión */}
     <Product4 client:visible />
     <ProductsCta client:visible />
     
-    {/* Envíos y Métodos de Pago */}
     <Layout128 client:visible />
     
-    {/* Testimonios - Prueba Social */}
     <Gallery21 client:visible />
     
-    {/* Información de soporte: Beneficios, Proceso */}
     <BenefitsSection client:visible />
     <HowItWorks client:visible />
     
-    {/* FAQ y CTAs finales */}
     <Faq7 client:idle />
     <Cta25_1 />
     <Layout401 client:idle />

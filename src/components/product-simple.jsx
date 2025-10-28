@@ -45,7 +45,7 @@ export function ProductSimple({ productName, productImage, productUrl, descripti
               {/* Price Message */}
               <div className="mb-4 rounded-lg bg-ecru-white p-3 md:p-4">
                 <p className="text-center text-sm font-semibold text-como md:text-base">
-                  💬 Cotiza precio de menudeo o mayoreo por WhatsApp
+                  💼 Información de distribuidor
                 </p>
               </div>
 
@@ -69,18 +69,13 @@ export function ProductSimple({ productName, productImage, productUrl, descripti
                 </div>
               )}
 
-              {/* CTA Button */}
-              <button
-                onClick={handleClick}
-                type="button"
-                className="w-full bg-como hover:bg-[#3d6849] text-white font-bold text-base px-10 py-5 min-h-[56px] md:text-lg shadow-xl hover:shadow-2xl active:scale-95 md:hover:scale-105 transition-all duration-300 rounded-full"
-                aria-label="Comprar por WhatsApp"
-              >
+              {/* CTA Button - Disabled for distributor site */}
+              <div className="w-full bg-gray-100 text-gray-500 font-bold text-base px-10 py-5 min-h-[56px] md:text-lg rounded-full text-center flex items-center justify-center">
                 <span className="flex items-center justify-center gap-2 md:gap-3">
-                  <span>Comprar por WhatsApp</span>
-                  <span className="text-xl md:text-2xl">🇲🇽🇺🇸</span>
+                  <span>Distribuidor Exclusive</span>
+                  <span className="text-xl md:text-2xl">💼</span>
                 </span>
-              </button>
+              </div>
 
               {/* Trust Badges */}
               <div className="mt-6 flex flex-wrap gap-4 text-xs text-text-secondary md:text-sm">
@@ -160,19 +155,10 @@ export function ProductSimple({ productName, productImage, productUrl, descripti
                 </div>
               </div>
 
-              {/* CTA Bottom */}
-              <div className="mt-6 rounded-xl bg-gradient-to-r from-ecru-white to-gray-50 p-4 text-center">
-                <p className="mb-2 text-sm font-semibold text-gray-700">¿Necesitas más información?</p>
-                <button
-                  onClick={onOpenWhatsApp}
-                  className="inline-flex items-center gap-2 text-sm font-bold text-como transition-colors hover:text-[#3d6849]"
-                >
-                  <span className="text-lg">💬</span>
-                  Cotiza tu mejor precio por WhatsApp
-                  <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+              {/* CTA Bottom - Disabled for distributor site */}
+              <div className="mt-6 rounded-xl bg-gradient-to-r from-gray-100 to-gray-50 p-4 text-center">
+                <p className="mb-2 text-sm font-semibold text-gray-600">Distribuidor Portal</p>
+                <p className="text-xs text-gray-500">Información de precios y catálogos exclusivos</p>
               </div>
             </div>
           </div>

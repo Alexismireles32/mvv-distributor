@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useRef, createContext, useContext } from "react";
+import React, { createContext, useContext } from "react";
 import { Header76 } from "./header-76";
-import { WhatsAppFloat } from "./whatsapp-float";
+// WhatsAppFloat removed - not needed for distributor site
+// import { WhatsAppFloat } from "./whatsapp-float";
 
-// Create context for WhatsApp handler
+// Create context for WhatsApp handler (kept for compatibility but disabled)
 export const WhatsAppContext = createContext(null);
 
 export const useWhatsApp = () => {
@@ -13,35 +14,21 @@ export const useWhatsApp = () => {
 };
 
 export function WhatsAppProvider({ children }) {
-  const whatsappRef = useRef(null);
-
-  const handleOpenWhatsApp = () => {
-    if (whatsappRef.current) {
-      whatsappRef.current.open();
-    }
-  };
-
+  // WhatsApp disabled for distributor site
   return (
-    <WhatsAppContext.Provider value={handleOpenWhatsApp}>
+    <WhatsAppContext.Provider value={null}>
       {children}
-      <WhatsAppFloat ref={whatsappRef} />
+      {/* WhatsAppFloat removed */}
     </WhatsAppContext.Provider>
   );
 }
 
 export function HomeWrapper() {
-  const whatsappRef = useRef(null);
-
-  const handleOpenWhatsApp = () => {
-    if (whatsappRef.current) {
-      whatsappRef.current.open();
-    }
-  };
-
+  // WhatsApp disabled for distributor site
   return (
     <>
-      <Header76 onOpenWhatsApp={handleOpenWhatsApp} />
-      <WhatsAppFloat ref={whatsappRef} />
+      <Header76 onOpenWhatsApp={() => {}} />
+      {/* WhatsAppFloat removed */}
     </>
   );
 }

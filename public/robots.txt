@@ -1,15 +1,8 @@
-# robots.txt for MVV Natural
-# https://www.mvvnatural.com/robots.txt
+# robots.txt for MVV Natural Distributor Site
+# This is an internal distributor tool - DO NOT INDEX
 
 User-agent: *
-Allow: /
+Disallow: /
 
-# Sitemap location
-Sitemap: https://www.mvvnatural.com/sitemap-index.xml
-
-# Block common bot crawlers that waste bandwidth
-User-agent: AhrefsBot
-User-agent: SemrushBot
-User-agent: DotBot
-Crawl-delay: 10
+# Note: This site is for distributor use only and should not be indexed by search engines.
 

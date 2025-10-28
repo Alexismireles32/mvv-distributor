@@ -1,25 +1,22 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import { ProductSimple } from "./product-simple";
 import { ProductCarousel } from "./product-carousel";
-import { WhatsAppFloat } from "./whatsapp-float";
+// import { WhatsAppFloat } from "./whatsapp-float"; // Disabled for distributor site
 import { WhatsAppContext } from "./home-wrapper";
 
 export function ProductPageWrapper({ productData }) {
-  const whatsappRef = useRef(null);
-
+  // WhatsApp disabled for distributor site
   const handleOpenWhatsApp = () => {
-    if (whatsappRef.current) {
-      whatsappRef.current.open();
-    }
+    // No-op for distributor site
   };
 
   return (
     <WhatsAppContext.Provider value={handleOpenWhatsApp}>
       <ProductSimple {...productData} />
       <ProductCarousel currentProductUrl={productData.productUrl} />
-      <WhatsAppFloat ref={whatsappRef} />
+      {/* WhatsAppFloat removed for distributor site */}
     </WhatsAppContext.Provider>
   );
 }

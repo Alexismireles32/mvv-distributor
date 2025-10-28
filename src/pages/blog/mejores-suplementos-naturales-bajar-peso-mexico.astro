@@ -6,37 +6,12 @@ import { Footer2 } from '../../components/footer-02.jsx';
 import BlogHero from '../../components/BlogHero.astro';
 import BlogSection from '../../components/BlogSection.astro';
 import BlogCTA from '../../components/BlogCTA.astro';
-
-// Article Schema
-const articleSchema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Los 10 Mejores Suplementos Naturales Para Bajar de Peso en México 2025",
-  "description": "Comparativa completa de los mejores productos naturales para adelgazar disponibles en México. Con precios, pros/contras y para quién es cada uno.",
-  "author": {
-    "@type": "Organization",
-    "name": "MVV Natural"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "MVV Natural",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png"
-    }
-  },
-  "datePublished": "2025-01-13",
-  "dateModified": "2025-01-13",
-  "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&h=800&fit=crop"
-};
 ---
 
 <Layout 
   title="Los 10 Mejores Suplementos Naturales Para Bajar de Peso México 2025"
   description="Comparativa completa de los mejores suplementos naturales para adelgazar en México. Precios, resultados reales y cuál comprar según tu objetivo. Guía actualizada 2025."
 >
-  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)}></script>
-  
   <WhatsAppProvider client:load>
     <Navbar6 client:load />
     

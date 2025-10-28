@@ -17,11 +17,9 @@ import { Footer2 } from '../components/footer-02.jsx';
   <WhatsAppProvider client:load>
     <Navbar6 client:load />
     
-    {/* PRIORIDAD: Mostrar artículos primero */}
     <Blog32 client:visible />
     <Blog44 client:visible />
     
-    {/* Texto SEO al final (sigue indexándose) */}
     <BlogIntro />
     
     <Footer2 client:idle />
