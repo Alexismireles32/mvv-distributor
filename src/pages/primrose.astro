@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Prime Rose",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575597/primerose_jk26zj.png",
+  productUrl: "/primrose",
+  description: "PRIME ROSE resalta tus curvas y moldea tu cuerpo. Alternativa no quirúrgica para aumentar y tonificar senos. Regula el sistema endocrino. Aumenta los fitoestrógenos entre los que destaca el miroestrol. Mejora la energía. Baja la testosterona causante de bello facial, depresión, caída de cabello, falta de libido entre otros trastornos. Mejora tus curvas femeninas. Construye músculo. 60 cápsulas con Maca, Aguaje, Hinojo, Pueraria Marifca.",
+  benefits: [
+    "Resalta tus curvas y moldea tu cuerpo",
+    "Alternativa no quirúrgica para aumentar y tonificar senos",
+    "Regula el sistema endocrino",
+    "Aumenta los fitoestrógenos destacando el miroestrol",
+    "Mejora la energía",
+    "Baja la testosterona mejorando bello facial, depresión, caída de cabello, libido",
+    "Mejora tus curvas femeninas",
+    "Construye músculo"
+  ],
+  ingredients: [
+    "Maca - Energía, resistencia y vitalidad",
+    "Aguaje - Fitoestrógenos y curvas femeninas",
+    "Hinojo - Hormonas y desarrollo",
+    "Pueraria Marifca - Curvas y balance hormonal"
+  ],
+  howToUse: "Tomar 2 cápsulas diarias con alimentos. Beber abundante agua durante el día. Para mejores resultados combinar con alimentación balanceada. Uso continuo mínimo 60-90 días para resultados óptimos en curvas y tonificación. Efectos iniciales en 30-45 días. 60 cápsulas de fórmula concentrada."
+};
+---
+
+<Layout 
+  title="PRIME ROSE 60 Cápsulas - Resalta Curvas y Moldea Cuerpo | Sin Cirugía"
+  description="PRIME ROSE resalta curvas, moldea cuerpo, aumenta y tonifica senos sin cirugía. Regula sistema endocrino, baja testosterona, mejora energía y libido."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

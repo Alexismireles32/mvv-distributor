@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Floryva (Probióticos Íntimos)",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575563/floryva_nb3b0y.png",
+  productUrl: "/floryva",
+  description: "Floryva es el probiótico de alta potencia especializado para salud intestinal y vaginal femenina. Con 15 mil millones de UFC (unidades formadoras de colonias) que restauran flora bacteriana, eliminan infecciones recurrentes y fortalecen sistema inmune. Ideal para mujeres con infecciones urinarias frecuentes, candidiasis vaginal recurrente, vaginosis o después de antibióticos. Mejora digestión, previene infecciones y aumenta defensas. Probiótico profesional con cepas específicas para mujer. Bienestar íntimo natural sin efectos secundarios de antimicóticos.",
+  benefits: [
+    "Restaura flora intestinal y vaginal naturalmente",
+    "Previene infecciones urinarias y vaginales recurrentes",
+    "Fortalece sistema inmunológico completo",
+    "Mejora digestión y absorción de nutrientes",
+    "Elimina candidiasis y vaginosis de raíz",
+    "15 mil millones de UFC de bacterias benéficas"
+  ],
+  ingredients: [
+    "Lactobacillus Rhamnosus - Protección vaginal",
+    "Lactobacillus Reuteri - Salud íntima femenina",
+    "Lactobacillus Acidophilus - Flora intestinal",
+    "Bifidobacterium Lactis - Sistema inmune",
+    "Lactobacillus Plantarum - Digestión óptima",
+    "Lactobacillus Casei - Defens as naturales",
+    "Prebióticos FOS - Alimenta bacterias buenas",
+    "15 Mil Millones UFC por cápsula con vida prolongada"
+  ],
+  howToUse: "Tomar 1-2 cápsulas al día con el estómago vacío (30 minutos antes de alimentos) o como indique su profesional de salud. Para infecciones activas: 2 cápsulas 2 veces al día por 15-30 días. Para mantenimiento: 1 cápsula diaria. Después de antibióticos: 2 cápsulas diarias por 30 días. Refrigerar después de abrir para máxima potencia. Uso continuo seguro."
+};
+---
+
+<Layout 
+  title="Floryva - Probióticos Para Salud Íntima y Vaginal | 15 Mil Millones UFC"
+  description="Floryva probióticos íntimos: 15 mil millones UFC. Previene infecciones urinarias, candidiasis, vaginosis. Fortalece inmunidad. Salud femenina."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

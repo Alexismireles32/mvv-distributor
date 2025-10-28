@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Import with the ACTUAL filenames (lowercase with dashes)
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { LegalAviso } from '../components/legal-aviso.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+---
+
+<Layout 
+  title="Aviso Legal y Términos de Uso | MVV Natural"
+  description="Aviso legal, términos de uso y condiciones generales de MVV Natural. Información sobre envíos, devoluciones y garantías de nuestros suplementos naturales."
+>
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    <LegalAviso client:idle />
+    <Footer2 client:idle />
+  </WhatsAppProvider>
+</Layout>
+

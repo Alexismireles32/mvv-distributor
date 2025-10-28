@@ -1,0 +1,58 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Import with the ACTUAL filenames (lowercase with dashes)
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import SeoIntro from '../components/seo-intro.astro';
+import { Product4 } from '../components/product-04.jsx';
+import { Product4_1 } from '../components/product-04_1.jsx';
+import { Product4_2 } from '../components/product-04_2.jsx';
+import { Cta25 } from '../components/cta-25.jsx';
+import Cta25_1 from '../components/cta-25_1.astro';
+import { Footer2 } from '../components/footer-02.jsx';
+
+// BreadcrumbList Schema
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": "https://www.mvvnatural.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Productos",
+      "item": "https://www.mvvnatural.com/productos"
+    }
+  ]
+};
+---
+
+<Layout 
+  title="Comprar Suplementos Para Bajar de Peso | Catálogo MVV Natural"
+  description="Catálogo completo: pastillas para quemar grasa, acelerar metabolismo y controlar antojos. 100% naturales. Precios accesibles. Envío rápido México y USA."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
+  
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    
+    {/* PRIORIDAD: Mostrar productos primero */}
+    <Product4 client:visible />
+    <Product4_1 client:visible />
+    <Product4_2 client:visible />
+    
+    {/* CTAs después de ver productos */}
+    <Cta25 client:idle />
+    
+    {/* Texto SEO al final (sigue indexándose) */}
+    <SeoIntro />
+    
+    <Footer2 client:idle />
+  </WhatsAppProvider>
+</Layout>

@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "E-Detox Plus",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575568/Edetox_vnbmiq.png",
+  productUrl: "/edetox",
+  description: "E-Detox Plus es limpieza intestinal profunda que elimina toxinas, desechos y parásitos acumulados por años en tu colon. Mejora digestión, elimina estreñimiento crónico y desinflama abdomen inmediatamente. Aumenta absorción de nutrientes y prepara tu cuerpo para bajar de peso más eficientemente. Ideal antes de iniciar tratamiento adelgazante o como mantenimiento cada 3 meses. Fórmula suave pero efectiva con fibra natural y hierbas limpiadoras. Sentirás tu abdomen plano y ligero desde los primeros días. Apto para toda la familia.",
+  benefits: [
+    "Limpieza intestinal profunda y efectiva del colon",
+    "Elimina estreñimiento crónico y regula evacuaciones",
+    "Elimina toxinas, desechos antiguos y parásitos",
+    "Mejora absorción de vitaminas y nutrientes esenciales",
+    "Desinflama el abdomen rápidamente y visiblemente",
+    "Preparación ideal antes de iniciar dieta o tratamiento"
+  ],
+  ingredients: [
+    "Psyllium Husk (Cáscara de Psilio) - Fibra limpiadora",
+    "Sen (Cassia Angustifolia) - Laxante natural suave",
+    "Linaza Molida - Fibra y Omega-3 intestinal",
+    "Aloe Vera - Limpia y sana intestino",
+    "Cascara Sagrada - Estimula peristaltismo",
+    "Probióticos - Restaura flora después de limpiar",
+    "Jengibre - Reduce gases y mejora digestión",
+    "Papaya Enzimas - Ayuda digestión proteínas"
+  ],
+  howToUse: "Tomar 2 cápsulas en la noche antes de dormir con un vaso grande de agua. Beber abundante agua durante el día (2-3 litros). Para limpieza profunda: usar 14-21 días continuos. Para mantenimiento: 2-3 veces por semana. Efectos visibles en 6-12 horas. Evitar uso prolongado sin descansos. Ideal hacer limpieza cada 3-6 meses."
+};
+---
+
+<Layout 
+  title="E-Detox Plus - Limpieza Intestinal y Colon | Elimina Toxinas"
+  description="E-Detox Plus: limpieza intestinal profunda. Elimina estreñimiento, toxinas, parásitos, desinflama abdomen. Prepara cuerpo para bajar peso."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

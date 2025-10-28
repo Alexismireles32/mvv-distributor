@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Import with the ACTUAL filenames (lowercase with dashes)
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { WhatsAppFloat } from '../components/whatsapp-float.jsx';
+import TestimonialsIntro from '../components/testimonials-intro.astro';
+import { TestimonialsVerticalGallery } from '../components/testimonials-vertical-gallery.jsx';
+import { Cta25 } from '../components/cta-25.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+---
+
+<Layout 
+  title="Antes y Después Reales | Testimonios Pastillas Para Adelgazar"
+  description="Fotos reales de clientes que perdieron 15-25 kilos con nuestras pastillas naturales. Sin Photoshop. Resultados verificados. Ver transformaciones ahora."
+>
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    
+    {/* Testimonios verticales - Una imagen tras otra */}
+    <TestimonialsVerticalGallery client:visible />
+    
+    {/* CTA después de ver transformaciones */}
+    <Cta25 client:idle />
+    
+    {/* Texto SEO al final (sigue indexándose) */}
+    <TestimonialsIntro />
+    
+    <Footer2 client:idle />
+  </WhatsAppProvider>
+</Layout>
+

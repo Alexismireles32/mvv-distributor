@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Slim Coffee Thermogenic",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575569/SlimCoffee_tfczj8.png",
+  productUrl: "/slimcoffee",
+  description: "SLIM COFFE THERMOGENIC para los amantes del café. Quema grasa tomando café. SLIM COFFE con ingredientes diseñados para la pérdida de grasa. Alto poder antioxidante. Actúa como un estimulante del metabolismo acelerándolo. Científicamente está comprobado que te ayuda a bajar de peso pues quema la grasa con más rapidez y las que están depositadas van desapareciendo. Disminuye el apetito, elimina la lipogénesis, disminuye el colesterol malo. Gracias a la termogénesis estimula la producción de calor corporal, lo que aumenta el gasto energético, contribuye a la pérdida de peso. 100 gramos de café termogénico adelgazante.",
+  benefits: [
+    "Quema grasa tomando café",
+    "Alto poder antioxidante",
+    "Actúa como estimulante del metabolismo",
+    "Ayuda a bajar de peso científicamente comprobado",
+    "Disminuye el apetito efectivamente",
+    "Elimina la lipogénesis y reduce colesterol malo",
+    "Termogénesis que estimula producción de calor corporal"
+  ],
+  ingredients: [
+    "Garcinia Gambogia - Quema grasa y reduce apetito",
+    "Hongo Ganoderma - Antioxidante potente",
+    "Hoodia - Inhibidor de apetito",
+    "Zarzaparrilla - Desintoxicante",
+    "Cocolmeca - Digestivo y diurético",
+    "Picolinato de Cromo - Control de glucosa"
+  ],
+  howToUse: "Tomar 1 a 2 tazas de SLIMCOFFE al día. Preparar como café normal. Beber en la mañana y mediodía. No embarazadas o en periodo de lactancia. No consumir menores de 11 años. 100 gramos de presentación. No exceder dosis recomendada."
+};
+---
+
+<Layout 
+  title="SLIM COFFE THERMOGENIC - Quema Grasa Tomando Café | 100 Gramos"
+  description="SLIM COFFE THERMOGENIC quema grasa tomando café. Alto poder antioxidante, metabolismo acelerado, disminuye apetito. Para amantes del café adelgazante."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

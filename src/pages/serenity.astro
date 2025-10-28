@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Serenity",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575589/serenity_mnncq7.png",
+  productUrl: "/serenity",
+  description: "Serenity es el suplemento natural más efectivo para calmar ansiedad, estrés y nerviosismo sin crear dependencia. Fórmula herbal que reduce antojos emocionales por comida (comer por ansiedad), mejora profundamente la calidad del sueño y te ayuda a controlar el peso causado por estrés. Ideal para personas con ansiedad generalizada, ataques de pánico, insomnio o que comen compulsivamente por nervios. Sin efectos de somnolencia durante el día. Alternativa natural a medicamentos ansiolíticos sin efectos secundarios ni adicción.",
+  benefits: [
+    "Reduce ansiedad, nerviosismo y estrés de forma natural",
+    "Controla comer emocional y antojos causados por nervios",
+    "Mejora calidad del sueño: duerme profundo sin somnolencia",
+    "Sin adicción, dependencia ni efectos secundarios",
+    "Calma ataques de pánico y ansiedad generalizada",
+    "Con extractos de valeriana, pasiflora y manzanilla"
+  ],
+  ingredients: [
+    "Extracto de Valeriana 400mg - Calma ansiedad y mejora sueño",
+    "Extracto de Pasiflora 300mg - Reduce nerviosismo",
+    "Extracto de Manzanilla 200mg - Relaja y calma",
+    "L-Teanina 100mg - Calma mental sin sedación",
+    "GABA (Ácido Gamma-Aminobutírico) - Neurotransmisor calmante",
+    "Magnesio Quelado - Relaja músculos y sistema nervioso",
+    "Extracto de Melisa (Toronjil) - Reduce ansiedad",
+    "Vitamina B6 - Mejora producción de serotonina"
+  ],
+  howToUse: "Para ansiedad diurna: tomar 1-2 cápsulas en la mañana y 1 al medio día. Para insomnio: tomar 2 cápsulas 30-60 minutos antes de dormir. Para ansiedad y sueño: 1 cápsula mañana y 2 antes de dormir. No causa somnolencia durante el día a dosis bajas. Efectos inmediatos desde la primera toma, pero mejora con uso continuo 2-4 semanas. Seguro para uso prolongado."
+};
+---
+
+<Layout 
+  title="Serenity - Calma Natural Para Ansiedad y Estrés | Sin Dependencia"
+  description="Serenity: calma ansiedad y estrés naturalmente. Controla comer emocional, mejora sueño profundo. Sin dependencia. Valeriana, pasiflora, manzanilla."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

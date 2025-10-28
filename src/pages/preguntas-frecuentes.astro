@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Import with the ACTUAL filenames (lowercase with dashes)
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { Faq7 } from '../components/faq-07.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+// FAQPage Schema
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Cuánto peso puedo perder con sus productos naturales?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nuestros clientes pierden en promedio 15-25 kilos en 2-3 meses con nuestro sistema completo. Los resultados varían según tu metabolismo, peso inicial y constancia."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Son seguros los quemadores de grasa naturales? ¿Tienen efectos secundarios?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nuestros productos son 100% naturales y seguros. Contienen extractos de plantas como té verde, garcinia cambogia y ginseng. Algunos clientes pueden experimentar leve aumento de energía al inicio, pero sin nerviosismo ni insomnio."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cuánto tiempo tarda en llegar mi pedido a México y USA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "México: 1-3 días hábiles con Estafeta o Fedex. USA: 3-5 días hábiles con USPS correo postal. Todos los envíos incluyen número de rastreo."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Necesito hacer dieta estricta o ejercicio para ver resultados?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No es obligatorio, pero ayuda muchísimo. Nuestros productos funcionan solos: aceleran tu metabolismo, queman grasa y controlan el apetito automáticamente."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cuál es el mejor producto para empezar a bajar de peso?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nuestro bestseller es Duo-60 Fusion Xtreme - el quemador de grasa más potente. Es perfecto para principiantes porque acelera el metabolismo 3x, controla antojos y quema grasa abdominal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué formas de pago aceptan en México y USA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "México: Transferencia bancaria, depósito OXXO, Mercado Pago y Kueski Pay. USA: Zelle, PayPal, CashApp y tarjetas de crédito/débito."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Puedo tomar varios productos juntos para adelgazar más rápido?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sí, muchos clientes combinan productos para resultados acelerados. Las combinaciones más efectivas son: Duo-60 Fusion + SOS Burn, Duo-60 + 30 Day Detox, o Lipo HD + Chupa Panza."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Por qué sus productos funcionan mejor que otros del mercado?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "15 años de experiencia perfeccionando fórmulas naturales efectivas. Usamos extractos concentrados de máxima pureza que atacan el problema desde 3 ángulos: aceleran metabolismo, queman grasa almacenada y controlan apetito."
+      }
+    }
+  ]
+};
+---
+
+<Layout 
+  title="¿Funcionan Las Pastillas Para Bajar de Peso? Preguntas Frecuentes"
+  description="Todas tus dudas respondidas: ¿Cuánto peso voy a perder? ¿Son seguras las pastillas naturales? ¿Cuánto tarda el envío a México? Respuestas honestas sin vueltas."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+  
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    <Faq7 client:idle />
+    <Footer2 client:idle />
+  </WhatsAppProvider>
+</Layout>
+

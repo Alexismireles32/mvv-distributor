@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Import with the ACTUAL filenames (lowercase with dashes)
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { BlogPostHeader3 } from '../components/blog-post-header-03.jsx';
+import { Content29 } from '../components/content-29.jsx';
+import { Cta40 } from '../components/cta-40.jsx';
+import { Product11 } from '../components/product-11.jsx';
+import { Content30 } from '../components/content-30.jsx';
+import { Cta40_1 } from '../components/cta-40_1.jsx';
+import { Content7 } from '../components/content-07.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+---
+
+<Layout 
+  title="Blog: Salud Natural | MVV Natural"
+  description="Descubre artículos científicos sobre salud natural, nutrición y bienestar integral. Consejos prácticos para mejorar tu calidad de vida de forma natural."
+>
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    <BlogPostHeader3 client:idle />
+    <Content29 client:idle />
+    <Cta40 client:idle />
+    <Product11 client:idle />
+    <Content30 client:idle />
+    <Cta40_1 client:idle />
+    <Content7 client:idle />
+    <Footer2 client:idle />
+  </WhatsAppProvider>
+</Layout>
+

@@ -1,0 +1,346 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { Navbar6 } from '../../../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../../../components/home-wrapper.jsx';
+import Footer from '../../../components/Footer.astro';
+---
+
+<Layout 
+  title="¿Qué Suplemento Necesito? Guía de Decisión Personalizada 2025 | MVV Natural"
+  description="Guía interactiva para elegir el suplemento correcto según tu objetivo, experiencia, tolerancia y metas de pérdida de peso."
+>
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+
+    <article class="px-[5%] py-12 md:py-16 lg:py-20">
+      <div class="container max-w-4xl mx-auto">
+        
+        <!-- Header -->
+        <header class="mb-8 md:mb-12">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+            ¿Qué Suplemento Necesito? Guía de Decisión Personalizada
+          </h1>
+          <p class="text-lg md:text-xl text-text-secondary leading-relaxed">
+            Con más de 25 productos disponibles, decidir cuál elegir puede ser abrumador. Esta guía interactiva te ayuda a identificar el suplemento perfecto para tu situación específica, objetivo y tolerancia personal.
+          </p>
+        </header>
+
+        <!-- Decision Tree Intro -->
+        <section class="mb-12 bg-gradient-to-br from-como to-[#3d6849] rounded-2xl p-6 md:p-8 text-white">
+          <h2 class="text-2xl md:text-3xl font-bold mb-4">🗺️ Cómo Funciona Esta Guía</h2>
+          <p class="text-base md:text-lg leading-relaxed mb-4">
+            Lee las siguientes preguntas clave. Si respondes a ellas con honestidad, sabrás exactamente qué suplemento necesitas. Basado en 15 años de experiencia con miles de clientes.
+          </p>
+          <p class="text-base md:text-lg font-semibold">
+            💡 <strong>Spoiler:</strong> No hay un "mejor producto para todos". El mejor producto es el que encaja con TU perfil específico.
+          </p>
+        </section>
+
+        <!-- Question 1: Goal -->
+        <section class="mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">1️⃣ ¿Cuál Es Tu Objetivo Principal?</h2>
+          
+          <div class="space-y-6">
+            <div class="bg-white border-2 border-como rounded-2xl p-6">
+              <h3 class="text-xl font-bold mb-3 text-como">🎯 Objetivo: Bajar Rápido (15-25 kilos en 2-3 meses)</h3>
+              <p class="text-base text-text-secondary mb-4">
+                Tienes un evento, boda, o simplemente quieres resultados dramáticos en poco tiempo.
+              </p>
+              <div class="bg-ecru-white rounded-lg p-4">
+                <h4 class="font-bold mb-2 text-como">✅ Recomendación:</h4>
+                <ul class="space-y-2 text-base">
+                  <li class="flex items-start gap-3">
+                    <span class="text-2xl">🥇</span>
+                    <div>
+                      <strong>Duo 60 Fusion Xtreme</strong> (si toleras cafeína)<br/>
+                      <span class="text-sm text-text-secondary">8-15 kilos en 30-60 días | Eficacia 90%</span>
+                    </div>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="text-2xl">🥈</span>
+                    <div>
+                      <strong>SOS Burn</strong> (si ya probaste otros quemadores)<br/>
+                      <span class="text-sm text-text-secondary">10-18 kilos en 30-60 días | Eficacia 85%</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-white border-2 border-gray-200 rounded-2xl p-6">
+              <h3 class="text-xl font-bold mb-3 text-como">📉 Objetivo: Bajar Gradual (10-20 kilos en 3-6 meses)</h3>
+              <p class="text-base text-text-secondary mb-4">
+                Prefieres perder peso de forma gradual y mantenerlo para siempre (sin efecto rebote).
+              </p>
+              <div class="bg-ecru-white rounded-lg p-4">
+                <h4 class="font-bold mb-2 text-como">✅ Recomendación:</h4>
+                <ul class="space-y-2 text-base">
+                  <li class="flex items-start gap-3">
+                    <span class="text-2xl">🥇</span>
+                    <div>
+                      <strong>Lida Booster</strong> (sin cafeína)<br/>
+                      <span class="text-sm text-text-secondary">10-20 kilos en 60-90 días | Sin rebote</span>
+                    </div>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="text-2xl">🥈</span>
+                    <div>
+                      <strong>Body Shape</strong> (quemador suave)<br/>
+                      <span class="text-sm text-text-secondary">7-12 kilos en 60-90 días | Suave y seguro</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-white border-2 border-gray-200 rounded-2xl p-6">
+              <h3 class="text-xl font-bold mb-3 text-como">🍽️ Objetivo: Controlar Apetito / Antojos</h3>
+              <p class="text-base text-text-secondary mb-4">
+                Tu problema principal es comer demasiado, antojos compulsivos, o comer por emociones.
+              </p>
+              <div class="bg-ecru-white rounded-lg p-4">
+                <h4 class="font-bold mb-2 text-como">✅ Recomendación:</h4>
+                <ul class="space-y-2 text-base">
+                  <li class="flex items-start gap-3">
+                    <span class="text-2xl">🥇</span>
+                    <div>
+                      <strong>Body Shape</strong> (suprime apetito sin cafeína)<br/>
+                      <span class="text-sm text-text-secondary">Reduce porciones 30-40% automáticamente</span>
+                    </div>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="text-2xl">🥈</span>
+                    <div>
+                      <strong>Prim Rose</strong> (para comer emocional)<br/>
+                      <span class="text-sm text-text-secondary">Regula ansiedad que causa atracones</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Question 2: Experience -->
+        <section class="mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">2️⃣ ¿Tienes Experiencia Con Termogénicos Fuertes?</h2>
+          
+          <div class="grid gap-6 md:grid-cols-2">
+            <div class="bg-white border-2 border-green-500 rounded-2xl p-6">
+              <h3 class="text-2xl font-bold mb-3 text-green-600">✅ SÍ, He Probado Antes</h3>
+              <p class="text-base text-text-secondary mb-4">
+                Ya tomaste pre-entrenamientos, quemadores, o productos con cafeína sin problemas. Toleras 200-300mg de cafeína diarios.
+              </p>
+              <div class="bg-green-50 rounded-lg p-4">
+                <h4 class="font-bold mb-2 text-green-800">✅ Opciones:</h4>
+                <ul class="space-y-2 text-sm text-green-900">
+                  <li class="flex items-start gap-2">
+                    <span class="text-xl">•</span>
+                    <span><strong>Duo 60 Fusion:</strong> Tu mejor opción</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-xl">•</span>
+                    <span><strong>SOS Burn:</strong> Si quieres máximo resultado</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-xl">•</span>
+                    <span><strong>Thyroide Support:</strong> Si tu metabolismo es muy lento</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-white border-2 border-yellow-500 rounded-2xl p-6">
+              <h3 class="text-2xl font-bold mb-3 text-yellow-600">⚠️ NO, Soy Principiante</h3>
+              <p class="text-base text-text-secondary mb-4">
+                Nunca he tomado suplementos quemadores, o si tomé café me da ansiedad/nerviosismo/insomnio.
+              </p>
+              <div class="bg-yellow-50 rounded-lg p-4">
+                <h4 class="font-bold mb-2 text-yellow-800">✅ Opciones Seguras:</h4>
+                <ul class="space-y-2 text-sm text-yellow-900">
+                  <li class="flex items-start gap-2">
+                    <span class="text-xl">•</span>
+                    <span><strong>Lida Booster:</strong> Sin cafeína, ideal para empezar</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-xl">•</span>
+                    <span><strong>Body Shape:</strong> Suave, sin nerviosismo</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-xl">•</span>
+                    <span><strong>Prim Rose:</strong> Para comer emocional, cero cafeína</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Question 3: Weight Loss -->
+        <section class="mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">3️⃣ ¿Cuánto Peso Quieres Perder?</h2>
+          
+          <div class="space-y-6">
+            <div class="bg-white border-2 border-como rounded-2xl p-6">
+              <h3 class="text-xl font-bold mb-3 text-como">🎯 20+ kilos (Cambio dramático)</h3>
+              <p class="text-base text-text-secondary mb-4">
+                Necesitas un producto potente que acelere metabolismo significativamente y mantenga resultados a largo plazo.
+              </p>
+              <div class="bg-como text-white rounded-lg p-4">
+                <h4 class="font-bold mb-2">✅ Recomendación Principal:</h4>
+                <p class="text-lg font-bold mb-2">Duo 60 Fusion Xtreme</p>
+                <p class="text-sm opacity-90">Doble acción | Quema 24/7 | Resultados 30-60 días</p>
+              </div>
+            </div>
+
+            <div class="bg-white border-2 border-gray-200 rounded-2xl p-6">
+              <h3 class="text-xl font-bold mb-3 text-como">📉 10-20 kilos (Cambio moderado)</h3>
+              <p class="text-base text-text-secondary mb-4">
+                Quieres bajar de forma equilibrada, sin extremos, asegurando que el peso se mantenga después.
+              </p>
+              <div class="bg-gray-200 rounded-lg p-4">
+                <h4 class="font-bold mb-2 text-como">✅ Recomendaciones:</h4>
+                <ul class="space-y-2 text-sm">
+                  <li class="flex items-start gap-2">
+                    <span>•</span>
+                    <span><strong>Lida Booster:</strong> Si NO toleras cafeína</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span>•</span>
+                    <span><strong>Duo 60 Fusion:</strong> Si SÍ toleras cafeína</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span>•</span>
+                    <span><strong>Body Shape:</strong> Si prefieres gradual</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-white border-2 border-gray-200 rounded-2xl p-6">
+              <h3 class="text-xl font-bold mb-3 text-como">⚖️ 5-10 kilos (Ajuste final)</h3>
+              <p class="text-base text-text-secondary mb-4">
+                Ya estás cerca de tu peso objetivo, solo necesitas ese "push final" para eliminar los últimos kilos rebeldes.
+              </p>
+              <div class="bg-gray-200 rounded-lg p-4">
+                <h4 class="font-bold mb-2 text-como">✅ Recomendación:</h4>
+                <p class="font-semibold mb-2">Body Shape o Lida Booster</p>
+                <p class="text-sm text-text-secondary">Suave, efectivo, sin efectos secundarios</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Question 4: Special Conditions -->
+        <section class="mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">4️⃣ ¿Tienes Alguna Condición Especial?</h2>
+          
+          <div class="space-y-6">
+            <div class="bg-white border-2 border-red-500 rounded-2xl p-6">
+              <h3 class="text-xl font-bold mb-3 text-red-600">🩺 Hipertensión / Problemas Cardíacos</h3>
+              <p class="text-base text-text-secondary mb-4">
+                NO tomes productos con cafeína (Duo 60, SOS Burn).
+              </p>
+              <div class="bg-red-50 rounded-lg p-4">
+                <h4 class="font-bold mb-2 text-red-800">✅ Seguro Para Ti:</h4>
+                <ul class="space-y-2 text-sm text-red-900">
+                  <li class="flex items-start gap-2">
+                    <span>•</span>
+                    <span><strong>Lida Booster</strong> (0 cafeína)</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span>•</span>
+                    <span><strong>Body Shape</strong> (mínima cafeína)</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span>•</span>
+                    <span><strong>Thyroide Support</strong> (sin estimulantes)</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-white border-2 border-purple-500 rounded-2xl p-6">
+              <h3 class="text-xl font-bold mb-3 text-purple-600">🦋 Tiroides Lenta / Hipotiroidismo</h3>
+              <p class="text-base text-text-secondary mb-4">
+                Tu metabolismo es tan lento que subes peso sin comer mucho.
+              </p>
+              <div class="bg-purple-50 rounded-lg p-4">
+                <h4 class="font-bold mb-2 text-purple-800">✅ Recomendación #1:</h4>
+                <p class="font-semibold mb-2 text-purple-900">Thyroide Support</p>
+                <p class="text-sm text-purple-900">Optimiza función tiroidea + quema grasa</p>
+              </div>
+            </div>
+
+            <div class="bg-white border-2 border-pink-500 rounded-2xl p-6">
+              <h3 class="text-xl font-bold mb-3 text-pink-600">🌸 Embarazo / Lactancia</h3>
+              <p class="text-base text-text-secondary mb-4">
+                NO tomes NINGÚN suplemento durante embarazo/lactancia.
+              </p>
+              <p class="text-base font-semibold text-pink-600">
+                Consulta a tu médico para recomendaciones dietarias específicas.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Final Decision -->
+        <section class="mb-12 bg-gradient-to-br from-como to-[#3d6849] rounded-2xl p-8 md:p-12 text-white text-center">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">🎯 Ya Decidiste ¿Necesitas Confirmación?</h2>
+          <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
+            Si respondiste las preguntas de arriba, ya tienes una idea clara. Pero si todavía tienes dudas, nuestro equipo puede ayudarte a elegir el producto perfecto según tu perfil específico.
+          </p>
+          
+          <div class="grid gap-4 md:grid-cols-2 max-w-2xl mx-auto mb-8">
+            <a 
+              href="/productos"
+              class="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border-2 border-white text-white px-8 py-4 rounded-full font-bold hover:bg-white/20 active:scale-95 transition-all duration-300"
+            >
+              Ver Todos los Productos
+            </a>
+            <button
+              class="whatsapp-trigger('[aria-label=\"Contactar por WhatsApp\"]')?.click()"
+              class="inline-flex items-center justify-center gap-3 bg-white text-como px-8 py-4 rounded-full font-bold shadow-xl hover:shadow-2xl active:scale-95 transition-all duration-300 min-h-[56px]"
+            >
+              <span class="text-2xl">💬</span>
+              Consultar Con Experto
+            </button>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-8">❓ Preguntas Frecuentes</h2>
+          
+          <div class="space-y-6">
+            <div class="bg-white border-2 border-gray-200 rounded-xl p-6">
+              <h3 class="text-xl font-bold mb-3 text-como">¿Puedo combinar 2 productos para más resultados?</h3>
+              <p class="text-base text-text-secondary">
+                NO recomendamos combinar quemadores (Duo 60 + SOS Burn) porque compiten. Pero sí puedes combinar quemador + bloqueador (Duo 60 + Lida Booster) con supervisión. Consulta con nuestro equipo.
+              </p>
+            </div>
+
+            <div class="bg-white border-2 border-gray-200 rounded-xl p-6">
+              <h3 class="text-xl font-bold mb-3 text-como">¿Qué pasa si elijo el producto equivocado?</h3>
+              <p class="text-base text-text-secondary">
+                No pasa nada grave, pero puede que no veas resultados óptimos o tengas efectos secundarios leves. Si compraste y sientes que no es para ti, escríbenos por WhatsApp y te recomendamos mejor opción.
+              </p>
+            </div>
+
+            <div class="bg-white border-2 border-gray-200 rounded-xl p-6">
+              <h3 class="text-xl font-bold mb-3 text-como">¿Puedo tomar suplementos mientras estoy en otra medicación?</h3>
+              <p class="text-base text-text-secondary">
+                Si estás en medicación (anticonceptivos, antidepresivos, hipertensión, etc.), consulta a tu médico ANTES. Nuestros productos son naturales, pero es mejor estar seguro.
+              </p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </article>
+
+    <Footer />
+  </WhatsAppProvider>
+</Layout>
+
+

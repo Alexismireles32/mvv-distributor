@@ -1,0 +1,279 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Navbar6 } from '../../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../../components/home-wrapper.jsx';
+import { Footer2 } from '../../components/footer-02.jsx';
+import BlogHero from '../../components/BlogHero.astro';
+import BlogSection from '../../components/BlogSection.astro';
+import BlogCTA from '../../components/BlogCTA.astro';
+
+// Article Schema
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Los 10 Mejores Suplementos Naturales Para Bajar de Peso en México 2025",
+  "description": "Comparativa completa de los mejores productos naturales para adelgazar disponibles en México. Con precios, pros/contras y para quién es cada uno.",
+  "author": {
+    "@type": "Organization",
+    "name": "MVV Natural"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "MVV Natural",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png"
+    }
+  },
+  "datePublished": "2025-01-13",
+  "dateModified": "2025-01-13",
+  "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&h=800&fit=crop"
+};
+---
+
+<Layout 
+  title="Los 10 Mejores Suplementos Naturales Para Bajar de Peso México 2025"
+  description="Comparativa completa de los mejores suplementos naturales para adelgazar en México. Precios, resultados reales y cuál comprar según tu objetivo. Guía actualizada 2025."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)}></script>
+  
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    
+    <article class="bg-white">
+      <BlogHero
+        title="Los Mejores Suplementos Naturales Para Bajar de Peso en México 2025"
+        subtitle="Comparativa honesta de los mejores productos para adelgazar disponibles en México. Con precios reales, pros/contras y para quién es cada uno."
+        category="Comparativas"
+        readTime="18 min lectura"
+        heroImage="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&h=800&fit=crop"
+      />
+
+      <div class="container max-w-4xl mx-auto px-[5%] py-12 md:py-16 lg:py-20">
+        
+        <BlogSection heading="La Guía Definitiva" variant="highlight"
+          image="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=800&fit=crop"
+          imageAlt="Suplementos naturales para bajar de peso">
+          <p class="text-lg leading-relaxed mb-4">
+            Hay un MONTÓN de suplementos para adelgazar en México. Algunos funcionan, otros son pura basura. Llevo 15 años vendiendo productos naturales, y aquí está mi comparativa HONESTA de los mejores.
+          </p>
+          <p class="text-lg leading-relaxed">
+            Todo está basado en <strong>resultados reales de clientes</strong>, no en marketing bonito. Cada producto tiene pros y contras. Te voy a decir para qué sirve cada uno y para quién.
+          </p>
+        </BlogSection>
+
+        <BlogSection heading="1. Duo 60 Fusion - El Quemador de Grasa #1" 
+          image="https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575568/Duo-60fusion_xhsjhs.png"
+          imageAlt="Duo 60 Fusion">
+          
+          <div class="space-y-4">
+            <div class="bg-gradient-to-br from-yellow-400 to-yellow-500 text-gray-800 p-3 rounded-full text-center font-bold text-sm">
+              🏆 MÁS VENDIDO EN MÉXICO Y USA
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="space-y-3">
+                <h3 class="text-xl font-bold">✅ Pros:</h3>
+                <ul class="space-y-2 text-lg">
+                  <li class="flex items-start gap-2">
+                    <span class="text-como">✓</span>
+                    <span>Quema grasa 24 horas (día y noche)</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-como">✓</span>
+                    <span>Control de apetito potente</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-como">✓</span>
+                    <span>Miles de testimonios reales</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-como">✓</span>
+                    <span>100% natural, sin químicos</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="space-y-3">
+                <h3 class="text-xl font-bold">⚠️ Contras:</h3>
+                <ul class="space-y-2 text-lg">
+                  <li class="flex items-start gap-2">
+                    <span class="text-red-500">✗</span>
+                    <span>Tiene cafeína (no para sensibles)</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-red-500">✗</span>
+                    <span>Precio medio-alto (pero vale la pena)</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-4 p-4 bg-ecru-white rounded-lg">
+              <p class="font-semibold text-como">💡 Para quién:</p>
+              <p class="text-lg">Personas que quieren bajar de peso rápido y sostenido. Con metabolismo lento. Con ansiedad por comer. Principiantes en suplementos.</p>
+            </div>
+
+            <a href="/duo-60-fusion" class="inline-block w-full text-center bg-como text-white py-4 rounded-xl font-bold hover:bg-[#3d6849] transition-all mt-4">
+              Ver Detalles de Duo 60 Fusion →
+            </a>
+          </div>
+        </BlogSection>
+
+        <BlogSection heading="2. SOS Burn - Para Sensibles a Estimulantes" 
+          image="https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575596/sosburn_g2ui2b.png"
+          imageAlt="SOS Burn">
+          
+          <div class="space-y-4">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="space-y-3">
+                <h3 class="text-xl font-bold">✅ Pros:</h3>
+                <ul class="space-y-2 text-lg">
+                  <li class="flex items-start gap-2">
+                    <span class="text-como">✓</span>
+                    <span>Sin cafeína ni estimulantes fuertes</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-como">✓</span>
+                    <span>Perfecto para personas con presión alta</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-como">✓</span>
+                    <span>Efecto termogénico sin nerviosismo</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="space-y-3">
+                <h3 class="text-xl font-bold">⚠️ Contras:</h3>
+                <ul class="space-y-2 text-lg">
+                  <li class="flex items-start gap-2">
+                    <span class="text-red-500">✗</span>
+                    <span>Efecto más lento que quemadores con cafeína</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-red-500">✗</span>
+                    <span>Menos "energía" (si eso es importante)</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-4 p-4 bg-ecru-white rounded-lg">
+              <p class="font-semibold text-como">💡 Para quién:</p>
+              <p class="text-lg">Personas con presión alta, sensibles a cafeína, con ansiedad o nerviosismo. Que quieren quemar grasa sin estimulantes fuertes.</p>
+            </div>
+          </div>
+        </BlogSection>
+
+        <BlogSection heading="3. Lida Booster - Mejor Para Control de Apetito" 
+          image="https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575576/Lidabooster_xd5mo9.png"
+          imageAlt="Lida Booster">
+          
+          <div class="space-y-4">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="space-y-3">
+                <h3 class="text-xl font-bold">✅ Pros:</h3>
+                <ul class="space-y-2 text-lg">
+                  <li class="flex items-start gap-2">
+                    <span class="text-como">✓</span>
+                    <span>Controla ansiedad por comer EXCELENTE</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-como">✓</span>
+                    <span>Efecto saciante potente</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-como">✓</span>
+                    <span>Fórmula balanceada</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="space-y-3">
+                <h3 class="text-xl font-bold">⚠️ Contras:</h3>
+                <ul class="space-y-2 text-lg">
+                  <li class="flex items-start gap-2">
+                    <span class="text-red-500">✗</span>
+                    <span>No acelera metabolismo como Duo 60</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-red-500">✗</span>
+                    <span>Funciona mejor con dieta balanceada</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-4 p-4 bg-ecru-white rounded-lg">
+              <p class="font-semibold text-como">💡 Para quién:</p>
+              <p class="text-lg">Personas con ansiedad por comer, que comen emocionalmente, con apetito descontrolado. Que ya hacen ejercicio pero comen demasiado.</p>
+            </div>
+          </div>
+        </BlogSection>
+
+        <BlogSection heading="4. Otros Productos Recomendados" variant="success"
+          image="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=1200&h=800&fit=crop"
+          imageAlt="Catálogo de suplementos naturales">
+          
+          <div class="space-y-4 text-lg">
+            <div class="border-l-4 border-como pl-6 bg-white p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold mb-2">Alpha Glow</h3>
+              <p class="leading-relaxed">Para mejorar piel, cabello y salud general mientras pierdes peso. Ideal para mujeres que buscan bienestar integral.</p>
+            </div>
+
+            <div class="border-l-4 border-como pl-6 bg-white p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold mb-2">Chupa Panza</h3>
+              <p class="leading-relaxed">Específico para grasa abdominal. Funciona localizado, para quemar esa pancita que no se va ni con dieta.</p>
+            </div>
+
+            <div class="border-l-4 border-como pl-6 bg-white p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold mb-2">30-Day Detox</h3>
+              <p class="leading-relaxed">Para limpiar organismo y después adelgazar mejor. Perfecto para empezar un programa de pérdida de peso.</p>
+            </div>
+          </div>
+        </BlogSection>
+
+        <BlogSection heading="5. Comparativa Rápida: ¿Cuál Te Conviene?" variant="highlight"
+          image="https://images.unsplash.com/photo-1546519638-68e109498ffc?w=1200&h=800&fit=crop"
+          imageAlt="Comparativa de suplementos">
+          
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-gradient-to-br from-como/5 to-como/10 p-6 rounded-xl border-2 border-como">
+              <h3 class="text-xl font-bold mb-3">¿Tienes Metabolismo Lento?</h3>
+              <p class="mb-3">→ Duo 60 Fusion o SOS Burn</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-como/5 to-como/10 p-6 rounded-xl border-2 border-como">
+              <h3 class="text-xl font-bold mb-3">¿Ansiedad Por Comer?</h3>
+              <p class="mb-3">→ Lida Booster o Prime Rose</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-como/5 to-como/10 p-6 rounded-xl border-2 border-como">
+              <h3 class="text-xl font-bold mb-3">¿Sensible a Cafeína?</h3>
+              <p class="mb-3">→ SOS Burn o SOS Burn Sensitive</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-como/5 to-como/10 p-6 rounded-xl border-2 border-como">
+              <h3 class="text-xl font-bold mb-3">¿Quieres Máximo Resultado?</h3>
+              <p class="mb-3">→ Combina Duo 60 + SOS Burn</p>
+            </div>
+          </div>
+        </BlogSection>
+
+        <BlogCTA
+          title="¿Cuál Es El Mejor Para Ti?"
+          description="Cada cuerpo es diferente. Nuestros asesores te ayudan a elegir el producto perfecto según tu objetivo, peso actual y estilo de vida. Gratis. Sin compromiso."
+          primaryLink="/productos"
+          primaryText="Ver Todos los Productos"
+          secondaryLink="/preguntas-frecuentes"
+          secondaryText="¿Tienes Dudas? FAQ"
+        />
+
+      </div>
+
+    </article>
+
+    <Footer2 client:load />
+  </WhatsAppProvider>
+</Layout>

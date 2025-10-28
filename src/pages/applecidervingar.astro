@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Apple Cider Vinegar (Vinagre de Manzana)",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575568/AppleCider_i9nmdt.png",
+  productUrl: "/applecidervingar",
+  description: "Apple Cider Vinegar en cápsulas es vinagre de manzana orgánico con 'la madre' incluida para máximos beneficios. Acelera metabolismo, controla niveles de azúcar en sangre, reduce grasa abdominal y visceral. Mejora digestión, reduce reflujo y acidez. Todos los beneficios del vinagre de manzana sin el sabor ácido desagradable. Ideal para diabéticos, personas con resistencia a insulina o grasa abdominal difícil. Desintoxica, alcaliniza el cuerpo y mejora salud cardiovascular. Complemento perfecto para cualquier tratamiento adelgazante.",
+  benefits: [
+    "Acelera metabolismo y quema de grasa corporal",
+    "Controla niveles de azúcar en sangre (ideal diabéticos)",
+    "Reduce grasa abdominal y visceral específicamente",
+    "Mejora digestión y reduce reflujo o acidez",
+    "Desintoxica hígado y alcaliniza el organismo",
+    "Sin el sabor ácido desagradable del vinagre líquido"
+  ],
+  ingredients: [
+    "Vinagre de Manzana Orgánico 1000mg con 'La Madre'",
+    "Ácido Acético 5% - Componente activo principal",
+    "Pectina de Manzana - Fibra que reduce apetito",
+    "Enzimas Naturales - Mejoran digestión",
+    "Probióticos Naturales - Flora intestinal",
+    "Potasio - Equilibrio electrolítico",
+    "Vitaminas del Complejo B - Energía",
+    "Antioxidantes Naturales - Protección celular"
+  ],
+  howToUse: "Tomar 2 cápsulas antes del desayuno y 2 cápsulas antes de la cena con un vaso de agua. Para control de azúcar: tomar justo antes de comidas. Para pérdida de peso: tomar 15-20 minutos antes de comer. Beber abundante agua durante el día. Uso continuo recomendado 8-12 semanas. Seguro para uso prolongado. Ideal combinar con dieta baja en carbohidratos."
+};
+---
+
+<Layout 
+  title="Apple Cider Vinegar - Vinagre de Manzana Cápsulas | Control Azúcar"
+  description="Apple Cider Vinegar en cápsulas: acelera metabolismo, controla azúcar, reduce grasa abdominal. Todos los beneficios sin sabor ácido."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

@@ -1,0 +1,247 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import Footer from '../components/Footer.astro';
+
+const comparativas = [
+  {
+    title: "Duo 60 vs Lida Booster",
+    url: "/recursos/comparativas/duo-60-vs-lida",
+    description: "Comparativa completa entre los dos quemadores más populares. ¿Cuál elegir según tu objetivo?",
+    keywords: "duo 60 fusion vs lida booster, qué producto comprar",
+    icon: "⚖️"
+  },
+  {
+    title: "SOS Burn vs Body Shape",
+    url: "/recursos/comparativas/sos-burn-vs-body-shape",
+    description: "Diferencia entre quemador agresivo y suplemento suave. Encuentra el perfecto para ti.",
+    keywords: "sos burn vs body shape, qué quemador elegir",
+    icon: "🔥"
+  },
+  {
+    title: "Mejores Quemadores 2025",
+    url: "/recursos/comparativas/mejor-quemador-grasa",
+    description: "Ranking de los 5 mejores quemadores de grasa naturales basado en resultados reales.",
+    keywords: "mejor quemador de grasa natural, top quemadores",
+    icon: "🏆"
+  }
+];
+
+const guias = [
+  {
+    title: "Acelerar Metabolismo",
+    url: "/recursos/guias/acelerar-metabolismo",
+    description: "10 formas naturales de acelerar tu metabolismo y quemar más calorías sin esfuerzo extra.",
+    keywords: "como acelerar el metabolismo, acelerar metabolismo naturalmente",
+    icon: "⚡"
+  },
+  {
+    title: "Controlar Apetito",
+    url: "/recursos/guias/controlar-apetito",
+    description: "10 estrategias para eliminar antojos y controlar el apetito de forma natural sin pasar hambre.",
+    keywords: "como controlar el apetito, eliminar antojos, suprimir apetito",
+    icon: "🍽️"
+  },
+  {
+    title: "Quemar Grasa Abdominal",
+    url: "/recursos/guias/quemar-grasa-abdominal",
+    description: "Guía completa con dieta, ejercicio y suplementos para eliminar grasa del vientre de forma efectiva.",
+    keywords: "como quemar grasa abdominal, eliminar grasa del vientre, perder cintura",
+    icon: "🎯"
+  },
+  {
+    title: "Elegir Suplemento Correcto",
+    url: "/recursos/guias/elegir-suplemento",
+    description: "Guía personalizada para elegir el suplemento perfecto según tu objetivo, experiencia y tipo de cuerpo.",
+    keywords: "como elegir suplemento, que suplemento necesito, que producto comprar",
+    icon: "📋"
+  }
+];
+---
+
+<Layout 
+  title="Recursos Para Bajar de Peso Naturalmente | Guías y Comparativas MVV Natural"
+  description="Comparativas de productos, guías completas y consejos expertos para ayudarte a elegir el tratamiento correcto y alcanzar tus objetivos de pérdida de peso."
+>
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-como to-[#3d6849] px-[5%] py-16 md:py-24 lg:py-32">
+      <div class="container max-w-4xl mx-auto text-center text-white">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white">
+          Recursos Para Bajar de Peso
+        </h1>
+        <p class="text-lg md:text-xl text-white/90 leading-relaxed">
+          Comparativas honestas de productos, guías completas y consejos expertos basados en 15 años de experiencia. Te ayudamos a elegir el tratamiento correcto para alcanzar tus objetivos de forma natural.
+        </p>
+      </div>
+    </section>
+
+    <!-- Comparativas -->
+    <section class="px-[5%] py-16 md:py-20">
+      <div class="container max-w-6xl mx-auto">
+        <div class="text-center mb-12 md:mb-16">
+          <span class="inline-block text-sm font-semibold text-como uppercase tracking-wider mb-3">Análisis Profesional</span>
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            Comparativas Detalladas
+          </h2>
+          <p class="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
+            Evaluación honesta basada en 15 años vendiendo estos productos. Sin promesas vacías.
+          </p>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-16">
+          {comparativas.map((item) => (
+            <a href={item.url} class="group relative block bg-gradient-to-br from-white to-gray-50 border border-gray-200/60 rounded-3xl p-8 transition-all duration-500 hover:border-como/50 hover:shadow-2xl hover:-translate-y-2 active:scale-[0.98] overflow-hidden">
+              {/* Decorative background gradient */}
+              <div class="absolute inset-0 bg-gradient-to-br from-como/0 to-como/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              {/* Icon with enhanced styling */}
+              <div class="relative mb-6">
+                <div class="text-6xl mb-2 opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
+                  {item.icon}
+                </div>
+                <div class="h-1 w-16 bg-gradient-to-r from-como to-transparent rounded-full"></div>
+              </div>
+              
+              {/* Content */}
+              <div class="relative">
+                <h3 class="text-2xl font-bold mb-3 text-gray-900 group-hover:text-como transition-colors duration-300">
+                  {item.title}
+                </h3>
+                <p class="text-base text-text-secondary leading-relaxed mb-6">
+                  {item.description}
+                </p>
+                
+                {/* Enhanced CTA */}
+                <div class="flex items-center gap-2 text-sm font-bold text-como group-hover:gap-3 transition-all duration-300">
+                  <span>Ver análisis completo</span>
+                  <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </div>
+              </div>
+              
+              {/* Subtle corner accent */}
+              <div class="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-br from-como/10 to-transparent rounded-tl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Guías -->
+    <section class="px-[5%] py-16 md:py-20 bg-gradient-to-b from-ecru-white to-white">
+      <div class="container max-w-6xl mx-auto">
+        <div class="text-center mb-12 md:mb-16">
+          <span class="inline-block text-sm font-semibold text-como uppercase tracking-wider mb-3">Conocimiento Experto</span>
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            Guías Especializadas
+          </h2>
+          <p class="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
+            Metodología probada y recomendaciones basadas en ciencia real. No teoría, práctica.
+          </p>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 mb-16">
+          {guias.map((item) => (
+            <a href={item.url} class="group relative block bg-white border border-gray-200/60 rounded-3xl p-8 transition-all duration-500 hover:border-como/50 hover:shadow-2xl hover:-translate-y-2 active:scale-[0.98] overflow-hidden">
+              {/* Decorative gradient overlay */}
+              <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-como/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              {/* Content */}
+              <div class="relative">
+                <div class="flex items-center gap-4 mb-4">
+                  <div class="text-5xl opacity-90 group-hover:scale-110 group-hover:opacity-100 transition-all duration-300">
+                    {item.icon}
+                  </div>
+                  <div class="h-1 flex-1 bg-gradient-to-r from-como to-transparent rounded-full"></div>
+                </div>
+                
+                <h3 class="text-2xl font-bold mb-3 text-gray-900 group-hover:text-como transition-colors duration-300">
+                  {item.title}
+                </h3>
+                <p class="text-base text-text-secondary leading-relaxed mb-6">
+                  {item.description}
+                </p>
+                
+                {/* Enhanced CTA */}
+                <div class="inline-flex items-center gap-2 text-sm font-bold text-como group-hover:gap-3 transition-all duration-300">
+                  <span>Explorar guía</span>
+                  <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </div>
+              </div>
+              
+              {/* Bottom accent */}
+              <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-como/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            </a>
+          ))}
+        </div>
+
+        <!-- CTA Section - Redesigned -->
+        <div class="relative overflow-hidden bg-gradient-to-br from-como via-[#3d6849] to-como rounded-3xl p-10 md:p-14 text-white shadow-2xl">
+          {/* Background pattern */}
+          <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 left-0 w-full h-full" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+          </div>
+          
+          <div class="relative text-center max-w-3xl mx-auto">
+            <div class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-4 opacity-90">
+              <span class="w-8 h-[2px] bg-white"></span>
+              <span>Asesoría Personalizada</span>
+              <span class="w-8 h-[2px] bg-white"></span>
+            </div>
+            
+            <h3 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+              ¿Necesitas Orientación Específica?
+            </h3>
+            <p class="text-lg md:text-xl text-white/90 mb-8 leading-relaxed max-w-2xl mx-auto">
+              Nuestro equipo tiene 15 años ayudando a miles de clientes. Te asesoramos gratis según tu perfil y objetivos.
+            </p>
+            
+            <button
+              id="open-whatsapp-expert"
+              class="group inline-flex items-center justify-center gap-3 bg-white text-como font-bold text-base px-8 py-4 md:px-12 md:py-6 shadow-2xl hover:shadow-3xl active:scale-95 md:hover:scale-105 transition-all duration-300 rounded-full min-h-[56px]"
+            >
+              <span class="text-2xl">💬</span>
+              <span>Hablar con Experto</span>
+              <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </button>
+            
+            <script is:inline>
+              document.addEventListener('DOMContentLoaded', () => {
+                const expertButton = document.getElementById('open-whatsapp-expert');
+                
+                if (expertButton) {
+                  expertButton.addEventListener('click', () => {
+                    const floatButton = document.querySelector('[aria-label="Contactar por WhatsApp"]');
+                    
+                    if (floatButton) {
+                      floatButton.click();
+                    } else {
+                      setTimeout(() => {
+                        const floatButtonRetry = document.querySelector('[aria-label="Contactar por WhatsApp"]');
+                        if (floatButtonRetry) {
+                          floatButtonRetry.click();
+                        }
+                      }, 100);
+                    }
+                  });
+                }
+              });
+            </script>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Footer />
+  </WhatsAppProvider>
+</Layout>
+

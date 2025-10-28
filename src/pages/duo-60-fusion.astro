@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Duo 60 Fusion Xtreme",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575568/Duo-60fusion_xhsjhs.png",
+  productUrl: "/duo-60-fusion",
+  description: "Duo 60 Fusion Xtreme es el quemador de grasa natural más potente de México. Fórmula única con 60 cápsulas de doble acción: acelera tu metabolismo hasta 3 veces más rápido, quema grasa abdominal y visceral, controla antojos y aumenta energía. 100% natural, sin nerviosismo. Ideal para hombres y mujeres que buscan bajar de peso rápido y de forma segura. Resultados comprobados desde la primera semana. Producto original MVV Natural con 15 años respaldándonos.",
+  benefits: [
+    "Quema grasa abdominal, cintura y rollitos de forma acelerada",
+    "Acelera el metabolismo basal hasta 3 veces más rápido",
+    "Suprime el apetito y controla antojos por azúcar y carbohidratos",
+    "Aumenta energía, concentración y resistencia física",
+    "Resultados visibles: pierde 8-15 kilos en el primer mes",
+    "Fórmula termogénica que quema calorías 24/7, incluso en reposo"
+  ],
+  ingredients: [
+    "Extracto de Té Verde (EGCG) - Potente antioxidante y quemador natural",
+    "L-Carnitina - Transporta grasa para convertirla en energía",
+    "Garcinia Cambogia - Bloquea la producción de grasa nueva",
+    "Cafeína Natural - Acelera metabolismo y aumenta energía",
+    "Cromo Picolinato - Controla antojos y niveles de azúcar",
+    "Extracto de Guaraná - Termogénico natural de larga duración",
+    "CLA (Ácido Linoleico Conjugado) - Define músculo y quema grasa",
+    "Extracto de Té Oolong - Mejora digestión y metabolismo de grasas"
+  ],
+  howToUse: "Tomar 1 cápsula en ayunas con un vaso grande de agua y 1 cápsula antes de la comida principal. No exceder 2 cápsulas al día. Para mejores resultados, combinar con alimentación balanceada y actividad física moderada. Beber al menos 2 litros de agua al día. Tratamiento recomendado: 3 meses continuos."
+};
+---
+
+<Layout 
+  title="Duo 60 Fusion Xtreme - Pastillas Para Adelgazar Rápido | MVV Natural"
+  description="Duo 60 Fusion Xtreme: quemador de grasa #1 en México. Adelgaza 8-15 kilos en 1 mes. Acelera metabolismo 3x, quema grasa abdominal. 100% natural, sin rebote. Envío rápido."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

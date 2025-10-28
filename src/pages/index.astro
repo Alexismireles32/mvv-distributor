@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Astro components (0 JavaScript)
+import HeroIntro from '../components/HeroIntro.astro';
+import BestSellerSection from '../components/BestSellerSection.astro';
+import Footer from '../components/Footer.astro';
+
+// React components (only where interactivity is needed)
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider, HomeWrapper } from '../components/home-wrapper.jsx';
+import { BenefitsSection } from '../components/benefits-section.jsx';
+import { Layout128 } from '../components/layout-128.jsx';
+import { HowItWorks } from '../components/how-it-works.jsx';
+import { Gallery21 } from '../components/gallery-21.jsx';
+import { Product4 } from '../components/product-04.jsx';
+import { ProductsCta } from '../components/products-cta.jsx';
+import Cta25_1 from '../components/cta-25_1.astro';
+import { Layout401 } from '../components/layout-401.jsx';
+import { Faq7 } from '../components/faq-07.jsx';
+
+// BreadcrumbList for Homepage
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": "https://www.mvvnatural.com/"
+    }
+  ]
+};
+---
+
+<Layout 
+  title="Pastillas Para Bajar de Peso México | Suplementos Naturales MVV"
+  description="Pierde 15-25 kilos con pastillas naturales para adelgazar. Quemadores de grasa que SÍ funcionan. 15 años de resultados reales. Envío rápido México y USA con rastreo."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
+  
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    <HomeWrapper client:idle />
+    <HeroIntro />
+    
+    {/* PRODUCTO ESTRELLA: Duo-60 Fusion Xtreme */}
+    <BestSellerSection />
+    
+    {/* PRIORIDAD: Productos y Testimonios primero para mejor conversión */}
+    <Product4 client:visible />
+    <ProductsCta client:visible />
+    
+    {/* Envíos y Métodos de Pago */}
+    <Layout128 client:visible />
+    
+    {/* Testimonios - Prueba Social */}
+    <Gallery21 client:visible />
+    
+    {/* Información de soporte: Beneficios, Proceso */}
+    <BenefitsSection client:visible />
+    <HowItWorks client:visible />
+    
+    {/* FAQ y CTAs finales */}
+    <Faq7 client:idle />
+    <Cta25_1 />
+    <Layout401 client:idle />
+    <Footer />
+  </WhatsAppProvider>
+</Layout>

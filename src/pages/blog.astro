@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Import with the ACTUAL filenames (lowercase with dashes)
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import BlogIntro from '../components/blog-intro.astro';
+import { Blog32 } from '../components/blog-32.jsx';
+import { Blog44 } from '../components/blog-44.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+---
+
+<Layout 
+  title="Blog Suplementos Naturales | Guías Para Bajar de Peso | MVV Natural"
+  description="Aprende cómo bajar de peso con nuestras guías completas. Comparativas de productos, consejos de expertos y estudios sobre suplementos naturales. Blog actualizado 2025."
+>
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    
+    {/* PRIORIDAD: Mostrar artículos primero */}
+    <Blog32 client:visible />
+    <Blog44 client:visible />
+    
+    {/* Texto SEO al final (sigue indexándose) */}
+    <BlogIntro />
+    
+    <Footer2 client:idle />
+  </WhatsAppProvider>
+</Layout>
+

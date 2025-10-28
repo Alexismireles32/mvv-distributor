@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "H-Flex",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575568/HFlex_vl3kef.png",
+  productUrl: "/hflex",
+  description: "H-Flex recupera tu flexibilidad con triple fuerza y 100% efectivo contra el dolor. Soporta artritis degenerativa, artrosis y fibromialgia. Resultados a los 7 días. Auxiliar en dolores articulares, recupera tu flexibilidad y mejora dolor en hombro, columna, codos, cadera, rodilla y tobillo. Triple fuerza que te ayuda a recuperar movilidad completa. 100% efectivo contra el dolor articular y problemas de flexibilidad. Obtén resultados a los 7 días con H-Flex.",
+  benefits: [
+    "Recupera tu flexibilidad con triple fuerza",
+    "100% efectivo contra el dolor articular",
+    "Auxiliar en dolores articulares efectivo",
+    "Soporta artritis degenerativa, artrosis y fibromialgia",
+    "Obtén resultados a los 7 días",
+    "Mejora dolor en hombro, columna, codos, cadera, rodilla, tobillo"
+  ],
+  ingredients: [
+    "Cloruro de Magnesio - Mejora flexibilidad y reduce dolor",
+    "Cúrcuma - Antiinflamatorio poderoso",
+    "Jengibre - Reduce inflamación articular",
+    "Raíz de Rarámuri - Fortalece articulaciones",
+    "Ortiga - Disminuye dolor y rigidez",
+    "Condroitina - Regenera cartílago dañado"
+  ],
+  howToUse: "Tomar 1 cápsula con los alimentos diariamente. Beber abundante agua. Para mejores resultados combinar con estiramientos suaves. Uso continuo mínimo 60 días para mejorías en flexibilidad y dolor. 30 cápsulas de fórmula concentrada."
+};
+---
+
+<Layout 
+  title="H-Flex 30 Cápsulas - Recupera tu Flexibilidad | 100% Efectivo Contra Dolor"
+  description="H-Flex triple fuerza: recupera flexibilidad, 100% efectivo contra dolor, auxiliar artritis degenerativa y fibromialgia. Resultados a los 7 días."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "CM Push Up (Aumenta Glúteos y Busto)",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575544/cmpushup_ncxzh6.png",
+  productUrl: "/cmpushup",
+  description: "CM Push Up es una fórmula especializada muy efectiva para aumentar volumen de glúteos y busto naturalmente sin cirugía. Contiene fitohormonas naturales (fenogreco y hinojo) que estimulan crecimiento específico en zonas deseadas sin afectar otras partes del cuerpo. Aumenta tejido mamario, levanta y da firmeza al busto, aumenta y redondea glúteos. Resultados: curvas naturales en 60-90 días. Ideal para mujeres con busto pequeño o glúteos planos que desean más volumen. Sin hormonas sintéticas, solo extractos naturales concentrados. Miles de mujeres han logrado curvas sin cirugía con resultados increíbles.",
+  benefits: [
+    "Aumenta volumen de glúteos y busto naturalmente",
+    "Con fitohormonas de fenogreco y hinojo concentradas",
+    "Estimula crecimiento en zonas específicas solamente",
+    "Sin efectos en otras partes del cuerpo ni peso general",
+    "Levanta, da firmeza y redondea curvas",
+    "Resultados visibles en 60-90 días de uso continuo"
+  ],
+  ingredients: [
+    "Extracto de Fenogreco (Fenugreek) 1000mg - Fitohormonas",
+    "Extracto de Hinojo 500mg - Fitoestrógenos naturales",
+    "Wild Yam (Ñame Salvaje) - Aumenta tejido mamario",
+    "Don Quai (Angélica China) - Balance hormonal",
+    "Extracto de Damiana - Circulación y crecimiento",
+    "Saw Palmetto - Salud hormonal femenina",
+    "L-Tirosina - Producción de hormonas",
+    "Vitamina E y B6 - Salud de tejidos"
+  ],
+  howToUse: "Tomar 2 cápsulas en la mañana y 2 cápsulas en la noche con alimentos. Combinar con masajes circulares en zonas deseadas para mejor absorción. Usar continuamente por mínimo 90 días para resultados completos. Primeros cambios visibles en 30-45 días. Para mantenimiento: reducir a 2 cápsulas diarias. Combina perfecto con ejercicios específicos de glúteos."
+};
+---
+
+<Layout 
+  title="CM Push Up - Aumenta Glúteos y Busto Naturalmente | Sin Cirugía"
+  description="CM Push Up: aumenta volumen de glúteos y busto natural. Fitohormonas de fenogreco y hinojo. Curvas naturales en 60-90 días. Sin cirugía."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

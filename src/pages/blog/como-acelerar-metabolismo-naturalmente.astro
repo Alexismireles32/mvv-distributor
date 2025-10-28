@@ -1,0 +1,239 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Navbar6 } from '../../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../../components/home-wrapper.jsx';
+import { Footer2 } from '../../components/footer-02.jsx';
+import BlogHero from '../../components/BlogHero.astro';
+import BlogSection from '../../components/BlogSection.astro';
+import BlogCTA from '../../components/BlogCTA.astro';
+
+// Article Schema
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Cómo Acelerar tu Metabolismo Naturalmente",
+  "description": "Descubre cómo acelerar tu metabolismo lento con métodos naturales que SÍ funcionan. Suplementos, alimentos y ejercicios probados.",
+  "author": {
+    "@type": "Organization",
+    "name": "MVV Natural"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "MVV Natural",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png"
+    }
+  },
+  "datePublished": "2025-01-13",
+  "dateModified": "2025-01-13",
+  "image": "https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=1200&h=800&fit=crop"
+};
+---
+
+<Layout 
+  title="Cómo Acelerar tu Metabolismo Naturalmente: Guía Completa 2025"
+  description="Descubre cómo acelerar tu metabolismo lento con métodos naturales que SÍ funcionan. Suplementos, alimentos y ejercicios probados. Guía completa con resultados reales."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)}></script>
+  
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    
+    <article class="bg-white">
+      {/* Hero Section with Image */}
+      <BlogHero
+        title="Cómo Acelerar tu Metabolismo Naturalmente"
+        subtitle="La guía más completa y honesta sobre cómo activar tu metabolismo sin pastillas raras ni dietas imposibles. Con ciencia real y experiencia de 15 años."
+        category="Salud Natural"
+        readTime="15 min lectura"
+        heroImage="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=1200&h=800&fit=crop"
+      />
+
+      {/* Main Content */}
+      <div class="container max-w-4xl mx-auto px-[5%] py-12 md:py-16 lg:py-20">
+        
+        {/* Section 1: Qué es el Metabolismo */}
+        <BlogSection heading="Primero Lo Primero: ¿Qué Es El Metabolismo?" variant="highlight" 
+          image="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=800&fit=crop"
+          imageAlt="Metabolismo y salud natural">
+          <p class="text-lg leading-relaxed mb-4">
+            Mira, el metabolismo es básicamente qué tan rápido tu cuerpo quema las calorías que comes. Si tienes metabolismo rápido, puedes comer más sin engordar. Si lo tienes lento (como la mayoría después de los 30), tu cuerpo guarda TODO como grasa. Así de simple.
+          </p>
+          <p class="text-lg leading-relaxed">
+            ¿Por qué se vuelve lento? Edad, hormonas, dietas yo-yo, poco músculo, estrés, dormir mal. Básicamente, la vida moderna está diseñada para hacerte engordar. Pero aquí viene lo bueno: <strong>sí se puede revertir</strong>.
+          </p>
+        </BlogSection>
+
+        {/* Section 2: Suplementos */}
+        <BlogSection heading="1. Suplementos Naturales Que Realmente Aceleran El Metabolismo" 
+          image="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=1200&h=800&fit=crop"
+          imageAlt="Suplementos naturales para acelerar metabolismo">
+          <p class="text-lg leading-relaxed mb-6">
+            Después de 15 años vendiendo <strong>suplementos para acelerar el metabolismo</strong>, te puedo decir con certeza cuáles funcionan y cuáles son puro marketing:
+          </p>
+
+          <div class="space-y-6">
+            <div class="border-l-4 border-como pl-6 bg-ecru-white p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold mb-2">Té Verde Concentrado</h3>
+              <p class="leading-relaxed">
+                No el té que tomas en la mañana - hablo de extracto concentrado con EGCG. Este compuesto activa la termogénesis (quema de calorías) hasta un 4-5% más. En números reales: unas 80-100 calorías extra al día.
+              </p>
+              <p class="mt-2 text-sm font-semibold text-como">
+                💊 Dosis que funciona: 400-500mg de EGCG diarios
+              </p>
+            </div>
+
+            <div class="border-l-4 border-como pl-6 bg-ecru-white p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold mb-2">L-Carnitina</h3>
+              <p class="leading-relaxed">
+                Esta transporta la grasa a tus células para que se queme como energía. Es como el Uber de la grasa - la lleva donde necesita ir. Funciona mejor si haces ejercicio, pero incluso sin ejercicio ayuda.
+              </p>
+              <p class="mt-2 text-sm font-semibold text-como">
+                💊 Dosis efectiva: 1,000-2,000mg al día antes de ejercicio
+              </p>
+            </div>
+
+            <div class="border-l-4 border-como pl-6 bg-ecru-white p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold mb-2">Cafeína + Capsaicina (Termogénicos)</h3>
+              <p class="leading-relaxed">
+                La combinación que está en casi todos los <strong>quemadores de grasa naturales</strong> buenos. La cafeína te da energía y acelera el metabolismo 3-11% por unas horas.
+              </p>
+              <p class="mt-2 text-sm font-semibold text-red-600">
+                ⚠️ Ojo: Si tienes presión alta o te pones muy nervioso, mejor opciones sin estimulantes
+              </p>
+            </div>
+
+            <div class="border-l-4 border-como pl-6 bg-gradient-to-br from-como/10 to-como/5 p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold mb-2">🏆 Nuestro Recomendado: Duo 60 Fusion</h3>
+              <p class="leading-relaxed">
+                Combina todo lo anterior en dosis efectivas. Por eso es nuestro más vendido desde hace años. <a href="/duo-60-fusion" class="font-semibold text-como hover:underline">No es casualidad que sea el favorito</a> - tiene los ingredientes correctos en las cantidades que funcionan.
+              </p>
+            </div>
+          </div>
+        </BlogSection>
+
+        {/* Section 3: Alimentos */}
+        <BlogSection heading="2. Alimentos Que Aceleran Tu Metabolismo" 
+          image="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&h=800&fit=crop"
+          imageAlt="Alimentos saludables para acelerar metabolismo">
+          <p class="text-lg leading-relaxed mb-6">
+            Olvídate de las semillas de chía importadas de Marte. Aquí van alimentos normales que sí hacen diferencia:
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="flex items-start gap-3 p-4 bg-ecru-white rounded-lg">
+              <span class="text-2xl text-como">✓</span>
+              <div>
+                <strong>Proteína (pollo, huevo, atún):</strong> Tu cuerpo gasta 25-30% de las calorías de la proteína solo en digerirla. Los carbos solo 5-10%.
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-4 bg-ecru-white rounded-lg">
+              <span class="text-2xl text-como">✓</span>
+              <div>
+                <strong>Chile/picante:</strong> La capsaicina genera termogénesis. Por eso muchas culturas que comen picante tienen menos obesidad.
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-4 bg-ecru-white rounded-lg">
+              <span class="text-2xl text-como">✓</span>
+              <div>
+                <strong>Café negro:</strong> Una taza aumenta tu metabolismo 3-11% por 3 horas. Tres tazas al día = efecto sostenido.
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-4 bg-ecru-white rounded-lg">
+              <span class="text-2xl text-como">✓</span>
+              <div>
+                <strong>Té verde:</strong> Similar al café pero más suave. Si el café te pone nervioso, el té verde es tu aliado.
+              </div>
+            </div>
+          </div>
+        </BlogSection>
+
+        {/* Section 4: Ejercicios */}
+        <BlogSection heading="3. Ejercicios Específicos Para Metabolismo Lento" variant="success"
+          image="https://images.unsplash.com/photo-1546519638-68e109498ffc?w=1200&h=800&fit=crop"
+          imageAlt="Ejercicios para acelerar metabolismo">
+          <p class="text-lg leading-relaxed mb-6">
+            No necesitas ser atleta. Pero SÍ necesitas moverte. Aquí está lo que funciona de verdad:
+          </p>
+
+          <div class="space-y-6">
+            <div class="border-l-4 border-como pl-6 bg-white p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold mb-3">🏋️ Pesas (El Rey Del Metabolismo)</h3>
+              <p class="leading-relaxed mb-2">
+                Cada kilo de músculo quema 6-7 calorías extra AL DÍA, haciendo nada. Si ganas 3 kilos de músculo, eso son 20 calorías diarias extras. El músculo es tu horno metabólico.
+              </p>
+              <p class="text-sm font-semibold text-como">
+                📅 Mínimo: 3 veces por semana, 30-45 minutos
+              </p>
+            </div>
+
+            <div class="border-l-4 border-como pl-6 bg-white p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold mb-3">🏃 HIIT (Cardio Inteligente)</h3>
+              <p class="leading-relaxed">
+                High Intensity Interval Training. Corres 30 segundos a tope, caminas 60 segundos. Repites 10 veces. En 15 minutos quemas lo que en 45 de cardio normal. Y tu metabolismo sigue acelerado 24 horas después.
+              </p>
+            </div>
+
+            <div class="border-l-4 border-como pl-6 bg-white p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold mb-3">🚶 Caminar (Subestimado Pero Efectivo)</h3>
+              <p class="leading-relaxed">
+                10,000 pasos diarios = 300-400 calorías extras. No es glamoroso pero funciona. Si tienes metabolismo MUY lento, combina: caminar + suplementos + proteína.
+              </p>
+            </div>
+          </div>
+        </BlogSection>
+
+        {/* Section 5: Hábitos Malos */}
+        <BlogSection heading="4. Hábitos Que Están Matando Tu Metabolismo" variant="warning"
+          image="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=800&fit=crop"
+          imageAlt="Hábitos que dañan el metabolismo">
+          
+          <div class="space-y-6">
+            <div class="border-l-4 border-red-500 pl-6 bg-red-50 p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold text-red-600 mb-2">❌ Dormir Menos De 7 Horas</h3>
+              <p class="leading-relaxed">
+                Una noche mal dormida reduce tu metabolismo 5-20%. El cuerpo piensa que hay emergencia y guarda TODO como grasa. Duerme 7-9 horas o tu metabolismo nunca se va a arreglar, ni con suplementos.
+              </p>
+            </div>
+
+            <div class="border-l-4 border-red-500 pl-6 bg-red-50 p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold text-red-600 mb-2">❌ Saltarte El Desayuno</h3>
+              <p class="leading-relaxed">
+                Si tienes metabolismo lento, saltarte comidas lo empeora. Tu cuerpo entra en "modo ahorro" y guarda grasa. Come algo en la primera hora después de despertar.
+              </p>
+            </div>
+
+            <div class="border-l-4 border-red-500 pl-6 bg-red-50 p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold text-red-600 mb-2">❌ Dietas De 1,200 Calorías</h3>
+              <p class="leading-relaxed">
+                La forma más rápida de destruir tu metabolismo. Comes muy poco = cuerpo se adapta = metabolismo muere. Luego comes normal y BOOM, recuperas todo + extra.
+              </p>
+            </div>
+
+            <div class="border-l-4 border-red-500 pl-6 bg-red-50 p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold text-red-600 mb-2">❌ Estrés Crónico</h3>
+              <p class="leading-relaxed">
+                El cortisol (hormona del estrés) le dice a tu cuerpo que guarde grasa abdominal. Meditación, ejercicio, dormir bien - todo eso reduce cortisol. Si vives estresado 24/7, ni el mejor quemador de grasa te va a funcionar.
+              </p>
+            </div>
+          </div>
+        </BlogSection>
+
+        {/* CTA */}
+        <BlogCTA
+          title="¿Listo para Acelerar tu Metabolismo?"
+          description="Comienza tu transformación hoy. Nuestros productos naturales están probados por miles de clientes. 15 años de experiencia."
+          primaryLink="/productos"
+          primaryText="Ver Productos"
+          secondaryLink="/preguntas-frecuentes"
+          secondaryText="¿Tienes Dudas? FAQ"
+        />
+
+      </div>
+
+    </article>
+
+    <Footer2 client:load />
+  </WhatsAppProvider>
+</Layout>

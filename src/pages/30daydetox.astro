@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "30 Day Detox",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575526/30daydetox_roziws.png",
+  productUrl: "/30daydetox",
+  description: "30 Day Detox es la limpieza profunda que tu cuerpo necesita antes de bajar de peso. Limpia hígado, riñones e intestinos de toxinas acumuladas por años. Elimina hasta 5 kilos de peso retenido, desinflama abdomen y prepara tu organismo para quemar grasa más eficientemente. Desintoxicante natural que mejora digestión, aumenta energía y elimina hinchazón. Sentirás la diferencia desde el día 3. Perfecto para iniciar tu tratamiento de pérdida de peso o como mantenimiento. Apto para toda la familia.",
+  benefits: [
+    "Desintoxica hígado, riñones e intestinos profundamente",
+    "Elimina hasta 5 kilos de peso y líquidos retenidos",
+    "Reduce hinchazón abdominal y gases",
+    "Mejora digestión, estreñimiento y metabolismo",
+    "Prepara tu cuerpo para quemar grasa eficientemente",
+    "Aumenta energía y claridad mental desde día 3"
+  ],
+  ingredients: [
+    "Alcachofa - Limpia hígado y mejora digestión de grasas",
+    "Boldo - Desintoxica hígado y vesícula biliar",
+    "Cardo Mariano (Silimarina) - Regenera células hepáticas",
+    "Sen (Cassia Angustifolia) - Limpieza intestinal suave",
+    "Diente de León - Diurético natural, elimina toxinas",
+    "Té Verde - Antioxidante que protege células",
+    "Linaza - Fibra que limpia colon y reduce colesterol",
+    "Jengibre - Antiinflamatorio, mejora digestión"
+  ],
+  howToUse: "Tomar 1 cápsula todas las mañanas en ayunas con un vaso grande de agua tibia (puede agregar limón). Beber abundante agua durante el día (2-3 litros). Para limpieza profunda, tomar durante 30 días continuos. Repetir cada 3-6 meses como mantenimiento. Evitar comida procesada y aumentar frutas y verduras durante el tratamiento."
+};
+---
+
+<Layout 
+  title="30 Day Detox - Limpieza y Desintoxicación Profunda | MVV Natural"
+  description="30 Day Detox: limpieza profunda de hígado, riñones e intestinos. Elimina 5 kilos retenidos, desinflama, prepara tu cuerpo. Siente diferencia día 3."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

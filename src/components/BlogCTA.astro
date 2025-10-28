@@ -1,0 +1,40 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  primaryLink: string;
+  primaryText: string;
+  secondaryLink?: string;
+  secondaryText?: string;
+}
+
+const { title, description, primaryLink, primaryText, secondaryLink, secondaryText } = Astro.props;
+---
+
+<div class="my-12 rounded-2xl bg-gradient-to-br from-como to-[#3d6849] p-8 md:p-12">
+  <h2 class="mb-4 text-3xl font-bold text-white md:text-4xl">
+    {title}
+  </h2>
+  <p class="mb-8 text-lg leading-relaxed text-white/90">
+    {description}
+  </p>
+  
+  <div class="flex flex-col gap-4 sm:flex-row">
+    <a
+      href={primaryLink}
+      class="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 font-bold text-como transition-all hover:bg-ecru-white hover:shadow-xl hover:scale-105 active:scale-95 min-h-[56px]"
+    >
+      {primaryText}
+    </a>
+    
+    {secondaryLink && secondaryText && (
+      <a
+        href={secondaryLink}
+        class="inline-flex items-center justify-center rounded-full border-2 border-white bg-transparent px-8 py-4 font-bold text-white transition-all hover:bg-white/10 hover:scale-105 active:scale-95 min-h-[56px]"
+      >
+        {secondaryText}
+      </a>
+    )}
+  </div>
+</div>
+

@@ -1,0 +1,153 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const { 
+  title = 'MVV Natural - Suplementos Naturales para Bajar de Peso | México y USA',
+  description = 'Suplementos 100% naturales para bajar de peso, acelerar metabolismo y controlar antojos. 15 años de experiencia. Envíos a México y USA. Resultados reales comprobados.',
+  image = 'https://res.cloudinary.com/dsulhqvza/image/upload/w_1200,h_630,c_pad,b_rgb:F5F1E8/v1761550208/mvvnatural_pbzwrl.png',
+  noindex = false
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const siteName = 'MVV Natural';
+---
+
+<!DOCTYPE html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Astro View Transitions for SPA-like navigation -->
+    <ViewTransitions />
+    
+    <!-- Mobile Optimization -->
+    <meta name="theme-color" content="#4A7C59" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="MVV Natural" />
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.url)} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="es_MX" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    
+    <!-- Google Fonts - Optimized for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Preload critical font -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Lora:wght@400;600;700&display=swap" as="style" />
+    <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Lora:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Lora:wght@400;600;700&display=swap" rel="stylesheet" />
+    </noscript>
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "MVV Natural",
+        "alternateName": "MVV Natural México",
+        "url": "https://www.mvvnatural.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png",
+          "width": 500,
+          "height": 500
+        },
+        "description": "Suplementos 100% naturales para bajar de peso, acelerar metabolismo y controlar antojos. 15 años de experiencia. Envíos a México y USA. Resultados reales comprobados.",
+        "foundingDate": "2010",
+        "numberOfEmployees": {
+          "@type": "QuantitativeValue",
+          "minValue": 5,
+          "maxValue": 50
+        },
+        "address": [
+          {
+            "@type": "PostalAddress",
+            "addressCountry": "MX",
+            "areaServed": "Mexico"
+          },
+          {
+            "@type": "PostalAddress",
+            "addressCountry": "US",
+            "areaServed": "United States"
+          }
+        ],
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "Mexico"
+          },
+          {
+            "@type": "Country",
+            "name": "United States"
+          }
+        ],
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "telephone": "+52-631-298-2043",
+            "email": "info@mvvnatural.com",
+            "availableLanguage": ["Spanish", "English"],
+            "areaServed": "MX"
+          },
+          {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "telephone": "+1-520-216-1443",
+            "email": "info@mvvnatural.com",
+            "availableLanguage": ["Spanish", "English"],
+            "areaServed": "US"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/mvvnatural",
+          "https://www.instagram.com/mvvnatural"
+        ],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "reviewCount": "1",
+          "bestRating": "5",
+          "worstRating": "1"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

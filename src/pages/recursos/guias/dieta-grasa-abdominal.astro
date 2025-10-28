@@ -1,0 +1,169 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { Navbar6 } from '../../../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../../../components/home-wrapper.jsx';
+import Footer from '../../../components/Footer.astro';
+---
+
+<Layout 
+  title="Dieta para Eliminar Grasa Abdominal: Plan de 30 Días | Guía Completa"
+  description="Plan de alimentación específico para quemar grasa de la barriga. 30 días de menús, alimentos que funcionan y qué evitar. Guía práctica."
+>
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+
+    <article class="px-[5%] py-12 md:py-16 lg:py-20 bg-white">
+      <div class="container max-w-4xl mx-auto">
+        
+        <header class="mb-8 md:mb-12">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+            Dieta para Eliminar Grasa Abdominal: Plan de 30 Días
+          </h1>
+          <p class="text-lg md:text-xl text-text-secondary leading-relaxed">
+            No todas las dietas queman grasa abdominal igual. Este plan está diseñado específicamente para atacar la barriga dura y visceral.
+          </p>
+        </header>
+
+        <section class="mb-12">
+          <p class="text-lg md:text-xl leading-relaxed mb-4">
+            La grasa abdominal (especialmente la visceral) responde mejor a ciertos tipos de alimentación. Esta guía te da un plan de 30 días con alimentos específicos que eliminan la barriga.
+          </p>
+          <p class="text-base text-text-secondary leading-relaxed">
+            <strong>Resultados observados:</strong> Con este plan + ejercicio + suplementos, muchas personas han reducido 5-10 cm de cintura en 30-60 días.
+          </p>
+        </section>
+
+        <!-- Alimentos que SÍ funcionan -->
+        <section class="mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-8">✅ Alimentos que Eliminan Grasa Abdominal</h2>
+          
+          <div class="space-y-4 mb-8">
+            <div class="bg-green-50 border-2 border-green-300 rounded-xl p-5">
+              <h3 class="font-bold text-lg mb-2 text-green-800">🥩 Proteína Magra (CADA comida)</h3>
+              <p class="text-sm mb-2">Huevos, pollo, pescado, pavo. Por qué: Acelera metabolismo 30% más que carbohidratos.</p>
+            </div>
+            <div class="bg-blue-50 border-2 border-blue-300 rounded-xl p-5">
+              <h3 class="font-bold text-lg mb-2 text-blue-800">🥬 Verduras de Hoja Verde</h3>
+              <p class="text-sm mb-2">Espinaca, kale, rúcula. Por qué: Baja densidad calórica + alto volumen = llenan sin engordar.</p>
+            </div>
+            <div class="bg-purple-50 border-2 border-purple-300 rounded-xl p-5">
+              <h3 class="font-bold text-lg mb-2 text-purple-800">🌶️ Chiles y Especias Picantes</h3>
+              <p class="text-sm mb-2">Cayena, jalapeño. Por qué: Capsaicina quema grasa abdominal específicamente.</p>
+            </div>
+            <div class="bg-yellow-50 border-2 border-yellow-300 rounded-xl p-5">
+              <h3 class="font-bold text-lg mb-2 text-yellow-800">🍵 Té Verde (3-4 tazas/día)</h3>
+              <p class="text-sm mb-2">EGCG ataca grasa visceral directamente. Tómalo frío por la mañana.</p>
+            </div>
+            <div class="bg-orange-50 border-2 border-orange-300 rounded-xl p-5">
+              <h3 class="font-bold text-lg mb-2 text-orange-800">🥑 Aguacate (1/2 al día)</h3>
+              <p class="text-sm mb-2">Grasas monoinsaturadas reducen grasa abdominal visceral.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Alimentos que NO ayudan -->
+        <section class="mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-8">❌ Evitar Si Quieres Eliminar Barriga</h2>
+          
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-red-100 border-2 border-red-300 rounded-xl p-4">
+              <p class="font-bold mb-2 text-red-800">🍬 Azúcar refinada</p>
+              <p class="text-sm">Aumenta inflamación y grasa visceral</p>
+            </div>
+            <div class="bg-red-100 border-2 border-red-300 rounded-xl p-4">
+              <p class="font-bold mb-2 text-red-800">🍺 Alcohol</p>
+              <p class="text-sm">Se almacena DIRECTAMENTE en barriga</p>
+            </div>
+            <div class="bg-red-100 border-2 border-red-300 rounded-xl p-4">
+              <p class="font-bold mb-2 text-red-800">🥐 Harinas refinadas</p>
+              <p class="text-sm">Pan blanco, pasta blanca → inflamación</p>
+            </div>
+            <div class="bg-red-100 border-2 border-red-300 rounded-xl p-4">
+              <p class="font-bold mb-2 text-red-800">🍟 Comida procesada</p>
+              <p class="text-sm">Grasas trans = grasa visceral garantizada</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Plan de 7 días ejemplo -->
+        <section class="mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-8">📅 Plan Semanal Ejemplo</h2>
+          
+          <div class="space-y-4">
+            <!-- Día 1 -->
+            <div class="bg-white border-2 border-gray-200 rounded-xl p-5">
+              <h3 class="font-bold text-lg mb-3">🌅 Día 1</h3>
+              <ul class="text-sm space-y-1">
+                <li><strong>Desayuno:</strong> 2 huevos revueltos + espinaca + 1/2 aguacate</li>
+                <li><strong>Almuerzo:</strong> Pollo a la plancha + ensalada verde grande + vinagre</li>
+                <li><strong>Cena:</strong> Salmón + brócoli al vapor + arroz integral</li>
+                <li><strong>Snacks:</strong> Té verde, manzana, almendras (1 puñado)</li>
+              </ul>
+            </div>
+
+            <!-- Día 2 -->
+            <div class="bg-white border-2 border-gray-200 rounded-xl p-5">
+              <h3 class="font-bold text-lg mb-3">🌅 Día 2</h3>
+              <ul class="text-sm space-y-1">
+                <li><strong>Desayuno:</strong> Avena + frutos rojos + proteína en polvo</li>
+                <li><strong>Almuerzo:</strong> Atún en lata + ensalada grande + aceite de oliva</li>
+                <li><strong>Cena:</strong> Pavo molido + pimientos asados + quinua</li>
+                <li><strong>Snacks:</strong> Té verde, yogur griego natural</li>
+              </ul>
+            </div>
+
+            <!-- Días 3-7 resumidos -->
+            <div class="text-center text-gray-600">
+              <p class="text-sm">... continúa rotando proteínas magras, verduras verdes, grasas buenas, eliminando azúcar y alcohol.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Suplementos que ayudan -->
+        <section class="mb-12 bg-gradient-to-br from-como to-[#3d6849] rounded-2xl p-8 md:p-12 text-white">
+          <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">💊 Suplementos que Aceleran Quema de Barriga</h2>
+          
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-5">
+              <h3 class="font-bold text-lg mb-3">🔥 SOS Burn</h3>
+              <p class="text-sm mb-3">El más agresivo. Quema grasa visceral rápidamente con termogénicos potentes.</p>
+              <a href="/sosburn" class="text-sm font-bold hover:underline">Ver producto →</a>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-5">
+              <h3 class="font-bold text-lg mb-3">🌸 Lida Booster</h3>
+              <p class="text-sm mb-3">Especial para mujeres. Bloquea absorción de grasa y quema barriga sin cafeína.</p>
+              <a href="/lidabooster" class="text-sm font-bold hover:underline">Ver producto →</a>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-5">
+              <h3 class="font-bold text-lg mb-3">🥇 Duo 60 Fusion</h3>
+              <p class="text-sm mb-3">Nuestro #1. Quema grasa 24/7 incluyendo barriga visceral.</p>
+              <a href="/duo-60-fusion" class="text-sm font-bold hover:underline">Ver producto →</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Enlaces -->
+        <section class="mb-8 text-center">
+          <p class="text-text-secondary mb-4">💡 <strong>Lee más:</strong></p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href="/recursos/guias/quemar-grasa-abdominal" class="text-como font-bold hover:underline">
+              Guía: Quemar Grasa Abdominal →
+            </a>
+            <span class="text-gray-400">|</span>
+            <a href="/recursos/guias/grasa-visceral-vs-subcutanea" class="text-como font-bold hover:underline">
+              Grasa Visceral vs Subcutánea →
+            </a>
+            <span class="text-gray-400">|</span>
+            <a href="/recursos/guias/rutina-ejercicios-abdomen" class="text-como font-bold hover:underline">
+              Rutinas de Ejercicio →
+            </a>
+          </div>
+        </section>
+
+      </div>
+    </article>
+
+    <Footer />
+  </WhatsAppProvider>
+</Layout>
+

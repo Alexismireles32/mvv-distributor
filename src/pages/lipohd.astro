@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Lipo HD 360",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575584/lipohd_zg9lxy.png",
+  productUrl: "/lipohd",
+  description: "Lipo HD 360 sin cirugía es el suplemento de 30 cápsulas que trabaja mediante la inhibición del apetito, por lo cual lograrás déficit calórico, lo que llevará a la pérdida de grasa corporal y visceral. Dale un giro a tu figura con 30 cápsulas que ayudan a inhibir el apetito y provocar sensación de saciedad. Aporta gran cantidad de energía mejorando el rendimiento físico y mental y por lo tanto combatir la fatiga y el estrés. Combate la flacidez ya que sus componentes ayudan a generar músculo magro logrando bajar de peso y tonificar a la vez.",
+  benefits: [
+    "Trabaja mediante la inhibición del apetito",
+    "Lograrás déficit calórico efectivo",
+    "Pérdida de grasa corporal y visceral",
+    "Combate la flacidez y genera músculo magro",
+    "Combate la fatiga y el estrés",
+    "Logra bajar de peso y tonificar a la vez"
+  ],
+  ingredients: [
+    "L-Carnitina - Metaboliza grasa en energía",
+    "Wakame - Quema grasa y acelera metabolismo",
+    "Bitter Orange - Termogénico y energizante",
+    "Cassia Seed - Control de apetito",
+    "Foskohil - Activa quema de grasa"
+  ],
+  howToUse: "1 cápsula por las mañanas en ayunas. Beber abundante agua durante el día. Combinar con alimentación balanceada. No embarazadas o en periodo de lactancia. No consumir menores de 11 años. 30 cápsulas de fórmula concentrada."
+};
+---
+
+<Layout 
+  title="Lipo HD 360 Sin Cirugía - 30 Cápsulas | Dale un Giro a Tu Figura"
+  description="Lipo HD 360: inhibe apetito, déficit calórico, pérdida grasa corporal y visceral. 30 cápsulas. Sin cirugía. Dale un giro a tu figura naturalmente."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

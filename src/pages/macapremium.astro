@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Maca Premium Peruana",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575588/macapremium_s6k65z.png",
+  productUrl: "/macapremium",
+  description: "Maca Premium es maca peruana de alta concentración para aumentar energía, libido, fertilidad y equilibrio hormonal en hombres y mujeres. Adaptógeno poderoso que combate fatiga crónica, mejora rendimiento físico y sexual, aumenta resistencia y vitalidad. Ideal para personas con cansancio, baja libido, desequilibrio hormonal o que practican deporte intenso. Maca negra, roja y amarilla concentrada 10:1. Suplemento ancestral usado por siglos en los Andes peruanos. Aumenta testosterona naturalmente en hombres y equilibra estrógenos en mujeres.",
+  benefits: [
+    "Aumenta energía física y resistencia dramáticamente",
+    "Mejora libido y función sexual en hombres y mujeres",
+    "Equilibra hormonas naturalmente (testosterona y estrógeno)",
+    "Combate fatiga crónica, cansancio y agotamiento",
+    "Mejora fertilidad y función reproductiva",
+    "Maca peruana 100% pura, concentración 10:1"
+  ],
+  ingredients: [
+    "Extracto de Maca Peruana 1500mg (equivalente a 15,000mg)",
+    "Maca Negra - Libido y energía en hombres",
+    "Maca Roja - Balance hormonal en mujeres",
+    "Maca Amarilla - Energía y vitalidad general",
+    "L-Arginina - Mejora circulación y rendimiento",
+    "Tribulus Terrestris - Aumenta testosterona natural",
+    "Zinc Quelado - Función sexual y hormonal",
+    "Vitaminas del Complejo B - Energía celular"
+  ],
+  howToUse: "Hombres: tomar 2-3 cápsulas en la mañana con el desayuno. Mujeres: tomar 1-2 cápsulas en la mañana. Para libido y rendimiento sexual: tomar 2 horas antes de actividad. Para energía y deportistas: tomar 30 minutos antes de entrenar. Los efectos completos se sienten después de 2-4 semanas de uso continuo. Ciclos de 8-12 semanas con 1 semana descanso."
+};
+---
+
+<Layout 
+  title="Maca Premium Peruana - Energía, Libido y Vitalidad Natural | MVV"
+  description="Maca Premium peruana 10:1: aumenta energía, libido, fertilidad. Equilibra hormonas en hombres y mujeres. Combate fatiga. 100% pura Andes."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

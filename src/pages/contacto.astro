@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Import with the ACTUAL filenames (lowercase with dashes)
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { Cta25 } from '../components/cta-25.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+import { WhatsAppFloat } from '../components/whatsapp-float.jsx';
+---
+
+<Layout title="Contacto">
+  <Navbar6 client:load />
+  <Cta25 client:idle />
+  <Footer2 client:idle />
+  <WhatsAppFloat client:load />
+</Layout>
+

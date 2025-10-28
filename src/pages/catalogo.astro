@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Import with the ACTUAL filenames (lowercase with dashes)
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { PDFCatalogViewer } from '../components/pdf-catalog-viewer.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+---
+
+<Layout 
+  title="Catálogo Digital 2025 | Suplementos Naturales MVV Natural"
+  description="Explora nuestro catálogo completo de suplementos naturales para bajar de peso. Más de 25 productos originales con 15 años de experiencia. Descarga PDF o cotiza por WhatsApp."
+>
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    <PDFCatalogViewer client:idle />
+    <Footer2 client:idle />
+  </WhatsAppProvider>
+</Layout>
+

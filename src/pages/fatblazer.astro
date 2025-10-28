@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Fat Blazer",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761578536/fatblazer_vw1fks.png",
+  productUrl: "/fatblazer",
+  description: "Fat Blazer es el quemador de grasa extremo de máxima potencia para resultados rápidos. Fórmula ultra concentrada que eleva temperatura corporal, acelera metabolismo hasta 400% y quema grasa incluso mientras duermes. Diseñado para personas que necesitan bajar peso rápido y tienen experiencia con quemadores. Suprime apetito extremadamente, aumenta energía explosiva y enfoque mental. Termogénico de alta intensidad con resultados visibles en días. No recomendado para principiantes o personas sensibles a estimulantes.",
+  benefits: [
+    "Quemador de grasa de máxima potencia extrema",
+    "Acelera metabolismo hasta 400% más que normal",
+    "Efecto termogénico intenso: quema calorías 24/7",
+    "Suprime el apetito totalmente y aumenta energía extrema",
+    "Para personas que buscan pérdida de peso muy rápida",
+    "Resultados dramáticos: 10-15 kilos en 4-6 semanas"
+  ],
+  ingredients: [
+    "Sinefrina HCl 50mg - Termogénico ultra potente",
+    "Cafeína Anhidra 300mg - Energía y metabolismo explosivo",
+    "Yohimbina HCl 10mg - Quema grasa difícil",
+    "Extracto de Té Verde 500mg - Antioxidante quemagrasas",
+    "Rauwolscine - Potenciador de termogénesis",
+    "Higenamina - Aumenta quema de grasa",
+    "L-Tirosina - Concentración y enfoque mental",
+    "Pimienta de Cayena Extract - Calor termogénico"
+  ],
+  howToUse: "IMPORTANTE: Solo para adultos sanos sin condiciones cardíacas. Comenzar con 1 cápsula en la mañana con alimento para evaluar tolerancia. Si se tolera bien después de 3 días, aumentar a 2 cápsulas (1 mañana, 1 medio día). NUNCA exceder 2 cápsulas diarias. No tomar después de 2 PM. No combinar con café u otros estimulantes. Ciclo: 6-8 semanas máximo, descansar 4 semanas."
+};
+---
+
+<Layout 
+  title="Fat Blazer - Quemador de Grasa Extremo Máxima Potencia | MVV Natural"
+  description="Fat Blazer: quemador extremo máxima potencia. Acelera metabolismo 400%, quema grasa 24/7, suprime apetito total. Resultados rápidos. Solo expertos."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

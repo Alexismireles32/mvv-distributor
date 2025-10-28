@@ -1,0 +1,273 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Navbar6 } from '../../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../../components/home-wrapper.jsx';
+import { Footer2 } from '../../components/footer-02.jsx';
+import BlogHero from '../../components/BlogHero.astro';
+import BlogSection from '../../components/BlogSection.astro';
+import BlogCTA from '../../components/BlogCTA.astro';
+
+// Article Schema
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "¿Funcionan Las Pastillas Para Bajar de Peso?",
+  "description": "La verdad sin filtros sobre si funcionan las pastillas para adelgazar. Estudios reales, experiencia de 15 años y qué esperar.",
+  "author": {
+    "@type": "Organization",
+    "name": "MVV Natural"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "MVV Natural",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png"
+    }
+  },
+  "datePublished": "2025-01-13",
+  "dateModified": "2025-01-13",
+  "image": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&h=800&fit=crop"
+};
+---
+
+<Layout 
+  title="¿Funcionan Las Pastillas Para Bajar de Peso? La Verdad Completa 2025"
+  description="La verdad sin filtros sobre si funcionan las pastillas para adelgazar. Estudios reales, experiencia de 15 años y qué esperar. No más mentiras ni falsas promesas."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)}></script>
+  
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    
+    <article class="bg-white">
+      <BlogHero
+        title="¿Funcionan Las Pastillas Para Bajar de Peso?"
+        subtitle="La verdad sin filtros sobre si funcionan las pastillas para adelgazar. Estudios reales, experiencia de 15 años y qué esperar. No más mentiras ni falsas promesas."
+        category="Salud Natural"
+        readTime="12 min lectura"
+        heroImage="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&h=800&fit=crop"
+      />
+
+      <div class="container max-w-4xl mx-auto px-[5%] py-12 md:py-16 lg:py-20">
+        
+        <BlogSection heading="La Verdad Directa (Sin Rollo)" variant="highlight"
+          image="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=800&fit=crop"
+          imageAlt="Verdad sobre pastillas para bajar de peso">
+          <p class="text-lg leading-relaxed mb-4">
+            <strong>Sí, las pastillas para bajar de peso SÍ funcionan.</strong> Pero no de la manera mágica que te prometen en la publicidad. No vas a tomar una pastilla y bajar 5 kilos en una semana sin hacer nada más.
+          </p>
+          <p class="text-lg leading-relaxed mb-4">
+            La realidad es esta: funcionan SOLO si las combinas con cambios de hábitos. Sin dieta ni ejercicio, los resultados son mínimos o temporales. Con dieta y ejercicio, los resultados son reales y duraderos.
+          </p>
+          <p class="text-lg leading-relaxed">
+            En 15 años vendiendo suplementos naturales, he visto miles de clientes perder peso. Los que más éxito tuvieron fueron los que usaron las pastillas como <strong>herramienta de apoyo</strong>, no como solución mágica.
+          </p>
+        </BlogSection>
+
+        <BlogSection heading="1. Cómo Funcionan Las Pastillas Para Adelgazar (Realmente)" 
+          image="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=1200&h=800&fit=crop"
+          imageAlt="Suplementos para bajar de peso">
+          
+          <div class="space-y-6">
+            <div class="border-l-4 border-como pl-6 bg-ecru-white p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold mb-2">Quemadores de Grasa (Termogénicos)</h3>
+              <p class="leading-relaxed">
+                Aceleran tu metabolismo 3-11% por unas horas. Funcionan porque aumentan tu temperatura corporal = quemas más calorías. También te dan energía para que te muevas más.
+              </p>
+              <p class="mt-2 text-sm font-semibold text-como">
+                ⏱️ Efecto: 3-6 horas después de tomarlas
+              </p>
+            </div>
+
+            <div class="border-l-4 border-como pl-6 bg-ecru-white p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold mb-2">Supresores de Apetito</h3>
+              <p class="leading-relaxed">
+                Te ayudan a comer menos. Algunos liberan hormonas de saciedad (como la leptina), otros afectan los neurotransmisores que controlan el hambre. Si controlas apetito, comes menos = pierdes peso.
+              </p>
+              <p class="mt-2 text-sm font-semibold text-como">
+                ⏱️ Efecto: Reduces 20-30% de calorías sin sentir hambre
+              </p>
+            </div>
+
+            <div class="border-l-4 border-como pl-6 bg-ecru-white p-4 rounded-r-lg">
+              <h3 class="text-xl font-bold mb-2">Bloqueadores de Grasa</h3>
+              <p class="leading-relaxed">
+                Evitan que absorbas parte de la grasa que comes. Típicamente bloquean 25-30% de la grasa de cada comida. No bloquea carbos ni proteína, solo grasa.
+              </p>
+              <p class="mt-2 text-sm font-semibold text-como">
+                ⏱️ Efecto: Se siente al día siguiente en el baño
+              </p>
+            </div>
+          </div>
+        </BlogSection>
+
+        <BlogSection heading="2. Qué Esperar REALMENTE (Sin Mentiras)" variant="warning"
+          image="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=1200&h=800&fit=crop"
+          imageAlt="Expectativas reales sobre pastillas para bajar de peso">
+          
+          <div class="space-y-4 mb-6">
+            <h3 class="text-lg font-bold mb-3">Con Solo Pastillas (Sin Cambios):</h3>
+            <ul class="space-y-2 text-lg">
+              <li class="flex items-start gap-2">
+                <span class="text-red-500">❌</span>
+                <span><strong>Semana 1-2:</strong> Puedes perder 1-2 kilos (la mayoría es agua)</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-red-500">❌</span>
+                <span><strong>Mes 1-3:</strong> Estancamiento. Tu cuerpo se adapta.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-red-500">❌</span>
+                <span><strong>Resultado final:</strong> Recuperas casi todo al dejar las pastillas</span>
+              </li>
+            </ul>
+
+            <h3 class="text-lg font-bold mt-6 mb-3">Con Pastillas + Dieta + Ejercicio:</h3>
+            <ul class="space-y-2 text-lg">
+              <li class="flex items-start gap-2">
+                <span class="text-como">✓</span>
+                <span><strong>Semana 1-2:</strong> Pierdes 2-3 kilos (grasa real)</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-como">✓</span>
+                <span><strong>Mes 1-3:</strong> Pierdes 5-10 kilos (sostenido)</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-como">✓</span>
+                <span><strong>Resultado final:</strong> Mantienes el peso al bajar las dosis gradualmente</span>
+              </li>
+            </ul>
+          </div>
+        </BlogSection>
+
+        <BlogSection heading="3. Cuáles Funcionan De Verdad (Según Ciencia)" 
+          image="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=1200&h=800&fit=crop"
+          imageAlt="Ingredientes para bajar de peso">
+          
+          <p class="text-lg leading-relaxed mb-6">
+            Hay cientos de productos en el mercado. La mayoría es puro marketing. Aquí van los que SÍ tienen estudios científicos que los respaldan:
+          </p>
+
+          <div class="space-y-6">
+            <div class="bg-gradient-to-br from-como/5 to-como/10 p-6 rounded-xl border-2 border-como/20">
+              <h3 class="text-xl font-bold mb-2">🏆 Té Verde / EGCG</h3>
+              <p class="leading-relaxed mb-2">
+                Más de 50 estudios científicos lo confirman: aumenta metabolismo 3-5%, quemas 70-100 calorías extras al día. La clave está en la dosis: mínimo 400mg de EGCG diarios.
+              </p>
+              <p class="text-sm font-semibold text-como">
+                ✅ Nivel de Evidencia: MUY ALTO (Decenas de estudios)
+              </p>
+            </div>
+
+            <div class="bg-gradient-to-br from-como/5 to-como/10 p-6 rounded-xl border-2 border-como/20">
+              <h3 class="text-xl font-bold mb-2">🏆 Cafeína</h3>
+              <p class="leading-relaxed mb-2">
+                El ingrediente más estudiado en el mundo. Acelera metabolismo 3-11%, aumenta quema de grasa durante ejercicio. Por eso está en casi todos los quemadores buenos.
+              </p>
+              <p class="text-sm font-semibold text-como">
+                ✅ Nivel de Evidencia: MÁXIMO (Centenares de estudios)
+              </p>
+            </div>
+
+            <div class="bg-gradient-to-br from-como/5 to-como/10 p-6 rounded-xl border-2 border-como/20">
+              <h3 class="text-xl font-bold mb-2">🏆 Garcinia Cambogia</h3>
+              <p class="leading-relaxed mb-2">
+                Suprime apetito, bloquea producción de grasa. Estudios mixtos: algunos muestran 1-2 kilos extra, otros no. Funciona en algunas personas, no en todas. No mágico pero ayuda.
+              </p>
+              <p class="text-sm font-semibold text-como">
+                ⚠️ Nivel de Evidencia: MODERADO (Resultados variables)
+              </p>
+            </div>
+
+            <div class="bg-gradient-to-br from-como/5 to-como/10 p-6 rounded-xl border-2 border-como/20">
+              <h3 class="text-xl font-bold mb-2">🏆 L-Carnitina</h3>
+              <p class="leading-relaxed mb-2">
+                Transporta grasa a las células para quemarla. Funciona mejor con ejercicio. Sin ejercicio, el efecto es menor pero existe. Esencial en quemadores avanzados.
+              </p>
+              <p class="text-sm font-semibold text-como">
+                ✅ Nivel de Evidencia: ALTO (Docenas de estudios)
+              </p>
+            </div>
+          </div>
+        </BlogSection>
+
+        <BlogSection heading="4. Qué NO Funciona (Basura En El Mercado)" variant="warning"
+          image="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&h=800&fit=crop"
+          imageAlt="Productos que no funcionan">
+          
+          <p class="text-lg leading-relaxed mb-6">
+            Hay MUCHA basura en el mercado. Si ves estos ingredientes en la etiqueta, aléjate:
+          </p>
+
+          <div class="space-y-4">
+            <div class="border-l-4 border-red-500 pl-6 bg-red-50 p-4 rounded-r-lg">
+              <h3 class="text-lg font-bold mb-2 text-red-600">❌ Extractos "Exóticos" Sin Estudios</h3>
+              <p class="leading-relaxed">
+                "Semilla de brócoli exótica", "extracto de frambuesa del ártico", etc. Si no hay estudios científicos sólidos, es marketing, no ciencia.
+              </p>
+            </div>
+
+            <div class="border-l-4 border-red-500 pl-6 bg-red-50 p-4 rounded-r-lg">
+              <h3 class="text-lg font-bold mb-2 text-red-600">❌ Productos Que Prometen Resultados Extremos</h3>
+              <p class="leading-relaxed">
+                "Baja 10 kilos en 1 semana" = mentira. La pérdida saludable es 0.5-1 kilo por semana. Si promete más, es peligroso o falso.
+              </p>
+            </div>
+
+            <div class="border-l-4 border-red-500 pl-6 bg-red-50 p-4 rounded-r-lg">
+              <h3 class="text-lg font-bold mb-2 text-red-600">❌ "Enzimas Quemadoras De Grasa"</h3>
+              <p class="leading-relaxed">
+                Las enzimas no te hacen quemar más grasa automáticamente. Es termodinámica: si comes más de lo que quemas = engordas. Punto.
+              </p>
+            </div>
+          </div>
+        </BlogSection>
+
+        <BlogSection heading="Mi Recomendación Honesta" variant="success"
+          image="https://images.unsplash.com/photo-1546519638-68e109498ffc?w=1200&h=800&fit=crop"
+          imageAlt="Recomendación de productos naturales">
+          
+          <p class="text-lg leading-relaxed mb-6">
+            Después de 15 años, te puedo dar esta recomendación 100% honesta:
+          </p>
+
+          <div class="bg-gradient-to-br from-como to-[#3d6849] p-8 rounded-2xl text-white">
+            <h3 class="text-2xl font-bold mb-4">Si Vas a Comprar Pastillas Para Bajar de Peso:</h3>
+            <ol class="space-y-3 text-lg">
+              <li class="flex items-start gap-3">
+                <span class="bg-white text-como rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">1</span>
+                <span>Busca ingredientes PROBADOS: Té Verde, Cafeína, L-Carnitina, Garcinia</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="bg-white text-como rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">2</span>
+                <span>Que tenga dosis EFECTIVAS (no "proprietary blend" sin cantidades)</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="bg-white text-como rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">3</span>
+                <span>Combínalas con dieta Y ejercicio (solo las pastillas = desperdicio de dinero)</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="bg-white text-como rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">4</span>
+                <span>Se paciente: 2-3 meses para ver resultados reales y duraderos</span>
+              </li>
+            </ol>
+          </div>
+        </BlogSection>
+
+        <BlogCTA
+          title="¿Listo para Comenzar?"
+          description="Nuestros productos naturales combinan todos los ingredientes efectivos en dosis correctas. 15 años de experiencia. Miles de clientes satisfechos."
+          primaryLink="/productos"
+          primaryText="Ver Productos"
+          secondaryLink="/preguntas-frecuentes"
+          secondaryText="¿Tienes Dudas? FAQ"
+        />
+
+      </div>
+
+    </article>
+
+    <Footer2 client:load />
+  </WhatsAppProvider>
+</Layout>

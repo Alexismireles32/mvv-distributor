@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "CM Push Up MEN",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575544/cmpushup_ncxzh6.png",
+  productUrl: "/cmpushupmen",
+  description: "CM Push Up MEN es la solución para ellos también que quieren sentirse y verse bien. Pensado para lo que ellos también quieren: aumento de glúteos, aumento de pectorales, masa muscular, brinda energía, claridad mental y potencia sexual. Por que ellos también quieren sentirse y verse bien. 90 cápsulas con piridoxina, niacina, tiamina, riboflavina, maca y fenogreco puro. Para aumento de glúteos, aumento de pectorales y masa muscular con energía y potencia sexual.",
+  benefits: [
+    "Aumento de glúteos",
+    "Aumento de pectorales",
+    "Masa muscular",
+    "Brinda energía",
+    "Claridad mental",
+    "Potencia sexual"
+  ],
+  ingredients: [
+    "Piridoxina (Vitamina B6) - Metabolismo y energía",
+    "Niacina (Vitamina B3) - Rendimiento físico y mental",
+    "Tiamina (Vitamina B1) - Energía y rendimiento",
+    "Riboflavina (Vitamina B2) - Metabolismo energético",
+    "Maca - Energía, resistencia y potencia",
+    "Fenogreco Puro - Desarrollo muscular y energía"
+  ],
+  howToUse: "Tomar 2 cápsulas por la mañana en ayunas. Beber abundante agua durante el día. Combinar con entrenamiento de resistencia para mejores resultados. Alimentación balanceada. Uso continuo 90-120 días para resultados óptimos. 90 cápsulas de fórmula concentrada."
+};
+---
+
+<Layout 
+  title="CM Push Up MEN 90 Cápsulas - Aumento de Glúteos, Pectorales y Masa Muscular"
+  description="CM Push Up MEN para hombres: aumenta glúteos, pectorales, masa muscular, energía, claridad mental, potencia sexual. 90 cápsulas con maca y fenogreco."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

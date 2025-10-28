@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Import with the ACTUAL filenames (lowercase with dashes)
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { LegalPrivacidad } from '../components/legal-privacidad.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+---
+
+<Layout 
+  title="Política de Privacidad y Protección de Datos | MVV Natural"
+  description="Política de privacidad de MVV Natural. Cómo recopilamos, usamos y protegemos sus datos personales según LFPDPPP y CCPA."
+>
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    <LegalPrivacidad client:idle />
+    <Footer2 client:idle />
+  </WhatsAppProvider>
+</Layout>
+

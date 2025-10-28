@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Higa2 Hepato Protector",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575578/higa2_bzokur.png",
+  productUrl: "/higa2",
+  description: "Higa2 Hepato Protector es el suplemento de 60 cápsulas vegetales para recuperar salud intestinal y proteger tu hígado. Indicado para hígado graso, abuso de alcohol, abuso de comidas, trastornos hepáticos, desintoxicante, hepatitis y control de peso. Producto orgánico all natural que mejora notablemente todo tipo de colitis y trastornos estomacales como gases, diarrea causada por colitis, así como estreñimiento. Desintoxicante natural para tu hígado y sistema digestivo.",
+  benefits: [
+    "Protege y mejora hígado graso",
+    "Indicado para hepatitis y trastornos hepáticos",
+    "Desintoxicante natural potente",
+    "Control de peso y metabolismo",
+    "Auxiliar en colitis y trastornos estomacales",
+    "Producto orgánico 100% natural"
+  ],
+  ingredients: [
+    "Diente de León - Desintoxica y protege hígado",
+    "Cardo Mariano - Regenera células hepáticas",
+    "Hierba de Sapo - Potente desintoxicante natural",
+    "Alcachofa - Protección hepática y digestiva",
+    "Boldo - Mejora función hepática",
+    "Cuasia - Digestivo y protector"
+  ],
+  howToUse: "Tomar 2 cápsulas al día en ayunas. Beber abundante agua durante el día. Para mejores resultados combinar con alimentación balanceada. No consumir menores de 11 años. No embarazadas o en periodo de lactancia. Producto orgánico con ingredientes naturales puros."
+};
+---
+
+<Layout 
+  title="Higa2 Hepato Protector - 60 Cápsulas | Producto Orgánico All Natural"
+  description="Higa2 Hepato Protector 60 cápsulas vegetales: protege hígado, desintoxica, mejora colitis, hepatitis. Trastornos hepáticos y digestivos. Producto orgánico."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

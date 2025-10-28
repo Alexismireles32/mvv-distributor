@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "30 Fusion Xtreme",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575568/30Fusion_avb3e6.png",
+  productUrl: "/30fusion",
+  description: "30 Fusion Xtreme es la versión de 30 cápsulas de nuestro exitoso Duo 60 Fusion. Misma fórmula potente quemagrasas en formato de 1 mes. Ideal para probar el producto antes de comprar tratamiento completo, como mantenimiento después de alcanzar tu peso, o para personas que necesitan bajar pocos kilos. Acelera metabolismo, quema grasa, controla apetito y aumenta energía. Fórmula probada por miles de clientes con resultados reales. Formato más económico para empezar tu transformación. Producto original MVV Natural.",
+  benefits: [
+    "Misma fórmula poderosa que Duo 60 Fusion Xtreme",
+    "Ideal para probar antes de tratamiento completo",
+    "Quema grasa y acelera metabolismo efectivamente",
+    "Control de apetito y energía aumentada",
+    "Formato de 30 días más económico y accesible",
+    "Perfecto como mantenimiento después de resultados"
+  ],
+  ingredients: [
+    "Extracto de Té Verde (EGCG) - Antioxidante quemagrasas",
+    "L-Carnitina - Transporte de grasa para energía",
+    "Garcinia Cambogia - Bloquea grasa nueva",
+    "Cafeína Natural - Metabolismo y energía",
+    "Cromo Picolinato - Control de azúcar y antojos",
+    "Extracto de Guaraná - Termogénico prolongado",
+    "CLA - Define músculo mientras quemas grasa",
+    "Té Oolong - Metabolismo de grasas"
+  ],
+  howToUse: "Tomar 1 cápsula en ayunas con agua y 1 cápsula antes de la comida principal. No exceder 2 cápsulas al día. Beber 2 litros de agua diarios. Para resultados completos y duraderos, se recomienda continuar con Duo 60 Fusion (60 cápsulas) por 2-3 meses adicionales después de terminar el frasco de 30. Combinar con alimentación balanceada y ejercicio moderado."
+};
+---
+
+<Layout 
+  title="30 Fusion Xtreme - Quemador de Grasa 30 Días | Prueba MVV Natural"
+  description="30 Fusion Xtreme: versión 30 cápsulas del Duo 60 Fusion. Misma fórmula potente. Ideal para probar o mantenimiento. Quema grasa efectiva."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

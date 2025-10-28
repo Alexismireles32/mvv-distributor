@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Prevent horizontal scrolling */
+  html {
+    @apply overflow-x-hidden;
+    /* Support for iPhone notch and safe areas */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  
+  body {
+    @apply font-body bg-background-primary text-text-primary overflow-x-hidden;
+    /* Better text rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Improved heading typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading text-text-primary;
+    /* Better word wrap on mobile */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Improved paragraph spacing */
+  p {
+    @apply leading-relaxed;
+  }
+  
+  /* Touch-friendly links */
+  a {
+    @apply transition-colors duration-200;
+    /* Larger touch target for mobile */
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  a:hover {
+    @apply text-como;
+  }
+  
+  /* Ensure images don't cause horizontal scroll */
+  img {
+    @apply max-w-full h-auto;
+  }
+  
+  /* Form input optimization for mobile */
+  input, textarea, select {
+    /* Prevent iOS zoom on focus */
+    font-size: 16px;
+  }
+  
+  @media (min-width: 768px) {
+    input, textarea, select {
+      font-size: inherit;
+    }
+  }
+  
+  /* Better focus states for accessibility and keyboard navigation */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-como;
+  }
+  
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  
+  /* Better text selection */
+  ::selection {
+    @apply bg-como text-white;
+  }
+  
+  /* Smooth scrolling for better UX */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  
+  /* Landscape orientation improvements for mobile */
+  @media (max-height: 500px) and (orientation: landscape) {
+    /* Reduce vertical padding in landscape */
+    section {
+      @apply py-6 md:py-8;
+    }
+    
+    /* Smaller headings in landscape */
+    h1 {
+      @apply text-2xl md:text-3xl;
+    }
+    
+    h2 {
+      @apply text-xl md:text-2xl;
+    }
+    
+    /* Optimize hero height for landscape */
+    .hero-landscape-fix {
+      @apply min-h-[80vh] md:min-h-screen;
+    }
+  }
+  
+  /* Prevent text zoom on orientation change iOS */
+  @supports (-webkit-touch-callout: none) {
+    body {
+      -webkit-text-size-adjust: 100%;
+    }
+  }
+}

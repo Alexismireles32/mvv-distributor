@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Lida Booster",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575576/Lidabooster_xd5mo9.png",
+  productUrl: "/lidabooster",
+  description: "Lida Booster es una pastilla rosa muy efectiva para bajar de peso, especialmente diseñada para mujeres. Fórmula natural que bloquea absorción de grasa hasta 30%, acelera metabolismo y suprime el apetito de forma segura. Sin rebote: mantén tu peso después de terminar el tratamiento. Miles de mujeres han perdido 10-20 kilos con Lida Booster obteniendo resultados increíbles. Producto con ingredientes naturales garantizados, 15 años de experiencia en el mercado.",
+  benefits: [
+    "Bloquea hasta 30% de la grasa que consumes en alimentos",
+    "Suprime el apetito de forma natural y efectiva todo el día",
+    "Acelera el metabolismo basal para quemar más calorías",
+    "Sin rebote: mantén tu peso después de terminar el tratamiento",
+    "Fórmula especial diseñada para mujeres",
+    "Resultados: 10-20 kilos en 2-3 meses"
+  ],
+  ingredients: [
+    "Extracto de Loto Sagrado - Bloquea absorción de grasa",
+    "Extracto de Cassia (Sen) - Limpieza intestinal suave",
+    "L-Carnitina - Convierte grasa en energía",
+    "Extracto de Aloe Vera - Mejora digestión y metabolismo",
+    "Extracto de Té Verde - Antioxidante quemagrasas",
+    "Fibra Natural - Aumenta saciedad y reduce apetito",
+    "Garcinia Cambogia - Bloquea producción de grasa nueva",
+    "Vitaminas del Complejo B - Energía y metabolismo óptimo"
+  ],
+  howToUse: "Tomar 1 cápsula en la mañana antes del desayuno con un vaso grande de agua tibia. Si tu peso objetivo es alto (más de 20 kilos), puedes tomar 1 cápsula adicional antes de la comida. No exceder 2 cápsulas diarias. Beber 2-3 litros de agua al día. Tratamiento recomendado: 2-3 meses continuos para resultados óptimos y sin rebote."
+};
+---
+
+<Layout 
+  title="Lida Booster - Pastilla Rosa Para Bajar de Peso | MVV Natural"
+  description="Lida Booster: pastilla rosa original. Bloquea grasa 30%, suprime apetito, sin rebote. Baja 10-20 kilos. Especial para mujeres. Envío México y USA."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

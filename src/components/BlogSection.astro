@@ -1,0 +1,38 @@
+---
+interface Props {
+  heading: string;
+  content: any;
+  variant?: "default" | "highlight" | "warning" | "success";
+  image?: string;
+  imageAlt?: string;
+}
+
+const { heading, content, variant = "default", image, imageAlt } = Astro.props;
+
+const variantClasses = {
+  default: "bg-white border border-gray-200",
+  highlight: "bg-como/5 border-l-4 border-como",
+  warning: "bg-red-50 border-l-4 border-red-500",
+  success: "bg-green-50 border-l-4 border-como",
+};
+---
+
+<section class="my-12">
+  <h2 class="mb-6 text-3xl font-bold md:text-4xl">{heading}</h2>
+  
+  {image && (
+    <figure class="my-8 overflow-hidden rounded-2xl shadow-lg">
+      <img
+        src={image}
+        alt={imageAlt || heading}
+        class="w-full aspect-video object-cover"
+        loading="lazy"
+      />
+    </figure>
+  )}
+  
+  <div class={`rounded-xl p-6 md:p-8 ${variantClasses[variant]}`}>
+    <slot />
+  </div>
+</section>
+

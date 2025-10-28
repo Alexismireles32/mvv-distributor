@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Chupa Panza",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575545/chupapanza_m7zfgs.png",
+  productUrl: "/chupapanza",
+  description: "Chupa Panza es la fórmula potente termogénica de 30 cápsulas para eliminar vientre abultado, reducir tallas y quemar grasa difícil. Poderoso quema grasas, desintoxica, diurético y ayuda con problemas de estreñimiento. Fórmula diseñada para quemar grasa saturada, modelar cuerpo e inhibir apetito. Efectivo para la quema de grasa efectiva y elimina líquidos retenidos. Tonificador natural que desintoxica profundamente el organismo. Ideal para reducir medidas visiblemente y eliminar ese vientre abultado que no se va. 30 cápsulas de concentrado natural.",
+  benefits: [
+    "Fórmula potente termogénica para quema de grasa difícil",
+    "Poderoso quemador de grasa saturada",
+    "Elimina vientre abultado y reduce tallas visiblemente",
+    "Desintoxica y elimina líquidos retenidos",
+    "Diurético natural que ayuda con estreñimiento",
+    "Tonificador que modela el cuerpo"
+  ],
+  ingredients: [
+    "Jengibre - Termogénico que quema grasa y reduce apetito",
+    "Goji - Antioxidante que acelera metabolismo",
+    "Hoodia Gordiana - Inhibidor natural del apetito",
+    "Malva - Desintoxicante y digestivo",
+    "Séen (Senna) - Laxante natural que ayuda estreñimiento",
+    "Carnitina - Metaboliza grasa en energía",
+    "Té Verde - Potente quema grasas y termogénico",
+    "Nopal - Controla glucosa y reduce grasa abdominal",
+    "Diente de León - Diurético natural",
+    "Spirulina - Nutriente completo y detox"
+  ],
+  howToUse: "Tomar 1 cápsula en las noches antes de dormir. Toma 1 cápsula diaria para mejores resultados. Beber abundante agua durante el día. Combinar con alimentación balanceada. No exceder la dosis recomendada. Uso continuo 8-12 semanas para resultados óptimos."
+};
+---
+
+<Layout 
+  title="Chupa Panza Cápsulas - Elimina Vientre Abultado | Quema Grasa Difícil"
+  description="Chupa Panza fórmula potente termogénica: elimina vientre abultado, reduce tallas, desintoxica, diurético. Quema grasa difícil. 30 cápsulas naturales."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

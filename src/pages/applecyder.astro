@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Apple Cider Vinagre",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575550/applecyder_xxg1ps.png",
+  productUrl: "/applecyder",
+  description: "Apple Cider Vinagre combina vinagre de manzana orgánico con ingredientes naturales para mejorar la digestión y acelerar el metabolismo. Ideal para desintoxicar el organismo y promover la pérdida de peso saludable.",
+  benefits: [
+    "Mejora la digestión y salud intestinal",
+    "Acelera el metabolismo naturalmente",
+    "Ayuda a controlar niveles de glucosa",
+    "Efecto desintoxicante y depurativo",
+    "Reduce inflamación abdominal"
+  ],
+  ingredients: [
+    "Vinagre de manzana orgánico",
+    "Extracto de té verde",
+    "Vitamina B6 y B12",
+    "Ácido fólico"
+  ],
+  howToUse: "Tomar 2 cápsulas al día, preferiblemente antes de las comidas principales con un vaso de agua."
+};
+---
+
+<Layout 
+  title="Apple Cider Vinagre - Vinagre de Manzana | MVV Natural"
+  description="Apple Cider Vinagre de manzana natural. Mejora digestión y acelera metabolismo de forma natural."
+>
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    <ProductPageWrapper client:load productData={productData} />
+    <Footer2 client:idle />
+  </WhatsAppProvider>
+</Layout>

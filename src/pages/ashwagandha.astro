@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Ashwagandha",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575567/Ashawandha_nmq29y.png",
+  productUrl: "/ashwagandha",
+  description: "Ashwagandha es el adaptógeno natural más potente para reducir estrés, ansiedad y cortisol (la hormona que causa grasa abdominal). Controla antojos emocionales por comida, mejora calidad del sueño profundamente y ayuda a perder grasa abdominal causada por estrés crónico. Estudios comprueban que reduce cortisol hasta 28%. Ideal para personas con ansiedad, estrés laboral, insomnio o que comen por nervios. Aumenta energía, claridad mental y estado de ánimo. Extracto puro de raíz de Ashwagandha (Withania Somnifera) alta concentración.",
+  benefits: [
+    "Reduce cortisol (hormona del estrés) hasta 28% comprobado",
+    "Controla antojos y comer emocional causado por estrés",
+    "Mejora calidad del sueño: duerme profundo y despierta descansado",
+    "Reduce grasa abdominal causada por cortisol alto",
+    "Aumenta energía, concentración y claridad mental",
+    "Mejora estado de ánimo y reduce ansiedad naturalmente"
+  ],
+  ingredients: [
+    "Extracto de Raíz de Ashwagandha (Withania Somnifera) 600mg",
+    "Withanólidos al 5% - Compuesto activo principal",
+    "Extracto de Raíz de Rhodiola - Potencia efecto adaptógeno",
+    "L-Teanina - Calma mental sin sedación",
+    "Magnesio Quelado - Relaja músculos y mejora sueño",
+    "Vitamina B6 y B12 - Energía y función neurológica",
+    "Extracto de Pasiflora - Reduce ansiedad",
+    "Zinc Picolinato - Equilibrio hormonal y sistema inmune"
+  ],
+  howToUse: "Tomar 1 cápsula por la mañana con el desayuno y 1 cápsula en la noche con la cena. Para ansiedad y sueño: enfatizar dosis nocturna. Para energía y concentración: enfatizar dosis matutina. Los efectos se sienten en 2-4 semanas. Uso continuo recomendado por 8-12 semanas para resultados óptimos. Seguro para uso prolongado."
+};
+---
+
+<Layout 
+  title="Ashwagandha - Reduce Estrés, Ansiedad y Cortisol | Suplemento Natural"
+  description="Ashwagandha adaptógeno potente. Reduce cortisol 28%, controla antojos por estrés, mejora sueño, elimina grasa abdominal. 100% natural."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

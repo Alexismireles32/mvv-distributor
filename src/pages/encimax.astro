@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Encimax (Enzimas Digestivas)",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575578/encimax_kuhluy.png",
+  productUrl: "/encimax",
+  description: "Encimax son enzimas digestivas naturales de amplio espectro que mejoran digestión de proteínas, grasas y carbohidratos. Elimina hinchazón abdominal, gases, pesadez y reflujo después de comer. Aumenta absorción de vitaminas, minerales y nutrientes esenciales. Ideal para personas con digestión lenta, síndrome de intestino irritable, intolerancia a lactosa, o que se sienten hinchadas después de comer. Siente tu estómago plano y digestión perfecta. Fórmula profesional con 10 enzimas diferentes. Resultados inmediatos desde la primera dosis.",
+  benefits: [
+    "Mejora digestión de proteínas, grasas y carbohidratos",
+    "Elimina hinchazón abdominal, gases y pesadez",
+    "Aumenta absorción de nutrientes y vitaminas esenciales",
+    "Ideal para problemas digestivos crónicos o SII",
+    "Reduce reflujo, acidez e indigestión",
+    "Con 10 enzimas naturales de amplio espectro"
+  ],
+  ingredients: [
+    "Amilasa - Digiere carbohidratos y almidones",
+    "Proteasa - Descompone proteínas eficientemente",
+    "Lipasa - Digiere grasas y triglicéridos",
+    "Lactasa - Digiere lactosa (leche y lácteos)",
+    "Celulasa - Descompone fibra vegetal",
+    "Bromelina (Piña) - Digestión de proteínas",
+    "Papaína (Papaya) - Enzima proteolítica natural",
+    "Jengibre y Menta - Calman estómago"
+  ],
+  howToUse: "Tomar 1-2 cápsulas justo antes de cada comida principal (desayuno, comida, cena). Para comidas pesadas o con muchas grasas tomar 2 cápsulas. Efectos inmediatos desde primera dosis: menos hinchazón y mejor digestión. Uso diario seguro para mejorar salud digestiva a largo plazo. Especialmente útil antes de comidas con lácteos, carnes o alimentos pesados."
+};
+---
+
+<Layout 
+  title="Encimax - Enzimas Digestivas Naturales | Elimina Hinchazón y Gases"
+  description="Encimax enzimas digestivas: 10 enzimas naturales. Mejora digestión, elimina hinchazón, gases, reflujo. Aumenta absorción de nutrientes."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

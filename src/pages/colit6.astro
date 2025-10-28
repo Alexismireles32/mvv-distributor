@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "COLIT 6",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575551/colit6_te7kpi.png",
+  productUrl: "/colit6",
+  description: "COLIT 6 recupera tu salud intestinal mejorando notablemente todo tipo de colitis y trastornos estomacales como gases, diarrea causada por colitis, así como estreñimiento. Mejora notablemente todo tipo de colitis y trastornos estomacales. Efectivo para gases, dolor abdominal, inflamación de abdomen, diarrea o estreñimiento, fatiga, espasmos abdominales y sangrado en evacuaciones. 60 cápsulas que recuperan tu salud intestinal con ingredientes naturales.",
+  benefits: [
+    "Gases",
+    "Dolor abdominal",
+    "Inflamación de abdomen",
+    "Diarrea o estreñimiento",
+    "Fatiga",
+    "Espasmos abdominales",
+    "Sangrado en evacuaciones",
+    "Recupera tu salud intestinal"
+  ],
+  ingredients: [
+    "Jengibre - Digestivo y antiinflamatorio",
+    "Cucurma Longa - Antiinflamatorio potente",
+    "Cola de Caballo - Antioxidante y digestivo",
+    "Linaza - Fibra y lubricante intestinal",
+    "Canela entre otras hierbas - Digestivo y antiespasmódico"
+  ],
+  howToUse: "Tomar 2 cápsulas en ayunas. Beber abundante agua durante el día. Combinar con alimentación balanceada. No embarazadas o en periodo de lactancia. No consumir menores de 11 años. 60 cápsulas para recuperar salud intestinal."
+};
+---
+
+<Layout 
+  title="COLIT 6 60 Cápsulas - Recupera tu Salud Intestinal | Mejora Notablemente"
+  description="COLIT 6: mejora colitis, gases, diarrea, estreñimiento, dolor abdominal, inflamación. Recupera salud intestinal con ingredientes naturales. 60 cápsulas."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>

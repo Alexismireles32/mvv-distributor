@@ -1,0 +1,15 @@
+# robots.txt for MVV Natural
+# https://www.mvvnatural.com/robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.mvvnatural.com/sitemap-index.xml
+
+# Block common bot crawlers that waste bandwidth
+User-agent: AhrefsBot
+User-agent: SemrushBot
+User-agent: DotBot
+Crawl-delay: 10
+

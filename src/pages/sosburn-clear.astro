@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "SOS Burn Clean",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575569/SosBurnClear_oj4hvf.png",
+  productUrl: "/sosburn-clear",
+  description: "SOS BURN Clean control de apetito y mejora del tracto intestinal. 24 HR PURIFIC SLIM para él y para ella. Desintoxica, diurética, depura el cuerpo. Mejora el estreñimiento, reduce azúcar en la sangre, baja de peso, mejora el sueño, quita dolor muscular y reduce niveles de colesterol. 30 cápsulas purificantes y adelgazantes.",
+  benefits: [
+    "Desintoxica profundamente el organismo",
+    "Diurética natural que elimina líquidos",
+    "Depura el cuerpo de toxinas",
+    "Mejora el estreñimiento y digestión",
+    "Reduce azúcar en la sangre",
+    "Baja de peso y mejora el sueño",
+    "Quita dolor muscular",
+    "Reduce niveles de colesterol"
+  ],
+  ingredients: [
+    "Maca - Energía y regulación hormonal",
+    "Magnesium Citrate - Digestión y relajación muscular",
+    "Golden Berry - Antioxidante y vitamina C"
+  ],
+  howToUse: "Toma 1 cápsula diaria por las noches. Beber abundante agua durante el día. Combinar con alimentación balanceada. No consumir en periodo de embarazo o lactancia. 30 cápsulas de fórmula concentrada."
+};
+---
+
+<Layout 
+  title="SOS Burn Clean 30 Cápsulas - 24 HR PURIFIC SLIM | Para Él y Para Ella"
+  description="SOS BURN Clean: control de apetito, mejora tracto intestinal, desintoxica, diurética, depura cuerpo. Reduce azúcar, colesterol. Para él y para ella."
+>
+  <Navbar6 client:load />
+  <ProductPageWrapper client:load productData={productData} />
+  <Footer2 client:idle />
+</Layout>
