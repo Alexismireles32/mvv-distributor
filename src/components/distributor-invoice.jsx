@@ -192,12 +192,18 @@ export function DistributorInvoiceSystem() {
 
       setLoading(true);
       const distributorCode = await generateDistributorCode();
+      
+      // Concatenar lada + número de teléfono
+      const phoneLada = document.getElementById('regPhoneLada')?.value || '';
+      const phoneNumber = document.getElementById('regPhone')?.value || '';
+      const fullPhone = phoneLada && phoneNumber ? `${phoneLada}${phoneNumber}` : '';
+      
       const newDistributor = {
         code: distributorCode,
         name: name.trim(),
         last_name: lastName.trim(),
         state: state.trim(),
-        phone: document.getElementById('regPhone')?.value || '',
+        phone: fullPhone,
         email: document.getElementById('regEmail')?.value || '',
         address: document.getElementById('regAddress')?.value || '',
         photo_url: document.getElementById('regPhoto')?.value || ''
@@ -718,8 +724,16 @@ export function DistributorInvoiceSystem() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold mb-2">Teléfono</label>
-              <input id="regPhone" type="tel" className="w-full px-4 py-2 border rounded-lg" />
+              <label className="block text-sm font-semibold mb-2">Teléfono para WhatsApp</label>
+              <div className="grid grid-cols-3 gap-2">
+                <select id="regPhoneLada" className="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-como">
+                  <option value="+1">🇺🇸 +1 (USA)</option>
+                  <option value="+52">🇲🇽 +52 (México)</option>
+                  <option value="">Otro</option>
+                </select>
+                <input id="regPhone" type="tel" placeholder="1234567890" className="col-span-2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-como" />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Este número se mostrará públicamente para que te contacten por WhatsApp</p>
             </div>
 
             <div>

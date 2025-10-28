@@ -121,10 +121,19 @@ export function DistributorVerificationSystem() {
                     <div className="bg-como/10 p-3 rounded-lg">
                       <span className="text-2xl">📱</span>
                     </div>
-                    <div>
+                    <div className="flex-1">
                       <p className="text-sm text-gray-600">Teléfono</p>
                       <p className="text-lg font-semibold text-como">{selectedDistributor.phone}</p>
                     </div>
+                    <a
+                      href={`https://wa.me/${selectedDistributor.phone.replace(/\D/g, '')}?text=Hola,%20tengo%20interés%20en%20los%20productos%20MVV%20Natural.%20¿Me%20podrías%20proporcionar%20más%20información?`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-3 rounded-lg flex items-center gap-2 transition-all shadow-lg hover:shadow-xl"
+                    >
+                      <span>💬</span>
+                      <span>Contactar por WhatsApp</span>
+                    </a>
                   </div>
                 )}
 
