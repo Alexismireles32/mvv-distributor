@@ -8,6 +8,7 @@ import { InventoryManager } from './inventory-manager';
 import { PriceManager } from './price-manager';
 import { ReminderManager } from './reminder-manager';
 import { PDFExporter } from './pdf-exporter';
+import { AdminDashboard } from './admin-dashboard';
 
 // Product catalog
 const PRODUCTS = [
@@ -365,7 +366,14 @@ export function DistributorInvoiceSystem() {
         return;
       }
 
-      // Validate PIN
+      // Check if admin code (no PIN required)
+      if (distributorId === '220577') {
+        setCurrentView('admin');
+        setPin(''); // Clear PIN for admin
+        return;
+      }
+
+      // Validate PIN for regular distributors
       if (!pin || pin.length !== 4 || !/^\d+$/.test(pin)) {
         alert('PIN inválido. Debe ser de 4 dígitos numéricos');
         return;
@@ -970,6 +978,11 @@ export function DistributorInvoiceSystem() {
         </div>
       </div>
     );
+  }
+
+  // Admin view (must be first)
+  if (currentView === 'admin') {
+    return <AdminDashboard />;
   }
 
   // New feature views (must be before products view)
