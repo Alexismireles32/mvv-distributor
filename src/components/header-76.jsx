@@ -17,7 +17,6 @@ export function Header76({ onOpenWhatsApp }) {
           Nuestro bestseller <strong>Duo 60 Fusion Xtreme</strong> y todos nuestros quemadores de grasa naturales aceleran tu metabolismo y controlan los antojos. Nuestros clientes pierden entre <strong>15 y 25 kilos en 2-3 meses</strong>. Sin químicos raros, sin efectos locos. Solo ingredientes naturales en las dosis correctas. <strong>15 años vendiendo</strong> en México y USA nos respaldan.
         </p>
         <div className="mt-5 flex flex-col gap-2.5 xxs:gap-3 sm:flex-row sm:flex-wrap sm:gap-4 md:mt-8">
-          {/* WhatsApp CTA disabled for distributor site */}
           <Button 
             title="Ver Todos los Productos" 
             variant="secondary" 
@@ -27,6 +26,18 @@ export function Header76({ onOpenWhatsApp }) {
             <a href="/productos" className="flex items-center justify-center gap-2 md:gap-3">
               <span>Ver Todos los Productos</span>
               <span className="text-lg xxs:text-xl md:text-2xl">🛍️</span>
+            </a>
+          </Button>
+          
+          <Button 
+            title="Verificar Distribuidor" 
+            variant="secondary" 
+            asChild
+            className="w-full sm:w-auto bg-como hover:bg-[#3d6849] text-white font-semibold text-sm xxs:text-base px-6 py-3.5 xxs:px-8 xxs:py-4 min-h-[44px] md:text-lg md:px-10 md:py-6 hover:shadow-lg active:scale-95 md:hover:scale-105 transition-all duration-300 rounded-full"
+          >
+            <a href="/verificar-distribuidor" className="flex items-center justify-center gap-2 md:gap-3">
+              <span>Conoce tu Distribuidor</span>
+              <span className="text-lg xxs:text-xl md:text-2xl">✓</span>
             </a>
           </Button>
         </div>

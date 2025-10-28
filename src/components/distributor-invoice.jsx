@@ -199,7 +199,8 @@ export function DistributorInvoiceSystem() {
         state: state.trim(),
         phone: document.getElementById('regPhone')?.value || '',
         email: document.getElementById('regEmail')?.value || '',
-        address: document.getElementById('regAddress')?.value || ''
+        address: document.getElementById('regAddress')?.value || '',
+        photo_url: document.getElementById('regPhoto')?.value || ''
       };
 
       // Insert into Supabase
@@ -730,6 +731,12 @@ export function DistributorInvoiceSystem() {
             <div>
               <label className="block text-sm font-semibold mb-2">Dirección</label>
               <input id="regAddress" className="w-full px-4 py-2 border rounded-lg" />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold mb-2">Foto de Perfil (URL)</label>
+              <input id="regPhoto" type="url" placeholder="https://..." className="w-full px-4 py-2 border rounded-lg" />
+              <p className="text-xs text-gray-500 mt-1">Puedes subir una imagen a Imgur o usar cualquier URL pública</p>
             </div>
             
             <button

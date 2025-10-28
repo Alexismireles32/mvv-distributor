@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { DistributorVerificationSystem } from '../components/distributor-verification.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+---
+
+<Layout 
+  title="Verificar Distribuidor | MVV Natural"
+  description="Verifica que tu distribuidor esté autorizado y registrado con MVV Natural"
+>
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    
+    <DistributorVerificationSystem client:load />
+    
+    <Footer2 client:load />
+  </WhatsAppProvider>
+</Layout>
+

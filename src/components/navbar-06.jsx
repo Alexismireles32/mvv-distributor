@@ -96,6 +96,12 @@ export function Navbar6() {
             >
               💼 Distribuidores
             </a>
+            <a
+              href="/verificar-distribuidor"
+              className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
+            >
+              ✓ Verificar
+            </a>
           </div>
         </div>
         <button
@@ -200,6 +206,12 @@ export function Navbar6() {
                 className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base font-semibold text-como"
               >
                 💼 Distribuidores
+              </a>
+              <a
+                href="/verificar-distribuidor"
+                className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
+              >
+                ✓ Verificar
               </a>
             </div>
           </motion.div>
