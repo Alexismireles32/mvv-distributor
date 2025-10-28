@@ -76,18 +76,18 @@ export function ReminderManager({ distributorCode, invoiceHistory, onBack }) {
   };
 
   return (
-    <div className="min-h-screen bg-white py-12 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-white py-8 md:py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-12">
-          <div className="flex justify-between items-start mb-8">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8">
             <div>
-              <h1 className="text-4xl font-light text-gray-900 mb-2">Recordatorios</h1>
+              <h1 className="text-3xl sm:text-4xl font-light text-gray-900 mb-2">Recordatorios</h1>
               <p className="text-sm text-gray-500">Contacta a clientes según tiempo de compra</p>
             </div>
             <button
               onClick={onBack}
-              className="text-sm text-gray-500 hover:text-gray-900"
+              className="text-sm text-gray-500 hover:text-gray-900 self-start"
             >
               ← Volver
             </button>
@@ -127,9 +127,9 @@ export function ReminderManager({ distributorCode, invoiceHistory, onBack }) {
               {reminderClients.map((client, index) => (
                 <div 
                   key={index}
-                  className="flex items-center justify-between pb-6 border-b border-gray-200"
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-gray-200"
                 >
-                  <div>
+                  <div className="flex-1">
                     <h3 className="text-base text-gray-900 mb-1">{client.client}</h3>
                     <p className="text-xs text-gray-500">
                       Última compra: {client.lastPurchaseDate.toLocaleDateString('es-MX')} • {client.daysSince} días atrás
@@ -138,7 +138,7 @@ export function ReminderManager({ distributorCode, invoiceHistory, onBack }) {
                   <button
                     onClick={() => handleWhatsApp(client.phone)}
                     disabled={!client.phone}
-                    className="px-6 py-2 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-6 py-2 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
                   >
                     Contactar WhatsApp
                   </button>

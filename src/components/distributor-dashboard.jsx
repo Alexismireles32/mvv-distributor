@@ -41,27 +41,27 @@ export function DistributorDashboard({ distributorInfo, invoiceHistory, inventor
   const lowStockProducts = inventory ? Object.entries(inventory).filter(([_, qty]) => qty < 10) : [];
 
   return (
-    <div className="min-h-screen bg-white py-12 px-4">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-white py-8 md:py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-16">
-          <div className="flex justify-between items-start mb-8">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8">
             <div>
-              <h1 className="text-4xl font-light text-gray-900 mb-2">Dashboard</h1>
+              <h1 className="text-3xl sm:text-4xl font-light text-gray-900 mb-2">Dashboard</h1>
               <p className="text-sm text-gray-500">
                 {distributorInfo.name} {distributorInfo.last_name} • {distributorInfo.code}
               </p>
             </div>
             <button 
               onClick={() => onViewChange('products')} 
-              className="px-6 py-2 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium"
+              className="px-6 py-2 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium w-full sm:w-auto"
             >
               Crear Factura
             </button>
           </div>
 
           {/* Stats - Clean Text Only */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 pb-12 border-b border-gray-200">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-12 pb-12 border-b border-gray-200">
             <div>
               <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Ventas Totales</p>
               <p className="text-3xl font-light text-gray-900">${stats.totalRevenue.toFixed(2)}</p>
