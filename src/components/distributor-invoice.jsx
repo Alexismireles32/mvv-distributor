@@ -64,6 +64,9 @@ export function DistributorInvoiceSystem() {
   const [reminderSettings, setReminderSettings] = useState({
     days: ['30']
   });
+  
+  // PIN state for login
+  const [pin, setPin] = useState('');
 
   // Load from Supabase
   useEffect(() => {
@@ -312,6 +315,14 @@ export function DistributorInvoiceSystem() {
       const phoneNumber = document.getElementById('regPhone')?.value || '';
       const fullPhone = phoneLada && phoneNumber ? `${phoneLada}${phoneNumber}` : '';
       
+      // Get PIN from form
+      const pin = document.getElementById('regPin')?.value || '';
+      if (!pin || pin.length !== 4 || !/^\d+$/.test(pin)) {
+        alert('El PIN debe ser de 4 dígitos numéricos');
+        setLoading(false);
+        return;
+      }
+      
       const newDistributor = {
         code: distributorCode,
         name: name.trim(),
@@ -320,7 +331,8 @@ export function DistributorInvoiceSystem() {
         phone: fullPhone,
         email: document.getElementById('regEmail')?.value || '',
         address: document.getElementById('regAddress')?.value || '',
-        photo_url: document.getElementById('regPhoto')?.value || ''
+        photo_url: document.getElementById('regPhoto')?.value || '',
+        pin: pin.trim()
       };
 
       // Insert into Supabase
@@ -334,7 +346,7 @@ export function DistributorInvoiceSystem() {
 
       localStorage.setItem('lastLoggedIn', distributorCode);
       
-      alert(`¡Registro exitoso! Tu código es: ${distributorCode}`);
+      alert(`¡Registro exitoso! Tu código es: ${distributorCode}. Guarda tu PIN: ${pin}`);
       setDistributorId(distributorCode);
       setDistributorInfo(newDistributor);
       setCurrentView('dashboard');
@@ -353,6 +365,12 @@ export function DistributorInvoiceSystem() {
         return;
       }
 
+      // Validate PIN
+      if (!pin || pin.length !== 4 || !/^\d+$/.test(pin)) {
+        alert('PIN inválido. Debe ser de 4 dígitos numéricos');
+        return;
+      }
+
       setLoading(true);
       const { data, error } = await supabase
         .from('distributors')
@@ -363,6 +381,15 @@ export function DistributorInvoiceSystem() {
       if (error || !data) {
         alert('Código no válido');
         setLoading(false);
+        setPin(''); // Clear PIN on error
+        return;
+      }
+
+      // Verify PIN
+      if (data.pin !== pin) {
+        alert('PIN incorrecto');
+        setLoading(false);
+        setPin(''); // Clear PIN on error
         return;
       }
 
@@ -806,6 +833,21 @@ export function DistributorInvoiceSystem() {
                 placeholder="Ingresa tu código"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-como"
                 disabled={loading}
+                maxLength={3}
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">PIN de 4 dígitos</label>
+              <input
+                type="password"
+                value={pin}
+                onChange={(e) => setPin(e.target.value)}
+                placeholder="Ingresa tu PIN"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-como"
+                disabled={loading}
+                maxLength={4}
+                pattern="\d{4}"
               />
             </div>
             
@@ -895,6 +937,19 @@ export function DistributorInvoiceSystem() {
               <label className="block text-sm font-semibold mb-2">Foto de Perfil (URL)</label>
               <input id="regPhoto" type="url" placeholder="https://..." className="w-full px-4 py-2 border rounded-lg" />
               <p className="text-xs text-gray-500 mt-1">Puedes subir una imagen a Imgur o usar cualquier URL pública</p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold mb-2">PIN de Seguridad (4 dígitos) *</label>
+              <input 
+                id="regPin" 
+                type="password" 
+                placeholder="1234" 
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-como" 
+                maxLength={4}
+                pattern="\d{4}"
+              />
+              <p className="text-xs text-gray-500 mt-1">Este PIN será necesario para iniciar sesión. Guárdalo en un lugar seguro.</p>
             </div>
             
             <button
