@@ -839,31 +839,37 @@ export function DistributorInvoiceSystem() {
     );
   }
 
-  // Invoice form or preview
-  if (showInvoiceForm) {
-    if (showPreview && currentInvoice) {
-      // Preview view
-      return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
-              <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold text-como">Vista Previa de Factura</h1>
-                <button
-                  onClick={() => setShowPreview(false)}
-                  className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg"
-                >
-                  Editar
-                </button>
-              </div>
+  // Preview view (can be shown from history or after form)
+  if (showPreview && currentInvoice) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
+            <div className="flex justify-between items-center">
+              <h1 className="text-3xl font-bold text-como">Vista Previa de Factura</h1>
+              <button
+                onClick={() => {
+                  if (showInvoiceForm) {
+                    setShowPreview(false);
+                  } else {
+                    setShowPreview(false);
+                    setCurrentView('history');
+                  }
+                }}
+                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg"
+              >
+                Volver
+              </button>
             </div>
+          </div>
 
-            {/* Invoice Preview */}
-            <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-              <div dangerouslySetInnerHTML={{ __html: createInvoiceHTML(currentInvoice) }} />
-            </div>
+          {/* Invoice Preview */}
+          <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <div dangerouslySetInnerHTML={{ __html: createInvoiceHTML(currentInvoice) }} />
+          </div>
 
-            {/* Actions */}
+          {/* Actions - Only show if coming from form, not from history */}
+          {showInvoiceForm && (
             <div className="flex gap-4">
               <button
                 onClick={generateInvoiceFile}
@@ -878,12 +884,14 @@ export function DistributorInvoiceSystem() {
                 Cancelar
               </button>
             </div>
-          </div>
+          )}
         </div>
-      );
-    }
+      </div>
+    );
+  }
 
-    // Invoice form view
+  // Invoice form view (only when not showing preview)
+  if (showInvoiceForm && !showPreview) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
         <div className="max-w-4xl mx-auto">
