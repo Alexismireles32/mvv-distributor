@@ -841,47 +841,73 @@ export function DistributorInvoiceSystem() {
 
   // Preview view (MUST BE FIRST - can be shown from anywhere)
   if (showPreview && currentInvoice) {
+    // Get confirmation status from currentInvoice (added when viewing from history)
+    const isConfirmed = currentInvoice.confirmed || false;
+    const confirmedAt = currentInvoice.confirmedAt ? new Date(currentInvoice.confirmedAt) : null;
+
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
+      <div className="min-h-screen bg-white py-8 md:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
-            <div className="flex justify-between items-center">
-              <h1 className="text-3xl font-bold text-como">Vista Previa de Factura</h1>
-              <button
-                onClick={() => {
-                  setShowPreview(false);
-                  setCurrentInvoice(null);
-                  if (!showInvoiceForm) {
-                    setCurrentView('history');
-                  }
-                }}
-                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg"
-              >
-                {showInvoiceForm ? 'Editar' : 'Volver'}
-              </button>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-light text-gray-900">Factura</h1>
+              <div className="flex items-center gap-3 mt-2">
+                {isConfirmed ? (
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                    ✅ Venta Confirmada
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                    ⏳ Pendiente de Confirmación
+                  </span>
+                )}
+                {confirmedAt && (
+                  <span className="text-sm text-gray-500">
+                    Confirmada el {confirmedAt.toLocaleDateString('es-MX')}
+                  </span>
+                )}
+              </div>
             </div>
+            <button
+              onClick={() => {
+                setShowPreview(false);
+                setCurrentInvoice(null);
+                if (!showInvoiceForm) {
+                  setCurrentView('history');
+                }
+              }}
+              className="w-full sm:w-auto px-6 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
+            >
+              Volver
+            </button>
           </div>
 
           {/* Invoice Preview */}
-          <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
             <div dangerouslySetInnerHTML={{ __html: createInvoiceHTML(currentInvoice) }} />
           </div>
 
           {/* Actions - Only show if coming from form, not from history */}
-          {showInvoiceForm && (
-            <div className="flex gap-4">
+          {showInvoiceForm ? (
+            <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={generateInvoiceFile}
-                className="flex-1 bg-como hover:bg-[#3d6849] text-white font-bold py-4 rounded-lg transition-all"
+                className="flex-1 px-6 py-3 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium"
               >
-                📄 Generar Factura JPG
+                Descargar Factura JPG
               </button>
               <button
                 onClick={resetForm}
-                className="px-6 bg-gray-200 hover:bg-gray-300 rounded-lg"
+                className="px-6 py-3 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
               >
                 Cancelar
               </button>
+            </div>
+          ) : (
+            <div className="text-center py-4">
+              <p className="text-sm text-gray-500">
+                {isConfirmed ? 'Esta venta ha sido confirmada y el inventario fue actualizado.' : 'Esta factura está pendiente de confirmación.'}
+              </p>
             </div>
           )}
         </div>
@@ -1284,6 +1310,10 @@ export function DistributorInvoiceSystem() {
                             shipping: inv.shipping || 0,
                             date: inv.date
                           };
+                          // Add invoice ID to track confirmation status
+                          invoiceData.invoiceId = inv.id;
+                          invoiceData.confirmed = inv.confirmed;
+                          invoiceData.confirmedAt = inv.confirmedAt;
                           setCurrentInvoice(invoiceData);
                           setShowPreview(true);
                         }}
