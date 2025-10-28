@@ -1,0 +1,27 @@
+# MVV Distributor Site - SEO Blocking Configuration
+# For Netlify/Vercel deployment
+
+# Block all search engine bots
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex, nocache, noyaca"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "no-referrer"
+    Cache-Control = "no-cache, no-store, must-revalidate, private"
+    Pragma = "no-cache"
+    Expires = "0"
+
+# Block specific bot user agents
+[[redirects]]
+  from = "/*"
+  to = "/404"
+  status = 404
+  conditions = {User-Agent = ["googlebot", "bingbot", "slurp", "duckduckbot", "baiduspider", "yandexbot", "facebookexternalhit", "twitterbot", "linkedinbot", "whatsapp", "telegrambot"]}
+
+# Block access to sitemap files
+[[redirects]]
+  from = "/sitemap*"
+  to = "/404"
+  status = 404

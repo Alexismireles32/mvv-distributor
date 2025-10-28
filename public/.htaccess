@@ -1,0 +1,36 @@
+# MVV Distributor Site - COMPLETE SEO BLOCKING
+# This site is for internal distributor use only - DO NOT INDEX
+
+# Block all search engine bots
+<IfModule mod_headers.c>
+    Header always set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, noimageindex, nocache, noyaca"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "no-referrer"
+    Header always set Cache-Control "no-cache, no-store, must-revalidate, private"
+    Header always set Pragma "no-cache"
+    Header always set Expires "0"
+</IfModule>
+
+# Block specific search engine bots
+RewriteEngine On
+RewriteCond %{HTTP_USER_AGENT} (googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegrambot) [NC]
+RewriteRule .* - [F,L]
+
+# Block access to sitemap files
+<Files "sitemap*">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Block access to robots.txt (optional - keep for now)
+# <Files "robots.txt">
+#     Order Allow,Deny
+#     Deny from all
+# </Files>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
