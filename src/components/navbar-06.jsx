@@ -90,6 +90,12 @@ export function Navbar6() {
             >
               Recursos
             </a>
+            <a
+              href="/distribuidores"
+              className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base font-semibold text-como"
+            >
+              💼 Distribuidores
+            </a>
           </div>
           <div className="flex items-center gap-3">
             <Button
@@ -213,6 +219,12 @@ export function Navbar6() {
                 className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
               >
                 Recursos
+              </a>
+              <a
+                href="/distribuidores"
+                className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base font-semibold text-como"
+              >
+                💼 Distribuidores
               </a>
               
               {/* WhatsApp buttons for mobile menu */}
