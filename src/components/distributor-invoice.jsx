@@ -97,6 +97,12 @@ export function DistributorInvoiceSystem() {
           
           // Load invoices
           await loadInvoices(data.code);
+          
+          // Load default prices
+          await loadDefaultPrices(data.code);
+          
+          // Load inventory
+          await loadInventory(data.code);
         }
       }
     } catch (error) {
@@ -159,6 +165,85 @@ export function DistributorInvoiceSystem() {
       }
     } catch (error) {
       console.error('Error loading invoices:', error);
+    }
+  };
+
+  // Load default prices
+  const loadDefaultPrices = async (distributorCode) => {
+    try {
+      if (!supabase) return;
+
+      const { data, error } = await supabase
+        .from('distributor_prices')
+        .select('*')
+        .eq('distributor_code', distributorCode);
+
+      if (!error && data) {
+        const pricesObj = {};
+        data.forEach(item => {
+          pricesObj[item.product_name] = parseFloat(item.price) || 0;
+        });
+        setDefaultPrices(pricesObj);
+      }
+    } catch (error) {
+      console.error('Error loading default prices:', error);
+    }
+  };
+
+  // Load inventory
+  const loadInventory = async (distributorCode) => {
+    try {
+      if (!supabase) return;
+
+      const { data, error } = await supabase
+        .from('inventory')
+        .select('*')
+        .eq('distributor_code', distributorCode);
+
+      if (!error && data) {
+        const invObj = {};
+        data.forEach(item => {
+          invObj[item.product_name] = item.stock_quantity || 0;
+        });
+        setInventory(invObj);
+      }
+    } catch (error) {
+      console.error('Error loading inventory:', error);
+    }
+  };
+
+  // Update inventory after sale
+  const updateInventoryAfterSale = async (distributorCode, soldProducts) => {
+    try {
+      if (!supabase) return;
+
+      // Update each product's inventory
+      const promises = Object.entries(soldProducts).map(([productName, soldQty]) => {
+        const currentStock = inventory[productName] || 0;
+        const newStock = Math.max(0, currentStock - soldQty);
+        
+        return supabase
+          .from('inventory')
+          .upsert({
+            distributor_code: distributorCode,
+            product_name: productName,
+            stock_quantity: newStock,
+            updated_at: new Date().toISOString()
+          });
+      });
+
+      await Promise.all(promises);
+      
+      // Update local inventory state
+      const updatedInventory = { ...inventory };
+      Object.entries(soldProducts).forEach(([productName, soldQty]) => {
+        const currentStock = updatedInventory[productName] || 0;
+        updatedInventory[productName] = Math.max(0, currentStock - soldQty);
+      });
+      setInventory(updatedInventory);
+      
+    } catch (error) {
+      console.error('Error updating inventory after sale:', error);
     }
   };
 
@@ -272,6 +357,12 @@ export function DistributorInvoiceSystem() {
       await loadClients(data.code);
       await loadInvoices(data.code);
       
+      // Load default prices
+      await loadDefaultPrices(data.code);
+      
+      // Load inventory
+      await loadInventory(data.code);
+      
       setLoading(false);
     } catch (error) {
       console.error('Error in login:', error);
@@ -286,6 +377,14 @@ export function DistributorInvoiceSystem() {
         ...selectedProducts,
         [productName]: (selectedProducts[productName] || 0) + 1
       });
+      
+      // Auto-fill price from default prices if not already set
+      if (!clientData.productPrices[productName] && defaultPrices[productName]) {
+        setClientData(prevData => ({
+          ...prevData,
+          productPrices: { ...prevData.productPrices, [productName]: defaultPrices[productName] }
+        }));
+      }
     } catch (error) {
       console.error('Error adding product:', error);
       alert('Error al agregar producto. Intenta nuevamente.');
@@ -298,8 +397,22 @@ export function DistributorInvoiceSystem() {
         const newSelected = { ...selectedProducts };
         delete newSelected[productName];
         setSelectedProducts(newSelected);
+        
+        // Remove price when removing product
+        setClientData(prevData => ({
+          ...prevData,
+          productPrices: { ...prevData.productPrices, [productName]: '' }
+        }));
       } else {
         setSelectedProducts({ ...selectedProducts, [productName]: newQuantity });
+        
+        // Auto-fill price from default prices if not already set
+        if (!clientData.productPrices[productName] && defaultPrices[productName]) {
+          setClientData(prevData => ({
+            ...prevData,
+            productPrices: { ...prevData.productPrices, [productName]: defaultPrices[productName] }
+          }));
+        }
       }
     } catch (error) {
       console.error('Error updating quantity:', error);
@@ -447,6 +560,9 @@ export function DistributorInvoiceSystem() {
           shipping: parseFloat(data.shipping_price),
           fullData: data.full_data
         }, ...invoiceHistory]);
+        
+        // Update inventory - subtract sold quantities
+        await updateInventoryAfterSale(currentInvoice.distributor.code, currentInvoice.products);
       }
     } catch (error) {
       console.error('Error saving to Supabase:', error);
