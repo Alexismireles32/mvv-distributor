@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { AdminDashboard } from '../components/admin-dashboard.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+---
+
+<Layout 
+  title="Admin Dashboard | MVV Natural"
+  description="Panel de administración para MVV Natural"
+>
+  <WhatsAppProvider client:load>
+    <Navbar6 client:load />
+    
+    <AdminDashboard client:load />
+    
+    <Footer2 client:load />
+  </WhatsAppProvider>
+</Layout>
+
