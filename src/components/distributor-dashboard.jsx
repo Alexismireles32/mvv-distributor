@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { BiTrendingUp, BiMoney, BiUser, BiPackage, BiBell } from 'react-icons/bi';
+import { BiTrendingUp, BiMoney, BiUser, BiPackage } from 'react-icons/bi';
 
 export function DistributorDashboard({ distributorInfo, invoiceHistory, inventory, onViewChange }) {
   const [timeFilter, setTimeFilter] = useState('monthly'); // daily, weekly, monthly, yearly

@@ -3,7 +3,7 @@
 import { Button, useMediaQuery } from "@relume_io/relume-ui";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
-import { RxChevronDown, RxChevronRight } from "react-icons/rx";
+import { RxChevronRight } from "react-icons/rx";
 
 const useRelume = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
