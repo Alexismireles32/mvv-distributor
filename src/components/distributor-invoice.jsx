@@ -1192,7 +1192,7 @@ export function DistributorInvoiceSystem() {
       distributorCode={distributorInfo.code}
       currentPhotoUrl={distributorInfo.photo_url}
       onBack={() => setCurrentView('dashboard')}
-      onSaved={(url)=> setDistributorInfo({...distributorInfo, photo_url: url})}
+      onSaved={(updates)=> setDistributorInfo({...distributorInfo, ...updates})}
     />;
   }
 
