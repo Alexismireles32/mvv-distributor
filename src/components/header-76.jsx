@@ -7,18 +7,38 @@ import { useCart } from "./customer-cart";
 export function Header76({ onOpenWhatsApp }) {
   const cart = useCart();
   const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [welcome, setWelcome] = useState("");
+  const [hideForm, setHideForm] = useState(false);
+
   const goProducts = async (e) => {
     e?.preventDefault?.();
     if (!/^\d{3}$/.test(code)) return;
     // Activate order in-place so the banner appears without redirect
     if (cart?.activateOrder) {
-      const ok = await cart.activateOrder(code);
-      if (ok) {
+      try {
+        setLoading(true);
+        const ok = await cart.activateOrder(code);
+        if (ok) {
         try {
           const url = new URL(window.location.href);
           url.searchParams.set('code', code);
           window.history.replaceState({}, '', url.toString());
         } catch {}
+          // Show welcome message with distributor name
+          setTimeout(() => {
+            const name = cart?.distributorInfo?.name || "";
+            const last = cart?.distributorInfo?.last_name || "";
+            setWelcome(`Bienvenido a la tienda de ${name} ${last}`.trim());
+            setLoading(false);
+            // Hide form after a short time; banner will remain visible
+            setTimeout(() => setHideForm(true), 2200);
+          }, 60);
+        } else {
+          setLoading(false);
+        }
+      } catch (_) {
+        setLoading(false);
       }
     }
   };
@@ -47,23 +67,32 @@ export function Header76({ onOpenWhatsApp }) {
             </a>
           </Button>
           
-          <form onSubmit={goProducts} className="w-full sm:w-auto flex items-center gap-2 bg-white/90 px-2 py-2 rounded-full border-2 border-white">
-            <input
-              type="tel"
-              value={code}
-              onChange={(e)=> setCode(e.target.value.replace(/\D/g,'').slice(0,3))}
-              placeholder="Código (3 dígitos)"
-              className="px-3 py-1.5 text-sm text-como bg-transparent outline-none w-[140px]"
-            />
-            <button
-              onClick={goProducts}
-              disabled={!/^\d{3}$/.test(code)}
-              className="px-4 py-2 bg-como text-white rounded-full text-sm disabled:opacity-50"
-              type="submit"
-            >
-              Activar
-            </button>
-          </form>
+          {!hideForm && (
+            <div className="w-full sm:w-auto">
+              <p className="text-xs text-white/80 mb-1 ml-2">Ingresa el código de tu distribuidor</p>
+              <form onSubmit={goProducts} className="flex items-center gap-2 bg-white/90 px-2 py-2 rounded-full border-2 border-white">
+                <input
+                  type="tel"
+                  value={code}
+                  onChange={(e)=> setCode(e.target.value.replace(/\D/g,'').slice(0,3))}
+                  placeholder="Código (3 dígitos)"
+                  className="px-3 py-1.5 text-sm text-como bg-transparent outline-none w-[140px]"
+                />
+                <button
+                  onClick={goProducts}
+                  disabled={!/^\d{3}$/.test(code) || loading}
+                  className="px-4 py-2 bg-como text-white rounded-full text-sm disabled:opacity-50 flex items-center gap-2"
+                  type="submit"
+                >
+                  {loading && <span className="inline-block h-3 w-3 rounded-full border-2 border-white border-t-transparent animate-spin" />}
+                  {loading ? 'Activando…' : 'Activar'}
+                </button>
+              </form>
+              {welcome && (
+                <div className="mt-2 text-white text-sm ml-2">{welcome}</div>
+              )}
+            </div>
+          )}
         </div>
       </div>
       <div className="h-[25rem] overflow-hidden pl-[5vw] pr-[5vw] xxs:h-[30rem] md:h-[40rem] lg:h-screen lg:pl-0">
