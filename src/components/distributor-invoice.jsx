@@ -762,44 +762,75 @@ export function DistributorInvoiceSystem() {
     const total = subtotal + invoiceData.shipping;
 
     let invoiceHTML = `
-      <div style="font-family: Arial; padding: 40px; background: white; color: #333; max-width: 1200px;">
-        <div style="display: flex; justify-content: space-between; border-bottom: 3px solid #4A7C59; padding-bottom: 20px; margin-bottom: 30px;">
-          <div>
-            <img src="${logoUrl}" style="height: 60px; margin-bottom: 10px;" />
-            <h1 style="margin: 0; color: #4A7C59; font-size: 32px;">FACTURA</h1>
-            <p style="margin: 5px 0; font-size: 14px;">MVV Natural Distributors</p>
+      <div class="inv-container" style="font-family: Arial, sans-serif; padding: 24px; background: #ffffff; color: #1f2937; max-width: 1200px;">
+        <style>
+          .inv-header{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:2px solid #4A7C59;padding-bottom:12px;margin-bottom:18px}
+          .inv-brand{display:flex;align-items:center;gap:12px}
+          .inv-brand img{height:44px}
+          .inv-title{margin:0;color:#4A7C59;font-size:24px;letter-spacing:0.5px}
+          .inv-sub{margin:0;font-size:12px;color:#6b7280}
+          .inv-meta{font-size:12px;color:#374151;text-align:right}
+          .inv-info{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+          .inv-info h3{margin:0 0 6px;color:#4A7C59;font-size:14px}
+          .inv-info p{margin:3px 0;font-size:12px}
+          .inv-table{width:100%;border-collapse:collapse}
+          .inv-table th{padding:10px;text-align:left;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-size:12px}
+          .inv-table td{padding:10px;border-bottom:1px solid #f1f5f9;font-size:12px}
+          .inv-totals{margin-top:16px;border-top:2px solid #4A7C59;padding-top:12px;display:flex;justify-content:flex-end}
+          .inv-totals .row{display:flex;justify-content:space-between;margin:6px 0;font-size:14px}
+          .inv-totals .total{display:flex;justify-content:space-between;margin:10px 0;padding:12px;background:#4A7C59;color:#fff;border-radius:4px;font-size:18px}
+          .inv-legal{margin-top:14px;padding-top:10px;border-top:1px solid #e5e7eb}
+          .inv-legal p{font-size:10px;color:#6b7280;line-height:1.5;text-align:center;margin:0}
+          @media (max-width: 480px){
+            .inv-container{padding:16px}
+            .inv-header{flex-direction:row;align-items:center}
+            .inv-brand img{height:36px}
+            .inv-title{font-size:18px}
+            .inv-meta{font-size:11px}
+            .inv-info{grid-template-columns:1fr;gap:10px}
+            .inv-table th,.inv-table td{padding:8px;font-size:11px}
+            .inv-totals .total{font-size:16px}
+          }
+        </style>
+
+        <div class="inv-header">
+          <div class="inv-brand">
+            <img src="${logoUrl}" alt="MVV Natural" />
+            <div>
+              <h1 class="inv-title">Orden de Compra</h1>
+              <p class="inv-sub">MVV Natural Distributors</p>
+            </div>
           </div>
-          <div style="text-align: right;">
-            <p style="margin: 5px 0;"><strong>Fecha:</strong> ${invoiceData.date.toLocaleDateString('es-MX')}</p>
-            <p style="margin: 5px 0;"><strong>ID:</strong> ${invoiceData.distributor.code}</p>
+          <div class="inv-meta">
+            <div><strong>Fecha:</strong> ${invoiceData.date.toLocaleDateString('es-MX')}</div>
+            <div><strong>ID:</strong> ${invoiceData.distributor.code}</div>
           </div>
         </div>
-        
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+
+        <div class="inv-info">
           <div>
-            <h3 style="margin: 0 0 10px; color: #4A7C59;">Cliente</h3>
-            <p style="margin: 5px 0;"><strong>${invoiceData.client.firstName} ${invoiceData.client.lastName}</strong></p>
-            <p style="margin: 5px 0;">${invoiceData.client.address}</p>
-            <p style="margin: 5px 0;">${invoiceData.client.city ? invoiceData.client.city + ', ' : ''}${invoiceData.client.state} ${invoiceData.client.zipCode}</p>
+            <h3>Cliente</h3>
+            <p><strong>${invoiceData.client.firstName} ${invoiceData.client.lastName}</strong></p>
+            <p>${invoiceData.client.address || ''}</p>
+            <p>${invoiceData.client.city ? invoiceData.client.city + ', ' : ''}${invoiceData.client.state || ''} ${invoiceData.client.zipCode || ''}</p>
           </div>
-          
           <div>
-            <h3 style="margin: 0 0 10px; color: #4A7C59;">Distribuidor</h3>
-            <p style="margin: 5px 0;"><strong>${invoiceData.distributor.name} ${invoiceData.distributor.last_name}</strong></p>
-            <p style="margin: 5px 0;">${invoiceData.distributor.state}</p>
-            <p style="margin: 5px 0;"><strong>ID:</strong> ${invoiceData.distributor.code}</p>
+            <h3>Distribuidor</h3>
+            <p><strong>${invoiceData.distributor.name} ${invoiceData.distributor.last_name}</strong></p>
+            <p>${invoiceData.distributor.state || ''}</p>
+            <p><strong>ID:</strong> ${invoiceData.distributor.code}</p>
           </div>
         </div>
         
         <div style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 20px 0;">
-          <h3 style="margin: 0 0 20px; color: #4A7C59;">Productos</h3>
-          <table style="width: 100%; border-collapse: collapse;">
+          <h3 style="margin: 0 0 12px; color: #4A7C59; font-size:14px">Productos</h3>
+          <table class="inv-table">
             <thead>
-              <tr style="background: #f5f5f5;">
-                <th style="padding: 10px; text-align: left; border-bottom: 2px solid #ddd;">Producto</th>
-                <th style="padding: 10px; text-align: center; border-bottom: 2px solid #ddd;">Cant</th>
-                <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Precio</th>
-                <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Total</th>
+              <tr>
+                <th>Producto</th>
+                <th style="text-align:center">Cant</th>
+                <th style="text-align:right">Precio</th>
+                <th style="text-align:right">Total</th>
               </tr>
             </thead>
             <tbody>
@@ -831,28 +862,17 @@ export function DistributorInvoiceSystem() {
           </table>
         </div>
         
-        <div style="margin-top: 30px; border-top: 2px solid #4A7C59; padding-top: 20px;">
-          <div style="display: flex; justify-content: flex-end;">
-            <div style="width: 300px;">
-              <div style="display: flex; justify-content: space-between; margin: 10px 0; font-size: 16px;">
-                <span><strong>Subtotal:</strong></span>
-                <span>$${subtotal.toFixed(2)}</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; margin: 10px 0; font-size: 16px;">
-                <span><strong>Envío:</strong></span>
-                <span>$${invoiceData.shipping.toFixed(2)}</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; margin: 15px 0; padding: 15px; background: #4A7C59; color: white; border-radius: 5px;">
-                <span style="font-size: 20px; font-weight: bold;">TOTAL:</span>
-                <span style="font-size: 24px; font-weight: bold;">$${total.toFixed(2)}</span>
-              </div>
-            </div>
+        <div class="inv-totals">
+          <div style="width: 280px;">
+            <div class="row"><span><strong>Subtotal:</strong></span><span>$${subtotal.toFixed(2)}</span></div>
+            <div class="row"><span><strong>Envío:</strong></span><span>$${invoiceData.shipping.toFixed(2)}</span></div>
+            <div class="total"><span><strong>TOTAL:</strong></span><span><strong>$${total.toFixed(2)}</strong></span></div>
           </div>
         </div>
         
         <!-- Legal Disclaimer -->
-        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-          <p style="font-size: 9px; color: #666; line-height: 1.4; text-align: center; margin: 0;">
+        <div class="inv-legal">
+          <p>
             Comprobante de venta oficial MVV Natural emitido por distribuidor autorizado. 
             Los productos son naturales. El uso correcto es responsabilidad del cliente. 
             Por ser agente de conexión, el distribuidor actúa en representación de la compañía.

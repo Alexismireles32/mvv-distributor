@@ -315,41 +315,63 @@ function CartSidebar() {
         <td style="padding: 12px; text-align: right; font-weight: 600;">$${(item.quantity * item.price).toFixed(2)}</td>
       </tr>
     `).join('');
-
     return `
-      <div style="padding: 40px; font-family: Arial, sans-serif; background: white;">
-        <!-- Header -->
-        <div style="text-align: center; margin-bottom: 30px;">
-          <img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png" alt="MVV Natural" style="height: 60px; margin-bottom: 20px;">
-          <h1 style="font-size: 28px; color: #111827; margin: 0;">Orden de Compra</h1>
-          <p style="color: #6b7280; margin-top: 10px;">Fecha: ${new Date().toLocaleDateString('es-MX')}</p>
+      <div class="inv-container" style="padding: 24px; font-family: Arial, sans-serif; background: white; color:#1f2937;">
+        <style>
+          .inv-header{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:2px solid #11182720;padding-bottom:12px;margin-bottom:16px}
+          .inv-brand{display:flex;align-items:center;gap:10px}
+          .inv-brand img{height:40px}
+          .inv-title{margin:0;color:#111827;font-size:20px}
+          .inv-meta{font-size:12px;color:#374151;text-align:right}
+          .inv-info{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+          .inv-info h3{margin:0 0 6px;color:#6b7280;font-size:12px;text-transform:uppercase}
+          .inv-info p{margin:3px 0;font-size:12px}
+          .inv-table{width:100%;border-collapse:collapse;margin-bottom:12px}
+          .inv-table th{padding:10px;text-align:left;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-size:12px}
+          .inv-table td{padding:10px;border-bottom:1px solid #f1f5f9;font-size:12px}
+          .inv-totals{text-align:right;margin-bottom:12px}
+          .inv-legal{margin-top:6px;padding-top:10px;border-top:1px solid #e5e7eb}
+          .inv-legal p{font-size:10px;color:#6b7280;line-height:1.5;text-align:center;margin:0}
+          @media (max-width: 480px){
+            .inv-container{padding:16px}
+            .inv-brand img{height:32px}
+            .inv-title{font-size:18px}
+            .inv-info{grid-template-columns:1fr}
+            .inv-table th,.inv-table td{padding:8px;font-size:11px}
+          }
+        </style>
+
+        <div class="inv-header">
+          <div class="inv-brand">
+            <img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png" alt="MVV Natural">
+            <h1 class="inv-title">Orden de Compra</h1>
+          </div>
+          <div class="inv-meta">Fecha: ${new Date().toLocaleDateString('es-MX')}</div>
         </div>
 
-        <!-- Distributor Info -->
-        <div style="background: #f9fafb; padding: 20px; margin-bottom: 30px; border-radius: 8px;">
-          <h3 style="font-size: 14px; color: #6b7280; text-transform: uppercase; margin: 0 0 10px 0;">Distribuidor</h3>
-          <p style="font-size: 18px; color: #111827; margin: 0; font-weight: 600;">${distributorInfo.name} ${distributorInfo.last_name}</p>
-          <p style="font-size: 14px; color: #6b7280; margin: 5px 0 0 0;">Código: ${distributorInfo.code}</p>
-          <p style="font-size: 14px; color: #6b7280; margin: 5px 0 0 0;">Teléfono: ${distributorInfo.phone}</p>
+        <div class="inv-info">
+          <div>
+            <h3>Distribuidor</h3>
+            <p><strong>${distributorInfo.name} ${distributorInfo.last_name}</strong></p>
+            <p>Código: ${distributorInfo.code}</p>
+            <p>Teléfono: ${distributorInfo.phone}</p>
+          </div>
+          <div>
+            <h3>Cliente</h3>
+            <p>${customerInfo.firstName} ${customerInfo.lastName}</p>
+            <p>Teléfono: ${customerInfo.phone}</p>
+            ${customerInfo.email ? `<p>Email: ${customerInfo.email}</p>` : ''}
+            ${customerInfo.address ? `<p>Dirección: ${customerInfo.address}, ${customerInfo.city}, ${customerInfo.state} ${customerInfo.zipCode}</p>` : ''}
+          </div>
         </div>
 
-        <!-- Customer Info -->
-        <div style="background: #f9fafb; padding: 20px; margin-bottom: 30px; border-radius: 8px;">
-          <h3 style="font-size: 14px; color: #6b7280; text-transform: uppercase; margin: 0 0 10px 0;">Cliente</h3>
-          <p style="font-size: 16px; color: #111827; margin: 0;">${customerInfo.firstName} ${customerInfo.lastName}</p>
-          <p style="font-size: 14px; color: #6b7280; margin: 5px 0 0 0;">Teléfono: ${customerInfo.phone}</p>
-          ${customerInfo.email ? `<p style="font-size: 14px; color: #6b7280; margin: 5px 0 0 0;">Email: ${customerInfo.email}</p>` : ''}
-          ${customerInfo.address ? `<p style="font-size: 14px; color: #6b7280; margin: 5px 0 0 0;">Dirección: ${customerInfo.address}, ${customerInfo.city}, ${customerInfo.state} ${customerInfo.zipCode}</p>` : ''}
-        </div>
-
-        <!-- Products Table -->
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+        <table class="inv-table">
           <thead>
-            <tr style="background: #f3f4f6; border-bottom: 2px solid #e5e7eb;">
-              <th style="padding: 12px; text-align: left; font-size: 12px; color: #6b7280; text-transform: uppercase;">Producto</th>
-              <th style="padding: 12px; text-align: center; font-size: 12px; color: #6b7280; text-transform: uppercase;">Cantidad</th>
-              <th style="padding: 12px; text-align: right; font-size: 12px; color: #6b7280; text-transform: uppercase;">Precio Unit.</th>
-              <th style="padding: 12px; text-align: right; font-size: 12px; color: #6b7280; text-transform: uppercase;">Total</th>
+            <tr>
+              <th>Producto</th>
+              <th style="text-align:center">Cantidad</th>
+              <th style="text-align:right">Precio Unit.</th>
+              <th style="text-align:right">Total</th>
             </tr>
           </thead>
           <tbody>
@@ -357,16 +379,14 @@ function CartSidebar() {
           </tbody>
         </table>
 
-        <!-- Total -->
-        <div style="text-align: right; margin-bottom: 30px;">
-          <p style="font-size: 24px; color: #111827; font-weight: 700; margin: 0;">Total Estimado: $${total.toFixed(2)}</p>
-          <p style="font-size: 12px; color: #6b7280; margin: 10px 0 0 0;">*El precio puede variar según costo de envío</p>
+        <div class="inv-totals">
+          <p style="font-size:18px;margin:0;">Total Estimado: $${total.toFixed(2)}</p>
+          <p style="font-size:11px;color:#6b7280;margin:6px 0 0 0;">*El precio puede variar según costo de envío</p>
         </div>
 
-        <!-- Payment Method -->
-        <div style="background: #f9fafb; padding: 20px; margin-bottom: 30px; border-radius: 8px;">
-          <h3 style="font-size: 14px; color: #6b7280; text-transform: uppercase; margin: 0 0 10px 0;">Método de Pago Seleccionado</h3>
-          <p style="font-size: 18px; color: #111827; margin: 0; font-weight: 600;">${selectedPaymentMethod}</p>
+        <div style="background: #f9fafb; padding: 14px; margin-bottom: 14px; border-radius: 6px;">
+          <h3 style="font-size: 12px; color: #6b7280; text-transform: uppercase; margin: 0 0 6px 0;">Método de Pago Seleccionado</h3>
+          <p style="font-size: 16px; color: #111827; margin: 0; font-weight: 600;">${selectedPaymentMethod}</p>
         </div>
 
         <!-- Legal Disclaimer (same as distributor invoice) -->
