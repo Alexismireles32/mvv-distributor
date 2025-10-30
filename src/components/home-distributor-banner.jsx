@@ -47,8 +47,8 @@ export function HomeDistributorBanner({ variant = 'full' }) {
 
   return (
     <section className="relative px-[5%] py-6 border-t border-gray-200">
-      {/* Top-right long badge */}
-      <div className="absolute top-3 right-[5%] bg-[#FFD700] text-como px-4 py-1.5 text-[10px] md:text-xs font-bold shadow-md rounded-full whitespace-nowrap">
+      {/* Top-right long badge (angled + pulse, single line) */}
+      <div className="absolute top-3 right-[5%] rotate-12 bg-[#FFD700] text-como px-4 py-1.5 text-[10px] md:text-xs font-bold shadow-md rounded-full whitespace-nowrap animate-pulse">
         Distribuidor MVV Autorizado
       </div>
       <div className="max-w-xl md:max-w-3xl mx-auto text-center flex flex-col items-center">
