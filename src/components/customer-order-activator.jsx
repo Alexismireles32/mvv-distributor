@@ -47,38 +47,38 @@ export function CustomerOrderActivator() {
   };
 
   return (
-    <div className="bg-gray-50 py-8 px-6 border-y border-gray-200">
+    <div className="bg-gray-50 py-10 md:py-12 px-6 border-y border-gray-200">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-light text-gray-900 mb-2">Iniciar Orden</h2>
-          <p className="text-sm text-gray-600">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3">Iniciar Orden</h2>
+          <p className="text-base md:text-lg text-gray-600">
             Ingresa el código de tu distribuidor para ver precios y hacer tu orden
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+        <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
           <input
             type="text"
             value={distributorCode}
-            onChange={(e) => setDistributorCode(e.target.value)}
+            onChange={(e) => setDistributorCode(e.target.value.toUpperCase())}
             onKeyPress={(e) => e.key === 'Enter' && handleActivate()}
-            placeholder="Código de Distribuidor"
-            className="flex-1 px-4 py-3 border border-gray-300 text-base focus:outline-none focus:border-black"
+            placeholder="Ingresa Código del Distribuidor"
+            className="flex-1 px-6 py-4 border-2 border-gray-300 text-lg focus:outline-none focus:border-black"
             disabled={loading}
           />
           <button
             onClick={handleActivate}
             disabled={loading || !distributorCode.trim()}
-            className="px-8 py-3 bg-black text-white hover:bg-gray-800 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+            className="px-10 py-4 bg-black text-white hover:bg-gray-800 transition-colors text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
           >
             {loading ? 'Verificando...' : 'Activar Orden'}
           </button>
         </div>
 
-        <p className="text-xs text-gray-500 text-center mt-4">
-          Si no tienes un distribuidor, puedes buscar uno en{' '}
-          <a href="/verificar-distribuidor" className="underline hover:text-black">
-            Verificar Distribuidor
+        <p className="text-sm text-gray-600 text-center mt-6">
+          ¿No tienes distribuidor?{' '}
+          <a href="/verificar-distribuidor" className="underline hover:text-black font-medium">
+            Busca uno aquí
           </a>
         </p>
       </div>
