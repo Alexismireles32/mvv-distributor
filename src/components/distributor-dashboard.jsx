@@ -178,6 +178,12 @@ export function DistributorDashboard({ distributorInfo, invoiceHistory, inventor
                 Precios
               </button>
               <button
+                onClick={() => onViewChange('profile')}
+                className="px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
+              >
+                Perfil
+              </button>
+              <button
                 onClick={() => onViewChange('paymentMethods')}
                 className="px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
               >

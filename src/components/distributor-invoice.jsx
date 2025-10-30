@@ -10,6 +10,7 @@ import { ContactManager } from './contact-manager';
 import { PDFExporter } from './pdf-exporter';
 import { AdminDashboard } from './admin-dashboard';
 import { PaymentMethodsManager } from './payment-methods-manager';
+import { ProfileManager } from './profile-manager';
 
 // Product catalog
 const PRODUCTS = [
@@ -1172,6 +1173,15 @@ export function DistributorInvoiceSystem() {
     return <PaymentMethodsManager 
       distributorCode={distributorInfo.code}
       onBack={() => setCurrentView('dashboard')}
+    />;
+  }
+
+  if (currentView === 'profile') {
+    return <ProfileManager 
+      distributorCode={distributorInfo.code}
+      currentPhotoUrl={distributorInfo.photo_url}
+      onBack={() => setCurrentView('dashboard')}
+      onSaved={(url)=> setDistributorInfo({...distributorInfo, photo_url: url})}
     />;
   }
 
