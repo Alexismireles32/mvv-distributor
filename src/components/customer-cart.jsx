@@ -225,6 +225,12 @@ function CartSidebar() {
     try {
       setGeneratingInvoice(true);
 
+      // Open a placeholder window immediately to avoid popup blockers
+      let waWindow = null;
+      try {
+        waWindow = window.open('about:blank', '_blank');
+      } catch (_) {}
+
       // Create invoice HTML
       const invoiceHTML = createCustomerInvoiceHTML();
       
@@ -279,8 +285,12 @@ function CartSidebar() {
       const whatsappNumber = distributorInfo.phone.replace(/\D/g, '');
       const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
       
-      // Open WhatsApp
-      window.open(whatsappLink, '_blank');
+      // Open WhatsApp (use pre-opened window if available to bypass blockers)
+      if (waWindow && !waWindow.closed) {
+        waWindow.location.href = whatsappLink;
+      } else {
+        window.open(whatsappLink, '_blank', 'noopener');
+      }
 
       // Clear cart after successful order
       clearCart();
