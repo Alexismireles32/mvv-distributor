@@ -142,6 +142,18 @@ export function CartProvider({ children }) {
     getTotal
   };
 
+  // Auto-activate from URL query param (?code=123) on first mount
+  React.useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+      if (code && /^\d{3}$/.test(code)) {
+        activateOrder(code);
+      }
+    } catch (_) {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <CartContext.Provider value={value}>
       {children}
