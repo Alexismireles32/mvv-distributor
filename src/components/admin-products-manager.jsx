@@ -9,6 +9,7 @@ export function AdminProductsManager({ onBack }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [newItem, setNewItem] = useState({ name: '', image_url: '', slug: '' });
+  const [imagesById, setImagesById] = useState({}); // { productId: [{id, image_url}] }
 
   const load = async () => {
     try {
@@ -17,6 +18,11 @@ export function AdminProductsManager({ onBack }) {
       const { data, error } = await supabase.from('products').select('*').order('name', { ascending: true });
       if (error) throw error;
       setItems(data || []);
+      // Load images for all products
+      const { data: imgs } = await supabase.from('product_images').select('*').in('product_id', (data||[]).map(d=>d.id));
+      const map = {};
+      (imgs||[]).forEach(img=>{ (map[img.product_id] ||= []).push(img); });
+      setImagesById(map);
     } catch (e) {
       setError(e?.message || 'No se pudieron cargar los productos');
     } finally {
@@ -64,6 +70,29 @@ export function AdminProductsManager({ onBack }) {
     } finally { setSaving(false); }
   };
 
+  const addImage = async (productId, url) => {
+    try {
+      if (!url) return;
+      setSaving(true);
+      const { error } = await supabase.from('product_images').insert([{ product_id: productId, image_url: url }]);
+      if (error) throw error;
+      await load();
+    } catch (e) {
+      setError(e?.message || 'No se pudo agregar la imagen');
+    } finally { setSaving(false); }
+  };
+
+  const removeImage = async (imageId) => {
+    try {
+      setSaving(true);
+      const { error } = await supabase.from('product_images').delete().eq('id', imageId);
+      if (error) throw error;
+      await load();
+    } catch (e) {
+      setError(e?.message || 'No se pudo eliminar la imagen');
+    } finally { setSaving(false); }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
       <div className="max-w-5xl mx-auto">
@@ -100,6 +129,22 @@ export function AdminProductsManager({ onBack }) {
                   <div className="md:col-span-6 flex gap-2 mt-2">
                     <button onClick={()=>save(p.id,{ name:p.name, image_url:p.image_url, slug:p.slug })} className="px-4 py-2 bg-como text-white hover:bg-[#3d6849]">Guardar</button>
                     <button onClick={()=>remove(p.id)} className="px-4 py-2 bg-red-600 text-white hover:bg-red-700">Eliminar</button>
+                  </div>
+                  {/* Images manager */}
+                  <div className="md:col-span-6 mt-3 bg-gray-50 p-3">
+                    <h4 className="text-sm font-semibold mb-2">Imágenes adicionales</h4>
+                    <div className="flex flex-wrap gap-3 mb-2">
+                      {(imagesById[p.id]||[]).map(img => (
+                        <div key={img.id} className="relative">
+                          <img src={img.image_url} className="w-20 h-20 object-contain bg-white border" />
+                          <button onClick={()=>removeImage(img.id)} className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1">×</button>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex gap-2">
+                      <input placeholder="URL de imagen" className="flex-1 px-3 py-2 border" onKeyDown={(e)=>{ if(e.key==='Enter') { addImage(p.id, e.currentTarget.value); e.currentTarget.value=''; } }} />
+                      <button onClick={(e)=>{ const input = e.currentTarget.previousSibling; addImage(p.id, input.value); if (input) input.value=''; }} className="px-3 py-2 bg-black text-white">Agregar</button>
+                    </div>
                   </div>
                 </div>
               ))}

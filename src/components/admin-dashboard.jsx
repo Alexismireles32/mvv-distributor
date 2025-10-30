@@ -8,6 +8,7 @@ import { AdminProductsManager } from './admin-products-manager';
 export function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [adminCode, setAdminCode] = useState('');
+  const [view, setView] = useState('dashboard'); // 'dashboard' | 'products' | 'detail'
   const [usaDistributors, setUsaDistributors] = useState([]);
   const [selectedDistributor, setSelectedDistributor] = useState(null);
   const [selectedInvoices, setSelectedInvoices] = useState([]);
@@ -243,8 +244,8 @@ export function AdminDashboard() {
   }
 
   // Products manager view
-  if (isAuthenticated && adminCode === '0505' && stats && (stats._currentView === 'products')) {
-    return <AdminProductsManager onBack={() => setStats({ ...stats, _currentView: undefined })} />;
+  if (isAuthenticated && view === 'products') {
+    return <AdminProductsManager onBack={() => setView('dashboard')} />;
   }
 
   // Distributor detail view
@@ -419,7 +420,7 @@ export function AdminDashboard() {
                 <p className="text-gray-500 text-center py-12">No hay distribuidores de USA registrados</p>
               )}
               <div className="mt-6 flex gap-3">
-                <button onClick={() => setStats({ ...stats, _currentView: 'products' })} className="px-4 py-2 bg-black text-white hover:bg-gray-800 rounded-lg">Gestionar Productos</button>
+                <button onClick={() => setView('products')} className="px-4 py-2 bg-black text-white hover:bg-gray-800 rounded-lg">Gestionar Productos</button>
               </div>
             </div>
           </>
