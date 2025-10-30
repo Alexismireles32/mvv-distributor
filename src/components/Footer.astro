@@ -85,6 +85,12 @@
       <p class="text-center text-sm text-white/70 mb-3">
         © {new Date().getFullYear()} MVV Natural. Todos los derechos reservados.
       </p>
+    <!-- Switch distributor button (appears only if a distributor session is active) -->
+    <div class="text-center mb-4">
+      <button id="switch-distributor" class="hidden mx-auto px-4 py-2 text-sm bg-white text-como hover:bg-ecru-white min-h-[40px]">
+        Buscar otro distribuidor
+      </button>
+    </div>
       
       <!-- Disclaimer -->
       <div class="text-center text-xs text-white/60 max-w-3xl mx-auto">
@@ -95,4 +101,20 @@
     </div>
   </div>
 </footer>
+
+<script is:inline>
+  try {
+    const btn = document.getElementById('switch-distributor');
+    const active = localStorage.getItem('activeDistributorCode');
+    if (active && btn) {
+      btn.classList.remove('hidden');
+      btn.addEventListener('click', () => {
+        try { localStorage.removeItem('activeDistributorCode'); } catch {}
+        const url = new URL(window.location.href);
+        url.searchParams.delete('code');
+        window.location.href = '/verificar-distribuidor';
+      });
+    }
+  } catch (e) {}
+</script>
 

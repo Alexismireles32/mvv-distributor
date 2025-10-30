@@ -67,9 +67,9 @@ export function Header76({ onOpenWhatsApp }) {
             </a>
           </Button>
           
-          {!hideForm && (
+          {!(cart?.isOrderActive) && !hideForm && (
             <div className="w-full sm:w-auto">
-              <p className="text-xs text-white/80 mb-1 ml-2">Ingresa el código de tu distribuidor</p>
+              <p className="text-xs text-black mb-1 ml-2">Ingresa el código de tu distribuidor</p>
               <form onSubmit={goProducts} className="flex items-center gap-2 bg-white/90 px-2 py-2 rounded-full border-2 border-white">
                 <input
                   type="tel"
@@ -89,7 +89,7 @@ export function Header76({ onOpenWhatsApp }) {
                 </button>
               </form>
               {welcome && (
-                <div className="mt-2 text-white text-sm ml-2">{welcome}</div>
+                <div className="mt-2 text-black text-sm ml-2">{welcome}</div>
               )}
             </div>
           )}
