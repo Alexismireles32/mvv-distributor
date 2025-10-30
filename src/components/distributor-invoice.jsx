@@ -762,25 +762,25 @@ export function DistributorInvoiceSystem() {
     const total = subtotal + invoiceData.shipping;
 
     let invoiceHTML = `
-      <div class="inv-container" style="font-family: Arial, sans-serif; padding: 24px; background: #ffffff; color: #1f2937; max-width: 1200px;">
+      <div class="inv-container" style="font-family: Arial, sans-serif; padding: 24px; background: #FAF8F3; color: #1f2937; max-width: 1200px;">
         <style>
           .inv-header{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:2px solid #4A7C59;padding-bottom:12px;margin-bottom:18px}
           .inv-brand{display:flex;align-items:center;gap:12px}
-          .inv-brand img{height:44px}
-          .inv-title{margin:0;color:#4A7C59;font-size:24px;letter-spacing:0.5px}
-          .inv-sub{margin:0;font-size:12px;color:#6b7280}
+          .inv-brand img{height:44px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.06))}
+          .inv-title{margin:0;color:#376A4E;font-size:24px;letter-spacing:0.5px}
+          .inv-sub{margin:0;font-size:12px;color:#4b5563}
           .inv-meta{font-size:12px;color:#374151;text-align:right}
           .inv-info{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
-          .inv-info h3{margin:0 0 6px;color:#4A7C59;font-size:14px}
+          .inv-info h3{margin:0 0 6px;color:#376A4E;font-size:14px}
           .inv-info p{margin:3px 0;font-size:12px}
-          .inv-table{width:100%;border-collapse:collapse}
-          .inv-table th{padding:10px;text-align:left;border-bottom:1px solid #e5e7eb;background:#f9fafb;font-size:12px}
+          .inv-table{width:100%;border-collapse:collapse;background:#FFFFFF;border:1px solid #e5e7eb}
+          .inv-table th{padding:10px;text-align:left;border-bottom:1px solid #e5e7eb;background:#EAF3ED;font-size:12px;color:#2f5f46}
           .inv-table td{padding:10px;border-bottom:1px solid #f1f5f9;font-size:12px}
           .inv-totals{margin-top:16px;border-top:2px solid #4A7C59;padding-top:12px;display:flex;justify-content:flex-end}
           .inv-totals .row{display:flex;justify-content:space-between;margin:6px 0;font-size:14px}
-          .inv-totals .total{display:flex;justify-content:space-between;margin:10px 0;padding:12px;background:#4A7C59;color:#fff;border-radius:4px;font-size:18px}
+          .inv-totals .total{display:flex;justify-content:space-between;margin:10px 0;padding:12px;background:#4A7C59;color:#fff;border-radius:6px;font-size:18px;box-shadow:0 1px 0 rgba(0,0,0,.05)}
           .inv-legal{margin-top:14px;padding-top:10px;border-top:1px solid #e5e7eb}
-          .inv-legal p{font-size:10px;color:#6b7280;line-height:1.5;text-align:center;margin:0}
+          .inv-legal p{font-size:10px;color:#4b5563;line-height:1.5;text-align:center;margin:0}
           @media (max-width: 480px){
             .inv-container{padding:16px}
             .inv-header{flex-direction:row;align-items:center}
