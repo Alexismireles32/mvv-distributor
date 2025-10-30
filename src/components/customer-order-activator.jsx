@@ -62,9 +62,12 @@ export function CustomerOrderActivator() {
           <span className="text-sm text-gray-900 font-medium">Iniciar orden</span>
           <div className="flex-1 flex flex-col sm:flex-row gap-2">
             <input
-              type="text"
+              type="tel"
               value={distributorCode}
-              onChange={(e) => setDistributorCode(e.target.value.toUpperCase())}
+              onChange={(e) => {
+                const numeric = e.target.value.replace(/\D/g, '').slice(0,3);
+                setDistributorCode(numeric);
+              }}
               onKeyDown={(e) => e.key === 'Enter' && handleActivate()}
               placeholder="Código del distribuidor"
               className="flex-1 px-3 py-2 border border-gray-300 text-sm focus:outline-none focus:border-black"
@@ -72,7 +75,7 @@ export function CustomerOrderActivator() {
             />
             <button
               onClick={handleActivate}
-              disabled={loading || !distributorCode.trim()}
+              disabled={loading || !/^\d{3}$/.test(distributorCode)}
               className="px-4 py-2 bg-black text-white text-sm hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
             >
               {loading ? 'Verificando…' : 'Activar'}
