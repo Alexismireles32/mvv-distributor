@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { BiTrendingUp, BiMoney, BiUser, BiPackage } from 'react-icons/bi';
 
-export function DistributorDashboard({ distributorInfo, invoiceHistory, inventory, onViewChange }) {
+export function DistributorDashboard({ distributorInfo, invoiceHistory, inventory, onViewChange, onLogout }) {
   const [timeFilter, setTimeFilter] = useState('monthly'); // daily, weekly, monthly, yearly
   const [hasPaymentMethods, setHasPaymentMethods] = useState(true);
   const [hasPrices, setHasPrices] = useState(true);
@@ -125,12 +125,20 @@ export function DistributorDashboard({ distributorInfo, invoiceHistory, inventor
                 {distributorInfo.name} {distributorInfo.last_name} • {distributorInfo.code}
               </p>
             </div>
-            <button 
-              onClick={() => onViewChange('products')} 
-              className="px-6 py-2 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium w-full sm:w-auto"
-            >
-              Crear Factura
-            </button>
+            <div className="flex gap-2">
+              <button 
+                onClick={() => onViewChange('products')} 
+                className="px-6 py-2 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium w-full sm:w-auto"
+              >
+                Crear Factura
+              </button>
+              <button 
+                onClick={onLogout} 
+                className="px-6 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium w-full sm:w-auto"
+              >
+                Cerrar Sesión
+              </button>
+            </div>
           </div>
 
           {/* Time Filter */}

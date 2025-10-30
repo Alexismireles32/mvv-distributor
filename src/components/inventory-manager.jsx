@@ -101,7 +101,7 @@ export function InventoryManager({ distributorCode, onBack }) {
               onClick={onBack}
               className="text-sm text-gray-500 hover:text-gray-900 self-start"
             >
-              ← Volver
+              ← Volver al Dashboard
             </button>
           </div>
         </div>

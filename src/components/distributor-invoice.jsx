@@ -1150,6 +1150,7 @@ export function DistributorInvoiceSystem() {
       invoiceHistory={invoiceHistory}
       inventory={inventory}
       onViewChange={setCurrentView}
+      onLogout={handleLogout}
     />;
   }
 
