@@ -1,9 +1,16 @@
 "use client";
 
 import { Button } from "@relume_io/relume-ui";
-import React from "react";
+import React, { useState } from "react";
 
 export function Header76({ onOpenWhatsApp }) {
+  const [code, setCode] = useState("");
+  const goProducts = (e) => {
+    e?.preventDefault?.();
+    if (/^\d{3}$/.test(code)) {
+      window.location.href = `/productos?code=${code}`;
+    }
+  };
   return (
     <section
       id="relume"
@@ -29,17 +36,23 @@ export function Header76({ onOpenWhatsApp }) {
             </a>
           </Button>
           
-          <Button 
-            title="Verificar Distribuidor" 
-            variant="secondary" 
-            asChild
-            className="w-full sm:w-auto bg-como hover:bg-[#3d6849] text-white font-semibold text-sm xxs:text-base px-6 py-3.5 xxs:px-8 xxs:py-4 min-h-[44px] md:text-lg md:px-10 md:py-6 hover:shadow-lg active:scale-95 md:hover:scale-105 transition-all duration-300 rounded-full"
-          >
-            <a href="/verificar-distribuidor" className="flex items-center justify-center gap-2 md:gap-3">
-              <span>Conoce tu Distribuidor</span>
-              <span className="text-lg xxs:text-xl md:text-2xl">✓</span>
-            </a>
-          </Button>
+          <form onSubmit={goProducts} className="w-full sm:w-auto flex items-center gap-2 bg-white/90 px-2 py-2 rounded-full border-2 border-white">
+            <input
+              type="tel"
+              value={code}
+              onChange={(e)=> setCode(e.target.value.replace(/\D/g,'').slice(0,3))}
+              placeholder="Código (3 dígitos)"
+              className="px-3 py-1.5 text-sm text-como bg-transparent outline-none w-[140px]"
+            />
+            <button
+              onClick={goProducts}
+              disabled={!/^\d{3}$/.test(code)}
+              className="px-4 py-2 bg-como text-white rounded-full text-sm disabled:opacity-50"
+              type="submit"
+            >
+              Activar
+            </button>
+          </form>
         </div>
       </div>
       <div className="h-[25rem] overflow-hidden pl-[5vw] pr-[5vw] xxs:h-[30rem] md:h-[40rem] lg:h-screen lg:pl-0">

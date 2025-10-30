@@ -384,6 +384,7 @@ export function DistributorInvoiceSystem() {
       const name = document.getElementById('regName')?.value;
       const lastName = document.getElementById('regLastName')?.value;
       const state = document.getElementById('regState')?.value;
+      const country = document.getElementById('regCountry')?.value || '';
 
       if (!name || !lastName || !state) {
         alert('Completa los campos requeridos (Nombre, Apellido, Estado)');
@@ -411,6 +412,7 @@ export function DistributorInvoiceSystem() {
         name: name.trim(),
         last_name: lastName.trim(),
         state: state.trim(),
+        country: country.trim(),
         phone: fullPhone,
         email: document.getElementById('regEmail')?.value || '',
         pin: pin.trim()
@@ -1081,9 +1083,18 @@ export function DistributorInvoiceSystem() {
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-semibold mb-2">Estado *</label>
-              <input id="regState" placeholder="Ej: Texas..." className="w-full px-4 py-2 border rounded-lg" />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold mb-2">País *</label>
+                <select id="regCountry" className="w-full px-4 py-2 border rounded-lg">
+                  <option value="USA">Estados Unidos</option>
+                  <option value="Mexico">México</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold mb-2">Estado *</label>
+                <input id="regState" placeholder="Ej: Texas..." className="w-full px-4 py-2 border rounded-lg" />
+              </div>
             </div>
 
             <div>
