@@ -1,7 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { Navbar6 } from '../components/navbar-06.jsx';
-import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
 import { Footer2 } from '../components/footer-02.jsx';
 
 const productData = {
@@ -35,7 +37,11 @@ const productData = {
   title="Ashwagandha - Reduce Estrés, Ansiedad y Cortisol | Suplemento Natural"
   description="Ashwagandha adaptógeno potente. Reduce cortisol 28%, controla antojos por estrés, mejora sueño, elimina grasa abdominal. 100% natural."
 >
-  <Navbar6 client:load />
-  <ProductPageWrapper client:load productData={productData} />
-  <Footer2 client:idle />
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
 </Layout>

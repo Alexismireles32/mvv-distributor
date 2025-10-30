@@ -1,7 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { Navbar6 } from '../components/navbar-06.jsx';
-import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
 import { Footer2 } from '../components/footer-02.jsx';
 
 const productData = {
@@ -36,7 +38,11 @@ const productData = {
   title="S&S BURN Quita Ansiedad y Baja de Peso | 5x Metabolismo | 30 Cápsulas"
   description="S&S BURN quita ansiedad, baja de peso, pérdida contundente, elimina grasa difícil. 5x metabolismo. Para él y para ella. 30 cápsulas."
 >
-  <Navbar6 client:load />
-  <ProductPageWrapper client:load productData={productData} />
-  <Footer2 client:idle />
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
 </Layout>
