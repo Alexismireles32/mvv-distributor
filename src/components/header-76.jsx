@@ -2,13 +2,24 @@
 
 import { Button } from "@relume_io/relume-ui";
 import React, { useState } from "react";
+import { useCart } from "./customer-cart";
 
 export function Header76({ onOpenWhatsApp }) {
+  const cart = useCart();
   const [code, setCode] = useState("");
-  const goProducts = (e) => {
+  const goProducts = async (e) => {
     e?.preventDefault?.();
-    if (/^\d{3}$/.test(code)) {
-      window.location.href = `/productos?code=${code}`;
+    if (!/^\d{3}$/.test(code)) return;
+    // Activate order in-place so the banner appears without redirect
+    if (cart?.activateOrder) {
+      const ok = await cart.activateOrder(code);
+      if (ok) {
+        try {
+          const url = new URL(window.location.href);
+          url.searchParams.set('code', code);
+          window.history.replaceState({}, '', url.toString());
+        } catch {}
+      }
     }
   };
   return (
