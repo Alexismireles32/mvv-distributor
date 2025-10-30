@@ -58,6 +58,7 @@ export function DistributorInvoiceSystem() {
   });
   const [savedClients, setSavedClients] = useState({});
   const [loading, setLoading] = useState(false);
+  const [generatingInvoice, setGeneratingInvoice] = useState(false);
   
   // New states for new features
   const [inventory, setInventory] = useState({});
@@ -83,9 +84,14 @@ export function DistributorInvoiceSystem() {
     setSavedClients({});
     setInventory({});
     setDefaultPrices({});
+    setCurrentInvoice(null);
+    setShowInvoiceForm(false);
+    setShowPreview(false);
+    setPin('');
     
     // Clear localStorage to force new login
     localStorage.removeItem('lastLoggedIn');
+    localStorage.removeItem('admin_authed');
     
     // Return to login view
     setCurrentView('login');
@@ -172,18 +178,35 @@ export function DistributorInvoiceSystem() {
         .order('invoice_date', { ascending: false });
 
       if (!error && data) {
-        const history = data.map(inv => ({
-          id: inv.id,
-          date: new Date(inv.invoice_date),
-          client: inv.client_name,
-          total: parseFloat(inv.total_amount),
-          products: inv.products,
-          productPrices: inv.product_prices,
-          shipping: parseFloat(inv.shipping_price),
-          fullData: inv.full_data,
-          confirmed: inv.confirmed || false,
-          confirmedAt: inv.confirmed_at ? new Date(inv.confirmed_at) : null
-        }));
+        const history = data.map(inv => {
+          const parsedDate = inv.invoice_date ? new Date(inv.invoice_date) : new Date();
+          let fullData = inv.full_data ? { ...inv.full_data } : null;
+
+          if (fullData) {
+            if (fullData.date && !(fullData.date instanceof Date)) {
+              fullData.date = new Date(fullData.date);
+            }
+            if (fullData.confirmedAt && !(fullData.confirmedAt instanceof Date)) {
+              fullData.confirmedAt = new Date(fullData.confirmedAt);
+            }
+            if (fullData.client && fullData.client.lastPurchaseDate && !(fullData.client.lastPurchaseDate instanceof Date)) {
+              fullData.client.lastPurchaseDate = new Date(fullData.client.lastPurchaseDate);
+            }
+          }
+
+          return {
+            id: inv.id,
+            date: parsedDate,
+            client: inv.client_name,
+            total: parseFloat(inv.total_amount) || 0,
+            products: inv.products || {},
+            productPrices: inv.product_prices || {},
+            shipping: parseFloat(inv.shipping_price) || 0,
+            fullData,
+            confirmed: Boolean(inv.confirmed),
+            confirmedAt: inv.confirmed_at ? new Date(inv.confirmed_at) : null
+          };
+        });
         setInvoiceHistory(history);
       }
     } catch (error) {
@@ -318,14 +341,7 @@ export function DistributorInvoiceSystem() {
       });
 
       await Promise.all(promises);
-      
-      // Update local inventory state
-      const updatedInventory = { ...inventory };
-      Object.entries(soldProducts).forEach(([productName, soldQty]) => {
-        const currentStock = updatedInventory[productName] || 0;
-        updatedInventory[productName] = Math.max(0, currentStock - soldQty);
-      });
-      setInventory(updatedInventory);
+      await loadInventory(distributorCode);
       
     } catch (error) {
       console.error('Error updating inventory after sale:', error);
@@ -430,10 +446,13 @@ export function DistributorInvoiceSystem() {
         return;
       }
 
-      // Check if admin code (no PIN required)
-      if (distributorId === '220577') {
+      // Admin login: code 999 + PIN 0505
+      if (distributorId === '999' && pin === '0505') {
+        try {
+          localStorage.setItem('admin_authed', 'true');
+        } catch {}
         setCurrentView('admin');
-        setPin(''); // Clear PIN for admin
+        setPin('');
         return;
       }
 
@@ -592,101 +611,134 @@ export function DistributorInvoiceSystem() {
   };
 
   const generateInvoiceFile = async () => {
-    const invoiceHTML = createInvoiceHTML(currentInvoice);
-    const html2canvas = (await import('html2canvas')).default;
-    
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = invoiceHTML;
-    tempDiv.style.position = 'absolute';
-    tempDiv.style.left = '-9999px';
-    tempDiv.style.width = '1200px';
-    document.body.appendChild(tempDiv);
+    if (!currentInvoice) return;
 
-    // Wait for images to load before capturing
-    const images = tempDiv.getElementsByTagName('img');
-    await Promise.all(Array.from(images).map(img => {
-      if (img.complete) return Promise.resolve();
-      return new Promise((resolve, reject) => {
-        img.onload = resolve;
-        img.onerror = reject;
-      });
-    }));
+    const invoiceData = {
+      ...currentInvoice,
+      distributor: currentInvoice.distributor || distributorInfo,
+      client: { ...(currentInvoice.client || {}) },
+      date: currentInvoice.date instanceof Date ? currentInvoice.date : new Date(currentInvoice.date)
+    };
 
-    const canvas = await html2canvas(tempDiv, {
-      width: 1200,
-      height: tempDiv.scrollHeight,
-      scale: 2,
-      useCORS: true, // Allow cross-origin images
-      allowTaint: true, // Allow images from other domains
-      logging: false // Disable console logs
-    });
-
-    const link = document.createElement('a');
-    link.download = `factura_${currentInvoice.client.firstName}_${currentInvoice.client.lastName}_${Date.now()}.jpg`;
-    link.href = canvas.toDataURL('image/jpeg', 0.9);
-    link.click();
-
-    document.body.removeChild(tempDiv);
-    
-    // Save to Supabase
-    try {
-      const { error: clientError } = await supabase
-        .from('clients')
-        .upsert({
-          client_number: currentInvoice.client.clientNumber || `TEMP_${Date.now()}`,
-          distributor_code: currentInvoice.distributor.code,
-          first_name: currentInvoice.client.firstName,
-          last_name: currentInvoice.client.lastName,
-          address: currentInvoice.client.address,
-          city: currentInvoice.client.city,
-          state: currentInvoice.client.state,
-          zip_code: currentInvoice.client.zipCode,
-          phone: currentInvoice.client.phone,
-          email: currentInvoice.client.email
-        });
-
-      if (clientError) console.error('Error saving client:', clientError);
-
-      // Save invoice (unconfirmed by default)
-      const total = calculateTotal(currentInvoice);
-      const { data, error: invError } = await supabase
-        .from('invoices')
-        .insert({
-          distributor_code: currentInvoice.distributor.code,
-          client_number: currentInvoice.client.clientNumber || `TEMP_${Date.now()}`,
-          client_name: `${currentInvoice.client.firstName} ${currentInvoice.client.lastName}`,
-          invoice_date: currentInvoice.date.toISOString(),
-          total_amount: total,
-          products: currentInvoice.products,
-          product_prices: currentInvoice.productPrices,
-          shipping_price: currentInvoice.shipping,
-          full_data: currentInvoice,
-          confirmed: false, // Invoice starts as unconfirmed
-          confirmed_at: null
-        })
-        .select()
-        .single();
-
-      if (!invError && data) {
-        setInvoiceHistory([{
-          id: data.id,
-          date: new Date(data.invoice_date),
-          client: data.client_name,
-          total: parseFloat(data.total_amount),
-          products: data.products,
-          productPrices: data.product_prices,
-          shipping: parseFloat(data.shipping_price),
-          fullData: data.full_data,
-          confirmed: false // Track confirmation status
-        }, ...invoiceHistory]);
-        
-        // DO NOT update inventory yet - wait for confirmation
-      }
-    } catch (error) {
-      console.error('Error saving to Supabase:', error);
+    if (!invoiceData.distributor || !invoiceData.distributor.code) {
+      alert('Información del distribuidor no disponible para generar la factura.');
+      return;
     }
 
-    resetForm();
+    const isExistingInvoice = Boolean(invoiceData.invoiceId);
+    let tempDiv;
+
+    try {
+      setGeneratingInvoice(true);
+
+      const invoiceHTML = createInvoiceHTML(invoiceData);
+      const html2canvas = (await import('html2canvas')).default;
+
+      tempDiv = document.createElement('div');
+      tempDiv.innerHTML = invoiceHTML;
+      tempDiv.style.position = 'absolute';
+      tempDiv.style.left = '-9999px';
+      tempDiv.style.top = '-9999px';
+      tempDiv.style.width = '1200px';
+      tempDiv.style.backgroundColor = 'white';
+      document.body.appendChild(tempDiv);
+
+      const images = tempDiv.getElementsByTagName('img');
+      await Promise.all(Array.from(images).map(img => {
+        if (img.complete) return Promise.resolve();
+        return new Promise((resolve) => {
+          img.onload = resolve;
+          img.onerror = resolve;
+        });
+      }));
+
+      const canvas = await html2canvas(tempDiv, {
+        width: 1200,
+        height: tempDiv.scrollHeight,
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        backgroundColor: '#ffffff'
+      });
+
+      const link = document.createElement('a');
+      const safeFirstName = invoiceData.client.firstName || 'cliente';
+      const safeLastName = invoiceData.client.lastName || 'mvv';
+      const timestamp = invoiceData.invoiceId || Date.now();
+      link.download = `factura_${safeFirstName}_${safeLastName}_${timestamp}.jpg`;
+      link.href = canvas.toDataURL('image/jpeg', 0.9);
+      link.click();
+
+      if (!isExistingInvoice && supabase) {
+        try {
+          await supabase
+            .from('clients')
+            .upsert({
+              client_number: invoiceData.client.clientNumber || `TEMP_${Date.now()}`,
+              distributor_code: invoiceData.distributor.code,
+              first_name: invoiceData.client.firstName,
+              last_name: invoiceData.client.lastName,
+              address: invoiceData.client.address,
+              city: invoiceData.client.city,
+              state: invoiceData.client.state,
+              zip_code: invoiceData.client.zipCode,
+              phone: invoiceData.client.phone,
+              email: invoiceData.client.email
+            });
+
+          const total = calculateTotal(invoiceData);
+          const { data, error: invError } = await supabase
+            .from('invoices')
+            .insert({
+              distributor_code: invoiceData.distributor.code,
+              client_number: invoiceData.client.clientNumber || `TEMP_${Date.now()}`,
+              client_name: `${invoiceData.client.firstName || ''} ${invoiceData.client.lastName || ''}`.trim(),
+              invoice_date: invoiceData.date.toISOString(),
+              total_amount: total,
+              products: invoiceData.products,
+              product_prices: invoiceData.productPrices,
+              shipping_price: invoiceData.shipping,
+              full_data: invoiceData,
+              confirmed: false,
+              confirmed_at: null
+            })
+            .select()
+            .single();
+
+          if (!invError && data) {
+            const insertedFullData = data.full_data ? { ...data.full_data } : null;
+            if (insertedFullData && insertedFullData.date && !(insertedFullData.date instanceof Date)) {
+              insertedFullData.date = new Date(insertedFullData.date);
+            }
+            setInvoiceHistory(prev => [{
+              id: data.id,
+              date: new Date(data.invoice_date),
+              client: data.client_name,
+              total: parseFloat(data.total_amount) || 0,
+              products: data.products || {},
+              productPrices: data.product_prices || {},
+              shipping: parseFloat(data.shipping_price) || 0,
+              fullData: insertedFullData,
+              confirmed: false,
+              confirmedAt: null
+            }, ...prev]);
+          }
+        } catch (dbError) {
+          console.error('Error saving to Supabase:', dbError);
+        }
+
+        resetForm();
+      }
+    } catch (error) {
+      console.error('Error generating invoice file:', error);
+      alert('Error al generar la factura. Intenta nuevamente.');
+    } finally {
+      if (tempDiv && document.body.contains(tempDiv)) {
+        document.body.removeChild(tempDiv);
+      }
+      setGeneratingInvoice(false);
+    }
   };
 
   const calculateTotal = (invoiceData) => {
@@ -891,9 +943,10 @@ export function DistributorInvoiceSystem() {
           <div className="flex flex-col sm:flex-row gap-4">
             <button
               onClick={generateInvoiceFile}
-              className="flex-1 px-6 py-3 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium"
+              disabled={generatingInvoice}
+              className="flex-1 px-6 py-3 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Descargar Factura JPG
+              {generatingInvoice ? 'Generando JPG...' : 'Descargar Factura JPG'}
             </button>
             {showInvoiceForm && (
               <button
@@ -1295,7 +1348,7 @@ export function DistributorInvoiceSystem() {
                     <div className="flex flex-col sm:flex-row gap-2">
                       <button
                         onClick={() => {
-                          const invoiceData = inv.fullData || {
+                          const baseInvoice = inv.fullData ? { ...inv.fullData } : {
                             distributor: distributorInfo,
                             client: {
                               firstName: inv.client.split(' ')[0] || '',
@@ -1308,16 +1361,28 @@ export function DistributorInvoiceSystem() {
                               email: '',
                               clientNumber: ''
                             },
-                            products: inv.products,
+                            products: inv.products || {},
                             productPrices: inv.productPrices || {},
                             shipping: inv.shipping || 0,
                             date: inv.date
                           };
+
+                          if (!baseInvoice.distributor) {
+                            baseInvoice.distributor = distributorInfo;
+                          }
+
+                          if (baseInvoice.date && !(baseInvoice.date instanceof Date)) {
+                            baseInvoice.date = new Date(baseInvoice.date);
+                          }
+
+                          baseInvoice.client = { ...(baseInvoice.client || {}) };
+
                           // Add invoice ID to track confirmation status
-                          invoiceData.invoiceId = inv.id;
-                          invoiceData.confirmed = inv.confirmed;
-                          invoiceData.confirmedAt = inv.confirmedAt;
-                          setCurrentInvoice(invoiceData);
+                          baseInvoice.invoiceId = inv.id;
+                          baseInvoice.confirmed = inv.confirmed;
+                          baseInvoice.confirmedAt = inv.confirmedAt ? new Date(inv.confirmedAt) : null;
+
+                          setCurrentInvoice(baseInvoice);
                           setShowPreview(true);
                         }}
                         className="px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"

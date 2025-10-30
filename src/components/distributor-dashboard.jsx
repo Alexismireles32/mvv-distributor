@@ -52,7 +52,7 @@ export function DistributorDashboard({ distributorInfo, invoiceHistory, inventor
       uniqueClients: new Set(filteredInvoices.map(inv => inv.client)).size,
       pendingInvoices: invoiceHistory.filter(inv => !inv.confirmed).length
     };
-  }, [confirmedInvoices, timeFilter]);
+  }, [confirmedInvoices, invoiceHistory, timeFilter]);
 
   // Calculate top products from confirmed invoices only
   const productCounts = {};

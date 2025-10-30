@@ -16,8 +16,20 @@ export function AdminDashboard() {
     topSellers: []
   });
 
+  useEffect(() => {
+    try {
+      const flag = localStorage.getItem('admin_authed');
+      if (flag === 'true') {
+        setIsAuthenticated(true);
+        loadUSADistributors();
+      }
+    } catch {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleLogin = () => {
-    if (adminCode === '220577') {
+    if (adminCode === '0505') {
+      try { localStorage.setItem('admin_authed', 'true'); } catch {}
       setIsAuthenticated(true);
       loadUSADistributors();
     } else {
@@ -143,7 +155,10 @@ export function AdminDashboard() {
               <p className="text-gray-600 mt-1">Vista General - Distribuidores USA 🇺🇸</p>
             </div>
             <button
-              onClick={() => setIsAuthenticated(false)}
+              onClick={() => {
+                try { localStorage.removeItem('admin_authed'); } catch {}
+                setIsAuthenticated(false);
+              }}
               className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg"
             >
               Cerrar Sesión

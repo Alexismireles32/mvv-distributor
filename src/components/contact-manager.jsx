@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { BiSortUp, BiSortDown, BiMessage, BiTime, BiDollar } from 'react-icons/bi';
-import { supabase } from '../lib/supabase';
 
 export function ContactManager({ distributorCode, invoiceHistory, onBack }) {
   const [contacts, setContacts] = useState([]);
@@ -14,19 +13,37 @@ export function ContactManager({ distributorCode, invoiceHistory, onBack }) {
   }, [invoiceHistory, sortBy, sortOrder]);
 
   const processContacts = () => {
+    if (!Array.isArray(invoiceHistory) || invoiceHistory.length === 0) {
+      setContacts([]);
+      return;
+    }
+
+    const confirmedInvoices = invoiceHistory.filter(inv => inv && inv.confirmed);
+    const sourceInvoices = confirmedInvoices.length > 0 ? confirmedInvoices : invoiceHistory;
+
     const contactMap = new Map();
     const today = new Date();
 
-    // Process all invoices to create contact profiles
-    invoiceHistory.forEach(invoice => {
-      const clientName = invoice.client_name;
-      const clientData = invoice.full_data?.client || {};
-      
+    sourceInvoices.forEach(inv => {
+      if (!inv) return;
+
+      const clientDetails = inv.fullData?.client || {};
+      const fallbackName = `${clientDetails.firstName || ''} ${clientDetails.lastName || ''}`.trim();
+      const clientName = (inv.client || fallbackName || '').trim();
+
+      if (!clientName) return;
+
+      const purchaseDate = inv.date instanceof Date ? inv.date : new Date(inv.date);
+      if (!(purchaseDate instanceof Date) || Number.isNaN(purchaseDate.getTime())) {
+        return;
+      }
+
       if (!contactMap.has(clientName)) {
         contactMap.set(clientName, {
           name: clientName,
-          phone: clientData.phone || '',
-          email: clientData.email || '',
+          phone: clientDetails.phone || '',
+          email: clientDetails.email || '',
+          clientNumber: clientDetails.clientNumber || '',
           totalAmount: 0,
           totalInvoices: 0,
           lastPurchaseDate: null,
@@ -36,32 +53,35 @@ export function ContactManager({ distributorCode, invoiceHistory, onBack }) {
       }
 
       const contact = contactMap.get(clientName);
-      contact.totalAmount += parseFloat(invoice.total_amount) || 0;
+
+      if (!contact.phone && clientDetails.phone) contact.phone = clientDetails.phone;
+      if (!contact.email && clientDetails.email) contact.email = clientDetails.email;
+      if (!contact.clientNumber && clientDetails.clientNumber) contact.clientNumber = clientDetails.clientNumber;
+
+      const invoiceTotal = typeof inv.total === 'number' ? inv.total : parseFloat(inv.total || 0) || 0;
+
+      contact.totalAmount += invoiceTotal;
       contact.totalInvoices += 1;
       contact.allPurchases.push({
-        date: new Date(invoice.invoice_date),
-        amount: parseFloat(invoice.total_amount) || 0,
-        id: invoice.id
+        date: purchaseDate,
+        amount: invoiceTotal,
+        id: inv.id
       });
 
-      // Update last purchase date
-      const invoiceDate = new Date(invoice.invoice_date);
-      if (!contact.lastPurchaseDate || invoiceDate > contact.lastPurchaseDate) {
-        contact.lastPurchaseDate = invoiceDate;
-        contact.daysSinceLastPurchase = Math.floor((today - invoiceDate) / (1000 * 60 * 60 * 24));
+      if (!contact.lastPurchaseDate || purchaseDate > contact.lastPurchaseDate) {
+        contact.lastPurchaseDate = purchaseDate;
+        contact.daysSinceLastPurchase = Math.floor((today - purchaseDate) / (1000 * 60 * 60 * 24));
       }
     });
 
-    // Convert to array and sort
     let contactsArray = Array.from(contactMap.values());
 
-    // Sort contacts
     contactsArray.sort((a, b) => {
       let comparison = 0;
-      
+
       if (sortBy === 'amount') {
         comparison = a.totalAmount - b.totalAmount;
-      } else if (sortBy === 'time') {
+      } else {
         comparison = a.daysSinceLastPurchase - b.daysSinceLastPurchase;
       }
 
@@ -93,6 +113,10 @@ export function ContactManager({ distributorCode, invoiceHistory, onBack }) {
     }
 
     const cleanPhone = contact.phone.replace(/\D/g, '');
+    if (!cleanPhone) {
+      alert('No se encontró un número válido para WhatsApp');
+      return;
+    }
     const message = encodeURIComponent(
       `Hola ${contact.name.split(' ')[0] || ''}, esperamos estés bien! 🌟\n\n` +
       `Hace tiempo que no te contactamos. ¿Te gustaría volver a ordenar productos MVV Natural?` +
@@ -111,7 +135,10 @@ export function ContactManager({ distributorCode, invoiceHistory, onBack }) {
   };
 
   const formatDate = (date) => {
-    return date.toLocaleDateString('es-MX');
+    if (!date) return 'Sin registro';
+    const value = date instanceof Date ? date : new Date(date);
+    if (Number.isNaN(value.getTime())) return 'Sin registro';
+    return value.toLocaleDateString('es-MX');
   };
 
   return (
@@ -226,7 +253,7 @@ export function ContactManager({ distributorCode, invoiceHistory, onBack }) {
                           <span className="font-medium">Última compra:</span> {formatDate(contact.lastPurchaseDate)}
                         </div>
                         <div>
-                          <span className="font-medium">Hace:</span> {contact.daysSinceLastPurchase} días
+                          <span className="font-medium">Hace:</span> {contact.lastPurchaseDate ? `${contact.daysSinceLastPurchase} días` : 'Sin registro'}
                         </div>
                       </div>
                     </div>
