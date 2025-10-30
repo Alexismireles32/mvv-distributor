@@ -60,6 +60,13 @@ export function CartProvider({ children }) {
       setDistributorInfo(distData);
       setDistributorPrices(pricesObj);
       setIsOrderActive(true);
+      // Persist code in URL for continuity
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('code', code);
+        window.history.replaceState({}, '', url.toString());
+      } catch {}
+      showNotification(`Precios del distribuidor #${code} activados`);
       
       return true;
     } catch (error) {
