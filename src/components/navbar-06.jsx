@@ -53,20 +53,8 @@ export function Navbar6() {
             className="h-12 w-auto md:h-14"
           />
         </a>
-        {/* CTAs + Cart */}
+        {/* Cart */}
         <div className="flex items-center gap-2">
-          <a
-            href="/verificar-distribuidor"
-            className="hidden md:inline-block px-3 py-1.5 text-sm border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
-          >
-            Verificar Distribuidor
-          </a>
-          <a
-            href="/productos"
-            className="hidden md:inline-block px-3 py-1.5 text-sm bg-black text-white hover:bg-gray-800 transition-colors"
-          >
-            Crear Orden
-          </a>
           <CartIconButton />
         </div>
         <div className="absolute hidden h-screen overflow-auto border-b border-border-primary bg-background-primary px-[5%] pb-24 pt-4 md:pb-0 lg:static lg:ml-6 lg:flex lg:h-auto lg:flex-1 lg:items-center lg:justify-between lg:border-none lg:bg-none lg:px-0 lg:pt-0">
@@ -75,8 +63,8 @@ export function Navbar6() {
             <a href="/productos" className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base">Productos</a>
             <a href="/catalogo" className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base">Catálogo</a>
             <a href="/testimonios" className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base">Testimonios</a>
-            <a href="/verificar-distribuidor" className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base">Verificar Distribuidor</a>
-            <a href="/distribuidores" className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base font-semibold text-como">💼 Distribuidores</a>
+              <a href="/verificar-distribuidor" className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base">Verificar Distribuidor</a>
+              <a href="/distribuidores" className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base font-semibold text-como">💼 Distribuidores</a>
           </div>
         </div>
         <button
@@ -146,10 +134,6 @@ export function Navbar6() {
               <a href="/testimonios" className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base">Testimonios</a>
               <a href="/verificar-distribuidor" className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base">Verificar Distribuidor</a>
               <a href="/distribuidores" className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base font-semibold text-como">💼 Distribuidores</a>
-              <div className="mt-3 flex gap-2">
-                <a href="/verificar-distribuidor" className="px-3 py-2 text-sm border border-gray-300 text-gray-700">Verificar Distribuidor</a>
-                <a href="/productos" className="px-3 py-2 text-sm bg-black text-white">Crear Orden</a>
-              </div>
             </div>
           </motion.div>
         </motion.div>
