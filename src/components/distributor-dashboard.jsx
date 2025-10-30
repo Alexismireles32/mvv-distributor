@@ -1,10 +1,38 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import { BiTrendingUp, BiMoney, BiUser, BiPackage } from 'react-icons/bi';
 
 export function DistributorDashboard({ distributorInfo, invoiceHistory, inventory, onViewChange }) {
   const [timeFilter, setTimeFilter] = useState('monthly'); // daily, weekly, monthly, yearly
+  const [hasPaymentMethods, setHasPaymentMethods] = useState(true);
+  const [hasPrices, setHasPrices] = useState(true);
+
+  useEffect(() => {
+    const checkConfig = async () => {
+      try {
+        // Check payment methods (both USA/Mexico)
+        const pmUSA = Array.isArray(distributorInfo?.payment_methods_usa) ? distributorInfo.payment_methods_usa : [];
+        const pmMEX = Array.isArray(distributorInfo?.payment_methods_mexico) ? distributorInfo.payment_methods_mexico : [];
+        setHasPaymentMethods((pmUSA.length + pmMEX.length) > 0);
+
+        // Check if distributor has at least one price configured
+        if (supabase && distributorInfo?.code) {
+          const { count } = await supabase
+            .from('distributor_prices')
+            .select('*', { count: 'exact', head: true })
+            .eq('distributor_code', distributorInfo.code);
+          setHasPrices((count || 0) > 0);
+        }
+      } catch (e) {
+        // Fail safe: don't block dashboard
+        setHasPaymentMethods(true);
+        setHasPrices(true);
+      }
+    };
+    checkConfig();
+  }, [distributorInfo?.code]);
 
   // Filter confirmed invoices only
   const confirmedInvoices = invoiceHistory.filter(inv => inv.confirmed);
@@ -81,6 +109,13 @@ export function DistributorDashboard({ distributorInfo, invoiceHistory, inventor
   return (
     <div className="min-h-screen bg-white py-8 md:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
+        {/* Minimal warnings when configuration is incomplete */}
+        {(!hasPaymentMethods || !hasPrices) && (
+          <div className="mb-6 p-3 bg-yellow-50 border border-yellow-200 text-yellow-900 text-sm">
+            {!hasPaymentMethods && <p>Configura tus Métodos de Pago para habilitar compras por clientes.</p>}
+            {!hasPrices && <p>Configura tus Precios en la sección “Precios” para mostrar montos a los clientes.</p>}
+          </div>
+        )}
         {/* Header */}
         <div className="mb-16">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8">

@@ -6,13 +6,11 @@ import { supabase } from '../lib/supabase';
 const USA_PAYMENT_METHODS = ['Zelle', 'Venmo', 'Cash App', 'PayPal', 'Credit Card', 'Cash'];
 const MEXICO_PAYMENT_METHODS = ['OXXO', 'SPEI', 'Transferencia', 'Efectivo', 'Tarjeta'];
 
-export function PaymentMethodsManager({ distributorCode, distributorCountry, onBack }) {
-  const [selectedMethods, setSelectedMethods] = useState([]);
+export function PaymentMethodsManager({ distributorCode, onBack }) {
+  const [selectedUSA, setSelectedUSA] = useState([]);
+  const [selectedMEX, setSelectedMEX] = useState([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-
-  const isUSA = distributorCountry === 'USA';
-  const availableMethods = isUSA ? USA_PAYMENT_METHODS : MEXICO_PAYMENT_METHODS;
 
   useEffect(() => {
     loadPaymentMethods();
@@ -25,13 +23,13 @@ export function PaymentMethodsManager({ distributorCode, distributorCountry, onB
       setLoading(true);
       const { data, error } = await supabase
         .from('distributors')
-        .select(isUSA ? 'payment_methods_usa' : 'payment_methods_mexico')
+        .select('payment_methods_usa, payment_methods_mexico')
         .eq('code', distributorCode)
         .single();
 
       if (!error && data) {
-        const methods = isUSA ? data.payment_methods_usa : data.payment_methods_mexico;
-        setSelectedMethods(Array.isArray(methods) ? methods : []);
+        setSelectedUSA(Array.isArray(data.payment_methods_usa) ? data.payment_methods_usa : []);
+        setSelectedMEX(Array.isArray(data.payment_methods_mexico) ? data.payment_methods_mexico : []);
       }
     } catch (error) {
       console.error('Error loading payment methods:', error);
@@ -40,14 +38,11 @@ export function PaymentMethodsManager({ distributorCode, distributorCountry, onB
     }
   };
 
-  const toggleMethod = (method) => {
-    setSelectedMethods(prev => {
-      if (prev.includes(method)) {
-        return prev.filter(m => m !== method);
-      } else {
-        return [...prev, method];
-      }
-    });
+  const toggleMethodUSA = (method) => {
+    setSelectedUSA(prev => prev.includes(method) ? prev.filter(m => m !== method) : [...prev, method]);
+  };
+  const toggleMethodMEX = (method) => {
+    setSelectedMEX(prev => prev.includes(method) ? prev.filter(m => m !== method) : [...prev, method]);
   };
 
   const savePaymentMethods = async () => {
@@ -59,9 +54,10 @@ export function PaymentMethodsManager({ distributorCode, distributorCountry, onB
 
       setSaving(true);
 
-      const updateData = isUSA
-        ? { payment_methods_usa: selectedMethods }
-        : { payment_methods_mexico: selectedMethods };
+      const updateData = {
+        payment_methods_usa: selectedUSA,
+        payment_methods_mexico: selectedMEX
+      };
 
       const { error } = await supabase
         .from('distributors')
@@ -97,9 +93,7 @@ export function PaymentMethodsManager({ distributorCode, distributorCountry, onB
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8">
             <div>
               <h1 className="text-3xl sm:text-4xl font-light text-gray-900 mb-2">Métodos de Pago</h1>
-              <p className="text-sm text-gray-500">
-                Selecciona los métodos de pago que aceptas ({isUSA ? 'USA' : 'México'})
-              </p>
+              <p className="text-sm text-gray-500">Selecciona los métodos que aceptas (USA y/o México)</p>
             </div>
             <button
               onClick={onBack}
@@ -110,26 +104,37 @@ export function PaymentMethodsManager({ distributorCode, distributorCountry, onB
           </div>
         </div>
 
-        {/* Payment Methods Grid */}
-        <div className="mb-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {availableMethods.map((method) => {
-              const isSelected = selectedMethods.includes(method);
+        {/* USA Methods */}
+        <div className="mb-8">
+          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">USA</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {USA_PAYMENT_METHODS.map(method => {
+              const isSelected = selectedUSA.includes(method);
               return (
-                <button
-                  key={method}
-                  onClick={() => toggleMethod(method)}
-                  className={`px-6 py-4 border-2 text-left transition-all ${
-                    isSelected
-                      ? 'border-black bg-gray-50'
-                      : 'border-gray-200 hover:border-gray-400'
-                  }`}
-                >
+                <button key={method} onClick={() => toggleMethodUSA(method)}
+                  className={`px-5 py-3 border-2 text-left transition-all ${isSelected ? 'border-black bg-gray-50' : 'border-gray-200 hover:border-gray-400'}`}>
                   <div className="flex items-center justify-between">
-                    <span className="text-base text-gray-900">{method}</span>
-                    {isSelected && (
-                      <span className="text-black text-xl">✓</span>
-                    )}
+                    <span className="text-sm text-gray-900">{method}</span>
+                    {isSelected && <span className="text-black">✓</span>}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Mexico Methods */}
+        <div className="mb-12">
+          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">México</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {MEXICO_PAYMENT_METHODS.map(method => {
+              const isSelected = selectedMEX.includes(method);
+              return (
+                <button key={method} onClick={() => toggleMethodMEX(method)}
+                  className={`px-5 py-3 border-2 text-left transition-all ${isSelected ? 'border-black bg-gray-50' : 'border-gray-200 hover:border-gray-400'}`}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-900">{method}</span>
+                    {isSelected && <span className="text-black">✓</span>}
                   </div>
                 </button>
               );
@@ -147,16 +152,13 @@ export function PaymentMethodsManager({ distributorCode, distributorCountry, onB
         {/* Save Button */}
         <button
           onClick={savePaymentMethods}
-          disabled={saving || selectedMethods.length === 0}
+          disabled={saving || (selectedUSA.length === 0 && selectedMEX.length === 0)}
           className="px-6 py-2 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium disabled:opacity-50"
         >
           {saving ? 'Guardando...' : 'Guardar Métodos de Pago'}
         </button>
-
-        {selectedMethods.length === 0 && (
-          <p className="mt-4 text-sm text-red-600">
-            Debes seleccionar al menos un método de pago
-          </p>
+        {(selectedUSA.length === 0 && selectedMEX.length === 0) && (
+          <p className="mt-4 text-sm text-red-600">Debes seleccionar al menos un método de pago</p>
         )}
       </div>
     </div>

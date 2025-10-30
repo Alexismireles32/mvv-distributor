@@ -342,6 +342,15 @@ function CartSidebar() {
           <p style="font-size: 18px; color: #111827; margin: 0; font-weight: 600;">${selectedPaymentMethod}</p>
         </div>
 
+        <!-- Legal Disclaimer (same as distributor invoice) -->
+        <div style="margin-top: 10px; padding-top: 15px; border-top: 1px solid #e5e7eb;">
+          <p style="font-size: 10px; color: #6b7280; line-height: 1.5; text-align: center; margin: 0;">
+            Comprobante de cotización MVV Natural generado para comunicación con un distribuidor autorizado. 
+            Los productos son naturales. El uso correcto es responsabilidad del cliente. 
+            Los montos pueden variar según envío y condiciones finales. El distribuidor actúa como agente autorizado.
+          </p>
+        </div>
+
         <!-- Footer -->
         <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e5e7eb;">
           <p style="font-size: 12px; color: #6b7280; margin: 0;">MVV Natural - Suplementos 100% Naturales</p>

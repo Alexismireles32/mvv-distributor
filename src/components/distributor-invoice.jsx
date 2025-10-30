@@ -1150,7 +1150,6 @@ export function DistributorInvoiceSystem() {
   if (currentView === 'paymentMethods') {
     return <PaymentMethodsManager 
       distributorCode={distributorInfo.code}
-      distributorCountry={distributorInfo.country}
       onBack={() => setCurrentView('dashboard')}
     />;
   }
