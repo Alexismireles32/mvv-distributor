@@ -54,6 +54,11 @@ export function Header76({ onOpenWhatsApp }) {
         <p className="text-sm leading-relaxed xxs:text-base sm:text-base md:text-md md:leading-relaxed">
           Nuestro bestseller <strong>Duo 60 Fusion Xtreme</strong> y todos nuestros quemadores de grasa naturales aceleran tu metabolismo y controlan los antojos. Nuestros clientes pierden entre <strong>15 y 25 kilos en 2-3 meses</strong>. Sin químicos raros, sin efectos locos. Solo ingredientes naturales en las dosis correctas. <strong>15 años vendiendo</strong> en México y USA nos respaldan.
         </p>
+        {cart?.isOrderActive && cart?.distributorInfo && (
+          <p className="mt-3 text-base md:text-lg text-black font-medium">
+            Bienvenidos a la tienda de {cart.distributorInfo.name} {cart.distributorInfo.last_name}
+          </p>
+        )}
         <div className="mt-5 flex flex-col gap-2.5 xxs:gap-3 sm:flex-row sm:flex-wrap sm:gap-4 md:mt-8">
           <Button 
             title="Ver Todos los Productos" 
