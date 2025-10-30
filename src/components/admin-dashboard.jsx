@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { BiLock, BiTrendingUp, BiMoney, BiUser, BiPhone } from 'react-icons/bi';
 import { supabase } from '../lib/supabase';
 
@@ -8,6 +8,9 @@ export function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [adminCode, setAdminCode] = useState('');
   const [usaDistributors, setUsaDistributors] = useState([]);
+  const [selectedDistributor, setSelectedDistributor] = useState(null);
+  const [selectedInvoices, setSelectedInvoices] = useState([]);
+  const [savingDistributor, setSavingDistributor] = useState(false);
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState({
     totalDistributors: 0,
@@ -105,6 +108,101 @@ export function AdminDashboard() {
     }
   };
 
+  const openDistributor = async (dist) => {
+    setSelectedDistributor(dist);
+    setSelectedInvoices([]);
+    if (!supabase) return;
+    const { data } = await supabase
+      .from('invoices')
+      .select('*')
+      .eq('distributor_code', dist.code)
+      .order('invoice_date', { ascending: false });
+    setSelectedInvoices(data || []);
+  };
+
+  const saveDistributor = async () => {
+    try {
+      if (!supabase || !selectedDistributor) return;
+      setSavingDistributor(true);
+      const update = { 
+        name: selectedDistributor.name,
+        last_name: selectedDistributor.last_name,
+        state: selectedDistributor.state,
+        phone: selectedDistributor.phone,
+        email: selectedDistributor.email,
+        pin: selectedDistributor.pin,
+        is_active: selectedDistributor.is_active ?? true
+      };
+      await supabase.from('distributors').update(update).eq('code', selectedDistributor.code);
+      alert('Cambios guardados');
+    } catch (e) {
+      alert('Error al guardar');
+    } finally {
+      setSavingDistributor(false);
+    }
+  };
+
+  const toggleActive = () => {
+    setSelectedDistributor((prev) => ({ ...prev, is_active: !(prev?.is_active ?? true) }));
+  };
+
+  const renderInvoiceHTML = (inv) => {
+    const logoUrl = 'https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png';
+    const data = inv.full_data || {};
+    const client = data.client || { firstName: inv.client_name || '' };
+    const distributor = data.distributor || { name: selectedDistributor?.name || '', last_name: selectedDistributor?.last_name || '', state: selectedDistributor?.state || '', code: selectedDistributor?.code || '' };
+    const products = data.products || {};
+    const productPrices = data.productPrices || {};
+    let rows = '';
+    let subtotal = 0;
+    Object.keys(products).forEach((p) => {
+      const qty = products[p];
+      const price = parseFloat(productPrices[p] || 0);
+      subtotal += qty * price;
+      rows += `<tr><td style="padding:8px">${p}</td><td style="padding:8px;text-align:center">${qty}</td><td style="padding:8px;text-align:right">$${price.toFixed(2)}</td><td style=\"padding:8px;text-align:right\">$${(qty*price).toFixed(2)}</td></tr>`;
+    });
+    const total = subtotal + parseFloat(inv.shipping_price || 0);
+    return `
+      <div style="font-family: Arial, sans-serif; padding:16px; background:#FAF8F3; color:#1f2937;">
+        <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #4A7C59;padding-bottom:8px;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:8px"><img src="${logoUrl}" style="height:32px"/><h3 style="margin:0;color:#376A4E">Orden de Compra</h3></div>
+          <div style="font-size:12px;text-align:right">Fecha: ${new Date(inv.invoice_date).toLocaleDateString('es-MX')}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+          <div><h4 style="margin:0 0 4px;color:#376A4E;font-size:12px">Cliente</h4><div style="font-size:12px">${client.firstName || ''} ${client.lastName || ''}</div></div>
+          <div><h4 style="margin:0 0 4px;color:#376A4E;font-size:12px">Distribuidor</h4><div style="font-size:12px"><strong>${distributor.name} ${distributor.last_name}</strong><br/>${distributor.state} • ID ${distributor.code}</div></div>
+        </div>
+        <table style="width:100%;border-collapse:collapse;background:#fff;border:1px solid #e5e7eb">
+          <thead><tr style="background:#EAF3ED;color:#2f5f46"><th style="padding:8px;text-align:left">Producto</th><th style="padding:8px;text-align:center">Cant</th><th style="padding:8px;text-align:right">Precio</th><th style="padding:8px;text-align:right">Total</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <div style="margin-top:10px;display:flex;justify-content:flex-end"><div style="width:220px">
+          <div style="display:flex;justify-content:space-between;margin:6px 0"><span>Subtotal:</span><span>$${subtotal.toFixed(2)}</span></div>
+          <div style="display:flex;justify-content:space-between;margin:6px 0"><span>Envío:</span><span>$${parseFloat(inv.shipping_price||0).toFixed(2)}</span></div>
+          <div style="display:flex;justify-content:space-between;margin:8px 0;padding:10px;background:#4A7C59;color:#fff;border-radius:6px"><strong>TOTAL:</strong><strong>$${total.toFixed(2)}</strong></div>
+        </div></div>
+      </div>`;
+  };
+
+  const downloadInvoiceJPG = async (inv) => {
+    const html = renderInvoiceHTML(inv);
+    const html2canvas = (await import('html2canvas')).default;
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+    temp.style.position = 'absolute';
+    temp.style.left = '-9999px';
+    temp.style.top = '-9999px';
+    temp.style.width = '1200px';
+    temp.style.backgroundColor = 'white';
+    document.body.appendChild(temp);
+    const canvas = await html2canvas(temp, { width: 1200, height: temp.scrollHeight, scale: 2, backgroundColor: '#ffffff' });
+    const a = document.createElement('a');
+    a.download = `factura_${inv.client_name || 'cliente'}_${inv.id}.jpg`;
+    a.href = canvas.toDataURL('image/jpeg', 0.9);
+    a.click();
+    document.body.removeChild(temp);
+  };
+
   // Login Screen
   if (!isAuthenticated) {
     return (
@@ -137,6 +235,80 @@ export function AdminDashboard() {
             >
               Ingresar
             </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Distributor detail view
+  if (isAuthenticated && selectedDistributor) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl font-bold text-como">Distribuidor #{selectedDistributor.code}</h1>
+              <button onClick={() => setSelectedDistributor(null)} className="px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50">← Volver</button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Editable info */}
+            <div className="bg-white rounded-xl shadow-lg p-6 lg:col-span-1">
+              <h2 className="text-lg font-semibold mb-4">Información</h2>
+              <div className="space-y-3">
+                <input value={selectedDistributor.name || ''} onChange={(e)=>setSelectedDistributor({...selectedDistributor,name:e.target.value})} placeholder="Nombre" className="w-full px-3 py-2 border" />
+                <input value={selectedDistributor.last_name || ''} onChange={(e)=>setSelectedDistributor({...selectedDistributor,last_name:e.target.value})} placeholder="Apellido" className="w-full px-3 py-2 border" />
+                <input value={selectedDistributor.state || ''} onChange={(e)=>setSelectedDistributor({...selectedDistributor,state:e.target.value})} placeholder="Estado" className="w-full px-3 py-2 border" />
+                <input value={selectedDistributor.phone || ''} onChange={(e)=>setSelectedDistributor({...selectedDistributor,phone:e.target.value})} placeholder="Teléfono" className="w-full px-3 py-2 border" />
+                <input value={selectedDistributor.email || ''} onChange={(e)=>setSelectedDistributor({...selectedDistributor,email:e.target.value})} placeholder="Email" className="w-full px-3 py-2 border" />
+                <div>
+                  <label className="text-sm text-gray-600">PIN (4 dígitos)</label>
+                  <input value={selectedDistributor.pin || ''} onChange={(e)=>setSelectedDistributor({...selectedDistributor,pin:e.target.value})} className="w-full px-3 py-2 border mt-1" />
+                </div>
+                <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={(selectedDistributor.is_active ?? true)} onChange={toggleActive} /> Activo</label>
+                <div className="flex gap-2">
+                  <button onClick={saveDistributor} disabled={savingDistributor} className="px-4 py-2 bg-como text-white hover:bg-[#3d6849]">{savingDistributor? 'Guardando...' : 'Guardar Cambios'}</button>
+                  <a href="/productos" target="_blank" rel="noreferrer" className="px-4 py-2 border border-gray-300 text-gray-700">Abrir Productos</a>
+                </div>
+              </div>
+            </div>
+
+            {/* Invoices list */}
+            <div className="bg-white rounded-xl shadow-lg p-6 lg:col-span-2">
+              <h2 className="text-lg font-semibold mb-4">Facturas</h2>
+              {selectedInvoices.length === 0 ? (
+                <p className="text-gray-500">Sin facturas registradas</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="bg-gray-100">
+                        <th className="px-3 py-2 text-left">Fecha</th>
+                        <th className="px-3 py-2 text-left">Cliente</th>
+                        <th className="px-3 py-2 text-left">Total</th>
+                        <th className="px-3 py-2 text-left">Estado</th>
+                        <th className="px-3 py-2 text-left">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {selectedInvoices.map((inv) => (
+                        <tr key={inv.id} className="border-b">
+                          <td className="px-3 py-2">{new Date(inv.invoice_date).toLocaleDateString('es-MX')}</td>
+                          <td className="px-3 py-2">{inv.client_name}</td>
+                          <td className="px-3 py-2">${parseFloat(inv.total_amount||0).toFixed(2)}</td>
+                          <td className="px-3 py-2">{inv.confirmed ? 'Confirmada' : 'Pendiente'}</td>
+                          <td className="px-3 py-2">
+                            <button onClick={()=>downloadInvoiceJPG(inv)} className="px-3 py-1 bg-black text-white text-sm">Ver JPG</button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -223,7 +395,7 @@ export function AdminDashboard() {
                     </thead>
                     <tbody>
                       {usaDistributors.map((dist, index) => (
-                        <tr key={dist.code} className="border-b hover:bg-gray-50">
+                        <tr key={dist.code} className="border-b hover:bg-gray-50 cursor-pointer" onClick={()=>openDistributor(dist)}>
                           <td className="px-4 py-3">{index + 1}</td>
                           <td className="px-4 py-3 font-mono text-como font-bold">{dist.code}</td>
                           <td className="px-4 py-3 font-semibold">{dist.name} {dist.last_name}</td>
