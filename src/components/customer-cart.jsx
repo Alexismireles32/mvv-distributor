@@ -66,6 +66,10 @@ export function CartProvider({ children }) {
         url.searchParams.set('code', code);
         window.history.replaceState({}, '', url.toString());
       } catch {}
+      // Persist to localStorage to keep session across pages
+      try {
+        localStorage.setItem('activeDistributorCode', code);
+      } catch {}
       showNotification(`Precios del distribuidor #${code} activados`);
       
       return true;
@@ -141,6 +145,16 @@ export function CartProvider({ children }) {
     isOrderActive,
     setIsCartOpen,
     activateOrder,
+    // Allow clearing distributor session (optional usage)
+    clearDistributorSession: () => {
+      try {
+        localStorage.removeItem('activeDistributorCode');
+      } catch {}
+      setDistributorCode('');
+      setDistributorInfo(null);
+      setDistributorPrices({});
+      setIsOrderActive(false);
+    },
     addToCart,
     updateQuantity,
     removeFromCart,
@@ -156,6 +170,12 @@ export function CartProvider({ children }) {
       const code = params.get('code');
       if (code && /^\d{3}$/.test(code)) {
         activateOrder(code);
+        return;
+      }
+      // Fallback: rehydrate from localStorage
+      const saved = localStorage.getItem('activeDistributorCode');
+      if (saved && /^\d{3}$/.test(saved)) {
+        activateOrder(saved);
       }
     } catch (_) {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
