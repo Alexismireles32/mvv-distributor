@@ -5,6 +5,7 @@ import { CartProvider } from "./customer-cart";
 import { WhatsAppProvider } from "./home-wrapper";
 import { Navbar6 } from "./navbar-06";
 import { CustomerOrderActivator } from "./customer-order-activator";
+import { HomeDistributorBanner } from "./home-distributor-banner";
 import { Product4Enhanced } from "./product-04-enhanced";
 import { Product4_1Enhanced } from "./product-04_1-enhanced";
 import { Product4_2Enhanced } from "./product-04_2-enhanced";
@@ -16,6 +17,9 @@ export function CustomerOrderPage() {
     <CartProvider>
       <WhatsAppProvider>
         <Navbar6 />
+
+        {/* Compact distributor banner on products page when active */}
+        <HomeDistributorBanner variant="compact" />
 
         <CustomerOrderActivator />
 

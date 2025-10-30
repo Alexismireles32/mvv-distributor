@@ -3,7 +3,7 @@
 import React from 'react';
 import { useCart } from './customer-cart';
 
-export function HomeDistributorBanner() {
+export function HomeDistributorBanner({ variant = 'full' }) {
   const cart = useCart();
   const distributor = cart?.distributorInfo || null;
 
@@ -11,6 +11,36 @@ export function HomeDistributorBanner() {
 
   const phone = (distributor.phone || '').replace(/\D/g, '');
   const whatsappText = encodeURIComponent('Hola, me gustaría hacer una orden de productos para bajar de peso y salud.');
+
+  if (variant === 'compact') {
+    return (
+      <section className="px-[5%] py-3 bg-[#FAF8F3] border-b border-gray-200">
+        <div className="max-w-5xl mx-auto flex items-center gap-3 text-gray-900">
+          <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-100 border border-gray-200 flex-shrink-0">
+            {distributor.photo_url ? (
+              <img src={distributor.photo_url} alt="Foto" className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-[10px] text-gray-400">Sin foto</div>
+            )}
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-sm font-medium">{distributor.name} {distributor.last_name}</span>
+            <span className="text-xs text-gray-500">• {distributor.country || 'Estados Unidos'}, {distributor.state}</span>
+            <span className="ml-2 text-[10px] uppercase tracking-wide bg-[#FFD700] text-gray-900 px-2 py-0.5 rounded">Autorizado</span>
+          </div>
+          <div className="ml-auto flex items-center gap-2">
+            <a
+              href={`https://wa.me/${phone}?text=${whatsappText}`}
+              target="_blank"
+              className="px-3 py-1.5 bg-green-600 text-white text-xs hover:bg-green-700 rounded-full"
+            >
+              WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="px-[5%] py-16 bg-[#FAF8F3] border-t border-b border-gray-200">
