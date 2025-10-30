@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { BiLock, BiTrendingUp, BiMoney, BiUser, BiPhone } from 'react-icons/bi';
 import { supabase } from '../lib/supabase';
+import { AdminProductsManager } from './admin-products-manager';
 
 export function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -241,6 +242,11 @@ export function AdminDashboard() {
     );
   }
 
+  // Products manager view
+  if (isAuthenticated && adminCode === '0505' && stats && (stats._currentView === 'products')) {
+    return <AdminProductsManager onBack={() => setStats({ ...stats, _currentView: undefined })} />;
+  }
+
   // Distributor detail view
   if (isAuthenticated && selectedDistributor) {
     return (
@@ -412,6 +418,9 @@ export function AdminDashboard() {
               ) : (
                 <p className="text-gray-500 text-center py-12">No hay distribuidores de USA registrados</p>
               )}
+              <div className="mt-6 flex gap-3">
+                <button onClick={() => setStats({ ...stats, _currentView: 'products' })} className="px-4 py-2 bg-black text-white hover:bg-gray-800 rounded-lg">Gestionar Productos</button>
+              </div>
             </div>
           </>
         )}

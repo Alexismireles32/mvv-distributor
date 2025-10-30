@@ -3,12 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { BiDollar } from 'react-icons/bi';
 import { supabase } from '../lib/supabase';
-import { PRODUCTS } from './product-catalog';
+import { useProducts } from './use-products';
 
 export function PriceManager({ distributorCode, onBack }) {
   const [prices, setPrices] = useState({});
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const { products } = useProducts();
 
   useEffect(() => {
     loadPrices();
@@ -107,7 +108,7 @@ export function PriceManager({ distributorCode, onBack }) {
 
         {/* Prices List */}
         <div className="space-y-6 mb-12">
-          {PRODUCTS.map((product) => {
+          {products.map((product) => {
             const currentPrice = prices[product.name] || 0;
 
             return (

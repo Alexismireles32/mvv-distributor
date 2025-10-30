@@ -3,12 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { BiPackage, BiPlus, BiMinus } from 'react-icons/bi';
 import { supabase } from '../lib/supabase';
-import { PRODUCTS } from './product-catalog';
+import { useProducts } from './use-products';
 
 export function InventoryManager({ distributorCode, onBack }) {
   const [inventory, setInventory] = useState({});
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const { products } = useProducts();
 
   useEffect(() => {
     loadInventory();
@@ -108,7 +109,7 @@ export function InventoryManager({ distributorCode, onBack }) {
 
         {/* Inventory List */}
         <div className="space-y-6 md:space-y-8 mb-12">
-          {PRODUCTS.map((product) => {
+          {products.map((product) => {
             const currentStock = inventory[product.name] || 0;
 
             return (
