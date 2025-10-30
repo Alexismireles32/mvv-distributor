@@ -53,7 +53,7 @@ export function HomeDistributorBanner({ variant = 'full' }) {
       </div>
       <div className="max-w-xl md:max-w-3xl mx-auto text-center flex flex-col items-center">
         <div className="relative mb-5">
-          <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden bg-gray-100 border-4 border-green-600 shadow-md">
+          <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden bg-gray-100 border-[6px] border-como shadow-md">
             {distributor.photo_url ? (
               <img src={distributor.photo_url} alt="Foto del distribuidor" className="w-full h-full object-cover" />
             ) : (
