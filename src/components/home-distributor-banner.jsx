@@ -46,7 +46,7 @@ export function HomeDistributorBanner({ variant = 'full' }) {
   }
 
   return (
-    <section className="px-[5%] py-16 bg-[#FAF8F3] border-t border-b border-gray-200">
+    <section className="px-[5%] py-10 border-t border-gray-200">
       <div className="max-w-xl md:max-w-3xl mx-auto text-center flex flex-col items-center">
         <div className="relative mb-5">
           <div className="w-40 h-40 md:w-44 md:h-44 rounded-full overflow-hidden bg-gray-100 border-2 border-gray-200 shadow-md">
@@ -82,7 +82,7 @@ export function HomeDistributorBanner({ variant = 'full' }) {
             Empezar Orden
           </a>
         </div>
-        <div className="mt-10 h-px bg-gray-200 w-full" />
+        {/* Reduced bottom spacing to integrate with following section */}
       </div>
     </section>
   );
