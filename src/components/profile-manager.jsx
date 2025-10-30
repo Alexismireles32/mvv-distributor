@@ -34,19 +34,29 @@ export function ProfileManager({ distributorCode, currentPhotoUrl, onBack, onSav
       setSaving(true);
       const ext = file.name.split('.').pop() || 'jpg';
       const path = `distributors/${distributorCode}/${Date.now()}.${ext}`;
-      const { error: upErr } = await supabase.storage.from('profiles').upload(path, file, { upsert: true, cacheControl: '3600', contentType: file.type });
+      const { error: upErr } = await supabase
+        .storage
+        .from('profiles')
+        .upload(path, file, {
+          upsert: true,
+          cacheControl: '3600',
+          contentType: file.type || 'image/jpeg'
+        });
       if (upErr) throw upErr;
       const { data: pub } = supabase.storage.from('profiles').getPublicUrl(path);
       const publicUrl = pub?.publicUrl;
       if (!publicUrl) throw new Error('No se pudo obtener URL pública');
-      const { error: updErr } = await supabase.from('distributors').update({ photo_url: publicUrl }).eq('code', distributorCode);
+      const { error: updErr } = await supabase
+        .from('distributors')
+        .update({ photo_url: publicUrl })
+        .eq('code', distributorCode);
       if (updErr) throw updErr;
       if (onSaved) onSaved(publicUrl);
       alert('Foto de perfil actualizada');
       onBack();
     } catch (e) {
-      console.error(e);
-      setError('Error al subir imagen');
+      console.error('Upload error:', e);
+      setError(`Error al subir imagen: ${e?.message || e?.error_description || 'verifica el bucket "profiles" y las políticas de Storage'}`);
     } finally {
       setSaving(false);
     }
