@@ -9,6 +9,7 @@ import { PriceManager } from './price-manager';
 import { ContactManager } from './contact-manager';
 import { PDFExporter } from './pdf-exporter';
 import { AdminDashboard } from './admin-dashboard';
+import { PaymentMethodsManager } from './payment-methods-manager';
 
 // Product catalog
 const PRODUCTS = [
@@ -1153,6 +1154,14 @@ export function DistributorInvoiceSystem() {
   if (currentView === 'prices') {
     return <PriceManager 
       distributorCode={distributorInfo.code}
+      onBack={() => setCurrentView('dashboard')}
+    />;
+  }
+
+  if (currentView === 'paymentMethods') {
+    return <PaymentMethodsManager 
+      distributorCode={distributorInfo.code}
+      distributorCountry={distributorInfo.country}
       onBack={() => setCurrentView('dashboard')}
     />;
   }

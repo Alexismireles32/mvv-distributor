@@ -2,7 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import { Navbar6 } from '../components/navbar-06.jsx';
 import { WhatsAppProvider } from '../components/home-wrapper.jsx';
-import { ProductPageWrapper } from '../components/product-page-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
 import { Footer2 } from '../components/footer-02.jsx';
 
 const productData = {
@@ -36,7 +37,11 @@ const productData = {
   title="Duo 60 Fusion Xtreme - Pastillas Para Adelgazar Rápido | MVV Natural"
   description="Duo 60 Fusion Xtreme: quemador de grasa #1 en México. Adelgaza 8-15 kilos en 1 mes. Acelera metabolismo 3x, quema grasa abdominal. 100% natural, sin rebote. Envío rápido."
 >
-  <Navbar6 client:load />
-  <ProductPageWrapper client:load productData={productData} />
-  <Footer2 client:idle />
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
 </Layout>

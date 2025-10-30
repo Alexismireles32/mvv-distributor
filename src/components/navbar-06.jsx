@@ -4,6 +4,7 @@ import { Button, useMediaQuery } from "@relume_io/relume-ui";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import { RxChevronRight } from "react-icons/rx";
+import { CartIconButton } from "./customer-cart";
 
 const useRelume = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -52,6 +53,10 @@ export function Navbar6() {
             className="h-12 w-auto md:h-14"
           />
         </a>
+        {/* Cart Icon (visible only when order is active) */}
+        <div className="flex items-center gap-4">
+          <CartIconButton />
+        </div>
         <div className="absolute hidden h-screen overflow-auto border-b border-border-primary bg-background-primary px-[5%] pb-24 pt-4 md:pb-0 lg:static lg:ml-6 lg:flex lg:h-auto lg:flex-1 lg:items-center lg:justify-between lg:border-none lg:bg-none lg:px-0 lg:pt-0">
           <div className="flex flex-col items-center lg:flex-row">
             <a

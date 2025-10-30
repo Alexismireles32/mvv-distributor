@@ -4,10 +4,12 @@ import Layout from '../layouts/Layout.astro';
 // Import with the ACTUAL filenames (lowercase with dashes)
 import { Navbar6 } from '../components/navbar-06.jsx';
 import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { CustomerOrderActivator } from '../components/customer-order-activator.jsx';
 import SeoIntro from '../components/seo-intro.astro';
-import { Product4 } from '../components/product-04.jsx';
-import { Product4_1 } from '../components/product-04_1.jsx';
-import { Product4_2 } from '../components/product-04_2.jsx';
+import { Product4Enhanced } from '../components/product-04-enhanced.jsx';
+import { Product4_1Enhanced } from '../components/product-04_1-enhanced.jsx';
+import { Product4_2Enhanced } from '../components/product-04_2-enhanced.jsx';
 import { Cta25 } from '../components/cta-25.jsx';
 import Cta25_1 from '../components/cta-25_1.astro';
 import { Footer2 } from '../components/footer-02.jsx';
@@ -17,17 +19,21 @@ import { Footer2 } from '../components/footer-02.jsx';
   title="Comprar Suplementos Para Bajar de Peso | Catálogo MVV Natural"
   description="Catálogo completo: pastillas para quemar grasa, acelerar metabolismo y controlar antojos. 100% naturales. Precios accesibles. Envío rápido México y USA."
 >
-  <WhatsAppProvider client:load>
-    <Navbar6 client:load />
-    
-    <Product4 client:visible />
-    <Product4_1 client:visible />
-    <Product4_2 client:visible />
-    
-    <Cta25 client:idle />
-    
-    <SeoIntro />
-    
-    <Footer2 client:idle />
-  </WhatsAppProvider>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      
+      <CustomerOrderActivator client:load />
+      
+      <Product4Enhanced client:visible />
+      <Product4_1Enhanced client:visible />
+      <Product4_2Enhanced client:visible />
+      
+      <Cta25 client:idle />
+      
+      <SeoIntro />
+      
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
 </Layout>
