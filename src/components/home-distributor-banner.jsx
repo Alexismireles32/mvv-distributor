@@ -47,12 +47,12 @@ export function HomeDistributorBanner({ variant = 'full' }) {
 
   return (
     <section className="relative px-[5%] py-6 border-t border-gray-200">
-      {/* Top-right long badge (angled + pulse, single line) */}
-      <div className="absolute top-3 right-[5%] rotate-12 bg-[#FFD700] text-como px-4 py-1.5 text-[10px] md:text-xs font-bold shadow-md rounded-full whitespace-nowrap animate-pulse">
-        Distribuidor MVV Autorizado
-      </div>
       <div className="max-w-xl md:max-w-3xl mx-auto text-center flex flex-col items-center">
         <div className="relative mb-5">
+          {/* Badge anchored to the photo corner */}
+          <div className="absolute -top-3 -right-3 rotate-12 bg-[#FFD700] text-como px-4 py-1.5 text-[10px] md:text-xs font-bold shadow-md rounded-full whitespace-nowrap animate-pulse">
+            Distribuidor MVV Autorizado
+          </div>
           <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden bg-gray-100 border-[6px] border-como shadow-md">
             {distributor.photo_url ? (
               <img src={distributor.photo_url} alt="Foto del distribuidor" className="w-full h-full object-cover" />
