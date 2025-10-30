@@ -412,8 +412,6 @@ export function DistributorInvoiceSystem() {
         state: state.trim(),
         phone: fullPhone,
         email: document.getElementById('regEmail')?.value || '',
-        address: document.getElementById('regAddress')?.value || '',
-        photo_url: document.getElementById('regPhoto')?.value || '',
         pin: pin.trim()
       };
 
@@ -1085,16 +1083,7 @@ export function DistributorInvoiceSystem() {
               <input id="regEmail" type="email" className="w-full px-4 py-2 border rounded-lg" />
             </div>
 
-            <div>
-              <label className="block text-sm font-semibold mb-2">Dirección</label>
-              <input id="regAddress" className="w-full px-4 py-2 border rounded-lg" />
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold mb-2">Foto de Perfil (URL)</label>
-              <input id="regPhoto" type="url" placeholder="https://..." className="w-full px-4 py-2 border rounded-lg" />
-              <p className="text-xs text-gray-500 mt-1">Puedes subir una imagen a Imgur o usar cualquier URL pública</p>
-            </div>
+            {/* Dirección y foto removidos del registro: dirección ahora solo estado; foto se configura en perfil */}
 
             <div>
               <label className="block text-sm font-semibold mb-2">PIN de Seguridad (4 dígitos) *</label>
