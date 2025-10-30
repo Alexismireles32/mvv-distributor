@@ -15,17 +15,12 @@ export function CustomerOrderActivator() {
 
   if (isOrderActive && distributorInfo) {
     return (
-      <div className="bg-white border-2 border-black py-4 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <p className="text-sm text-gray-500 uppercase tracking-wide">Ordenando con</p>
-            <p className="text-lg font-medium text-gray-900">
-              {distributorInfo.name} {distributorInfo.last_name} • Código {distributorInfo.code}
-            </p>
-          </div>
-          <div className="text-sm text-gray-600">
-            ✓ Precios activos
-          </div>
+      <div className="bg-white border-b border-gray-200 py-3 px-4">
+        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-sm text-gray-900">
+            Ordenando con <span className="font-medium">{distributorInfo.name} {distributorInfo.last_name}</span> • Código {distributorInfo.code}
+          </p>
+          <span className="text-xs text-white bg-black px-2 py-1">Precios activos</span>
         </div>
       </div>
     );
@@ -47,40 +42,34 @@ export function CustomerOrderActivator() {
   };
 
   return (
-    <div className="bg-gray-50 py-10 md:py-12 px-6 border-y border-gray-200">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3">Iniciar Orden</h2>
-          <p className="text-base md:text-lg text-gray-600">
-            Ingresa el código de tu distribuidor para ver precios y hacer tu orden
-          </p>
+    <div className="bg-white py-4 px-4 border-b border-gray-200">
+      <div className="max-w-3xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <span className="text-sm text-gray-900 font-medium">Iniciar orden</span>
+          <div className="flex-1 flex flex-col sm:flex-row gap-2">
+            <input
+              type="text"
+              value={distributorCode}
+              onChange={(e) => setDistributorCode(e.target.value.toUpperCase())}
+              onKeyDown={(e) => e.key === 'Enter' && handleActivate()}
+              placeholder="Código del distribuidor"
+              className="flex-1 px-3 py-2 border border-gray-300 text-sm focus:outline-none focus:border-black"
+              disabled={loading}
+            />
+            <button
+              onClick={handleActivate}
+              disabled={loading || !distributorCode.trim()}
+              className="px-4 py-2 bg-black text-white text-sm hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+            >
+              {loading ? 'Verificando…' : 'Activar'}
+            </button>
+          </div>
         </div>
-
-        <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
-          <input
-            type="text"
-            value={distributorCode}
-            onChange={(e) => setDistributorCode(e.target.value.toUpperCase())}
-            onKeyPress={(e) => e.key === 'Enter' && handleActivate()}
-            placeholder="Ingresa Código del Distribuidor"
-            className="flex-1 px-6 py-4 border-2 border-gray-300 text-lg focus:outline-none focus:border-black"
-            disabled={loading}
-          />
-          <button
-            onClick={handleActivate}
-            disabled={loading || !distributorCode.trim()}
-            className="px-10 py-4 bg-black text-white hover:bg-gray-800 transition-colors text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-          >
-            {loading ? 'Verificando...' : 'Activar Orden'}
-          </button>
-        </div>
-
-        <p className="text-sm text-gray-600 text-center mt-6">
-          ¿No tienes distribuidor?{' '}
-          <a href="/verificar-distribuidor" className="underline hover:text-black font-medium">
-            Busca uno aquí
+        <div className="mt-2">
+          <a href="/verificar-distribuidor" className="text-xs text-gray-500 hover:text-black underline">
+            ¿No tienes distribuidor? Busca uno aquí
           </a>
-        </p>
+        </div>
       </div>
     </div>
   );
