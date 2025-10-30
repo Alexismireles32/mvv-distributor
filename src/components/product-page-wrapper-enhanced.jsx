@@ -65,9 +65,19 @@ export function ProductPageWrapperEnhanced({ productData }) {
 
             {/* Product Info */}
             <div className="flex flex-col justify-center">
-              <h1 className="mb-4 text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
+              <h1 className="mb-3 text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
                 {productData.productName}
               </h1>
+
+              {/* Back to products */}
+              <div className="mb-6">
+                <a
+                  href="/productos"
+                  className="inline-block px-5 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm"
+                >
+                  ← Volver a Productos
+                </a>
+              </div>
 
               {/* Price & Add to Cart (if order active) */}
               {hasPrice && (
