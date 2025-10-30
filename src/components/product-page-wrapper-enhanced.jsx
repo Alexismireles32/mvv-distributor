@@ -17,7 +17,7 @@ export function ProductPageWrapperEnhanced({ productData }) {
   const distributorInfo = cart?.distributorInfo || null;
 
   const price = distributorPrices[productData.productName] || 0;
-  const hasPrice = isOrderActive && price > 0;
+  const hasPrice = price > 0;
 
   const handleAddToCart = () => {
     addToCart(productData.productName, quantity);
@@ -41,11 +41,9 @@ export function ProductPageWrapperEnhanced({ productData }) {
                 {distributorInfo.name} {distributorInfo.last_name} • Código {distributorInfo.code}
               </p>
             </div>
-            {hasPrice && (
-              <div className="text-2xl font-medium text-gray-900">
-                ${price.toFixed(2)}
-              </div>
-            )}
+            <div className="text-2xl font-medium text-gray-900">
+              {hasPrice ? `$${price.toFixed(2)}` : 'Precio según distribuidor'}
+            </div>
           </div>
         </div>
       )}
@@ -79,11 +77,11 @@ export function ProductPageWrapperEnhanced({ productData }) {
                 </a>
               </div>
 
-              {/* Price & Add to Cart (if order active) */}
-              {hasPrice && (
+              {/* Price & Add to Cart when session active */}
+              {isOrderActive && (
                 <div className="mb-6 space-y-4">
                   <div className="flex items-center gap-4">
-                    <p className="text-3xl font-bold text-gray-900">${price.toFixed(2)}</p>
+                    <p className="text-3xl font-bold text-gray-900">{hasPrice ? `$${price.toFixed(2)}` : ''}</p>
                   </div>
 
                   <div className="flex items-center gap-4">
@@ -110,6 +108,9 @@ export function ProductPageWrapperEnhanced({ productData }) {
                       Agregar al Carrito
                     </button>
                   </div>
+                  {!hasPrice && (
+                    <p className="text-sm text-gray-500">El precio final lo confirmará tu distribuidor en WhatsApp.</p>
+                  )}
                 </div>
               )}
 
