@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import { Navbar6 } from '../components/navbar-06.jsx';
 import { WhatsAppProvider } from '../components/home-wrapper.jsx';
-import { WhatsAppProvider } from '../components/home-wrapper.jsx';
 import { CartProvider } from '../components/customer-cart.jsx';
 import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
 import { Footer2 } from '../components/footer-02.jsx';
@@ -33,9 +32,11 @@ const productData = {
   title="Apple Cider Vinagre - Vinagre de Manzana | MVV Natural"
   description="Apple Cider Vinagre de manzana natural. Mejora digestión y acelera metabolismo de forma natural."
 >
-  <WhatsAppProvider client:load>
-    <Navbar6 client:load />
-    <ProductPageWrapper client:load productData={productData} />
-    <Footer2 client:idle />
-  </WhatsAppProvider>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
 </Layout>
