@@ -282,7 +282,7 @@ function CartSidebar() {
       tempDiv.style.position = 'absolute';
       tempDiv.style.left = '-9999px';
       tempDiv.style.top = '-9999px';
-      tempDiv.style.width = '1200px';
+      tempDiv.style.width = '1080px';
       tempDiv.style.backgroundColor = 'white';
       document.body.appendChild(tempDiv);
 
@@ -298,7 +298,7 @@ function CartSidebar() {
 
       // Generate canvas
       const canvas = await html2canvas(tempDiv, {
-        width: 1200,
+        width: 1080,
         height: tempDiv.scrollHeight,
         scale: 2,
         useCORS: true,
@@ -355,28 +355,28 @@ function CartSidebar() {
       </tr>
     `).join('');
     return `
-      <div class="inv-container" style="padding: 20px; font-family: Arial, sans-serif; background: #FAF8F3; color:#1f2937; max-width: 820px; margin: 0 auto;">
+      <div class="inv-container" style="padding: 24px; font-family: Arial, sans-serif; background: #FAF8F3; color:#1f2937; max-width: 760px; margin: 0 auto;">
         <style>
-          .inv-header{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:2px solid #4A7C59;padding-bottom:10px;margin-bottom:12px}
+          .inv-header{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:2px solid #4A7C59;padding-bottom:12px;margin-bottom:14px}
           .inv-brand{display:flex;align-items:center;gap:10px}
-          .inv-brand img{height:36px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.06))}
-          .inv-title{margin:0;color:#376A4E;font-size:18px}
-          .inv-meta{font-size:11px;color:#374151;text-align:right}
+          .inv-brand img{height:40px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.06))}
+          .inv-title{margin:0;color:#376A4E;font-size:22px}
+          .inv-meta{font-size:12px;color:#374151;text-align:right}
           .inv-info{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:10px}
-          .inv-info h3{margin:0 0 4px;color:#376A4E;font-size:11px;text-transform:uppercase}
-          .inv-info p{margin:2px 0;font-size:12px}
-          .inv-table{width:100%;border-collapse:collapse;margin-bottom:10px;background:#fff;border:1px solid #e5e7eb}
-          .inv-table th{padding:8px;text-align:left;border-bottom:1px solid #e5e7eb;background:#EAF3ED;font-size:12px;color:#2f5f46}
-          .inv-table td{padding:8px;border-bottom:1px solid #f1f5f9;font-size:12px}
-          .inv-totals{text-align:right;margin-bottom:10px}
+          .inv-info h3{margin:0 0 4px;color:#376A4E;font-size:13px;text-transform:uppercase}
+          .inv-info p{margin:2px 0;font-size:13px}
+          .inv-table{width:100%;border-collapse:collapse;margin-bottom:12px;background:#fff;border:1px solid #e5e7eb}
+          .inv-table th{padding:10px;text-align:left;border-bottom:1px solid #e5e7eb;background:#EAF3ED;font-size:13px;color:#2f5f46}
+          .inv-table td{padding:10px;border-bottom:1px solid #f1f5f9;font-size:13px}
+          .inv-totals{text-align:right;margin-bottom:12px}
           .inv-legal{margin-top:6px;padding-top:8px;border-top:1px solid #e5e7eb}
-          .inv-legal p{font-size:10px;color:#4b5563;line-height:1.5;text-align:center;margin:0}
+          .inv-legal p{font-size:12px;color:#4b5563;line-height:1.6;text-align:center;margin:0}
           @media (max-width: 480px){
-            .inv-container{padding:14px; max-width: 100%}
-            .inv-brand img{height:28px}
-            .inv-title{font-size:16px}
+            .inv-container{padding:16px; max-width: 100%}
+            .inv-brand img{height:32px}
+            .inv-title{font-size:20px}
             .inv-info{grid-template-columns:1fr}
-            .inv-table th,.inv-table td{padding:6px;font-size:11px}
+            .inv-table th,.inv-table td{padding:8px;font-size:13px}
           }
         </style>
 

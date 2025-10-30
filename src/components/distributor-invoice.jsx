@@ -641,7 +641,7 @@ export function DistributorInvoiceSystem() {
       tempDiv.style.position = 'absolute';
       tempDiv.style.left = '-9999px';
       tempDiv.style.top = '-9999px';
-      tempDiv.style.width = '1200px';
+      tempDiv.style.width = '1080px';
       tempDiv.style.backgroundColor = 'white';
       document.body.appendChild(tempDiv);
 
@@ -655,7 +655,7 @@ export function DistributorInvoiceSystem() {
       }));
 
       const canvas = await html2canvas(tempDiv, {
-        width: 1200,
+        width: 1080,
         height: tempDiv.scrollHeight,
         scale: 2,
         useCORS: true,
