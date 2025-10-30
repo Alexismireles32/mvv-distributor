@@ -46,7 +46,11 @@ export function HomeDistributorBanner({ variant = 'full' }) {
   }
 
   return (
-    <section className="px-[5%] py-10 border-t border-gray-200">
+    <section className="relative px-[5%] py-6 border-t border-gray-200">
+      {/* Top-right long badge */}
+      <div className="absolute top-3 right-[5%] bg-[#FFD700] text-como px-4 py-1.5 text-[10px] md:text-xs font-bold shadow-md rounded-full whitespace-nowrap">
+        Distribuidor MVV Autorizado
+      </div>
       <div className="max-w-xl md:max-w-3xl mx-auto text-center flex flex-col items-center">
         <div className="relative mb-5">
           <div className="w-40 h-40 md:w-44 md:h-44 rounded-full overflow-hidden bg-gray-100 border-2 border-gray-200 shadow-md">
@@ -56,7 +60,6 @@ export function HomeDistributorBanner({ variant = 'full' }) {
               <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">Sin foto</div>
             )}
           </div>
-          <div className="absolute -top-3 -right-3 rotate-12 bg-[#FFD700] text-como px-3 py-1 text-[10px] md:text-xs font-bold shadow-md animate-pulse rounded-full">Distribuidor MVV Autorizado</div>
         </div>
 
         <div className="w-full">
