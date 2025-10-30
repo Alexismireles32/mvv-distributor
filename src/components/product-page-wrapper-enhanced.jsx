@@ -21,7 +21,6 @@ export function ProductPageWrapperEnhanced({ productData }) {
 
   const handleAddToCart = () => {
     addToCart(productData.productName, quantity);
-    alert(`${quantity} x ${productData.productName} agregado al carrito`);
     setQuantity(1);
   };
 

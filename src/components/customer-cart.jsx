@@ -14,6 +14,13 @@ export function CartProvider({ children }) {
   const [distributorPrices, setDistributorPrices] = useState({});
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [notification, setNotification] = useState("");
+
+  const showNotification = (message) => {
+    setNotification(message);
+    window.clearTimeout((showNotification)._t);
+    (showNotification)._t = window.setTimeout(() => setNotification(""), 2200);
+  };
   const [isOrderActive, setIsOrderActive] = useState(false);
 
   // Load distributor data when code is entered
@@ -68,21 +75,26 @@ export function CartProvider({ children }) {
     setCart(prevCart => {
       const existing = prevCart.find(item => item.name === productName);
       if (existing) {
-        return prevCart.map(item =>
+        const updated = prevCart.map(item =>
           item.name === productName
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
+        return updated;
       } else {
         const product = PRODUCTS.find(p => p.name === productName);
-        return [...prevCart, {
+        const newCart = [...prevCart, {
           name: productName,
           quantity,
           price,
           image: product?.image || ''
         }];
+        return newCart;
       }
     });
+
+    // Notify user
+    showNotification(`${quantity} x ${productName} agregado al carrito`);
   };
 
   const updateQuantity = (productName, newQuantity) => {
@@ -133,6 +145,11 @@ export function CartProvider({ children }) {
   return (
     <CartContext.Provider value={value}>
       {children}
+      {notification && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[99999] bg-black text-white text-sm px-4 py-2 shadow-lg">
+          {notification}
+        </div>
+      )}
       {isOrderActive && <CartSidebar />}
     </CartContext.Provider>
   );
