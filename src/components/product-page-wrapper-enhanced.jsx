@@ -7,8 +7,14 @@ import { WhatsAppContext } from "./home-wrapper";
 import { useCart } from "./customer-cart";
 
 export function ProductPageWrapperEnhanced({ productData }) {
-  const { isOrderActive, distributorPrices, addToCart, distributorInfo } = useCart();
+  const cart = useCart();
   const [quantity, setQuantity] = useState(1);
+
+  // Safe defaults if not within CartProvider
+  const isOrderActive = cart?.isOrderActive || false;
+  const distributorPrices = cart?.distributorPrices || {};
+  const addToCart = cart?.addToCart || (() => {});
+  const distributorInfo = cart?.distributorInfo || null;
 
   const price = distributorPrices[productData.productName] || 0;
   const hasPrice = isOrderActive && price > 0;

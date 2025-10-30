@@ -6,9 +6,14 @@ import { BiPlus, BiMinus } from "react-icons/bi";
 import { useCart } from "./customer-cart";
 
 export function ProductCardWithCart({ product, badge = null }) {
-  const { isOrderActive, distributorPrices, addToCart } = useCart();
+  const cart = useCart();
   const [quantity, setQuantity] = useState(1);
   const [showQuantitySelector, setShowQuantitySelector] = useState(false);
+
+  // Safe defaults if not within CartProvider
+  const isOrderActive = cart?.isOrderActive || false;
+  const distributorPrices = cart?.distributorPrices || {};
+  const addToCart = cart?.addToCart || (() => {});
 
   const price = distributorPrices[product.name] || 0;
   const hasPrice = isOrderActive && price > 0;

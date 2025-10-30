@@ -4,9 +4,14 @@ import React, { useState } from 'react';
 import { useCart } from './customer-cart';
 
 export function CustomerOrderActivator() {
-  const { isOrderActive, activateOrder, distributorInfo } = useCart();
+  const cart = useCart();
   const [distributorCode, setDistributorCode] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  // Return null if not within CartProvider
+  if (!cart) return null;
+  
+  const { isOrderActive, activateOrder, distributorInfo } = cart;
 
   if (isOrderActive && distributorInfo) {
     return (

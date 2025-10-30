@@ -141,7 +141,8 @@ export function CartProvider({ children }) {
 export function useCart() {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error('useCart must be used within CartProvider');
+    // Return null instead of throwing error for SSR compatibility
+    return null;
   }
   return context;
 }
@@ -580,7 +581,12 @@ function CartSidebar() {
 
 // Cart icon button for navbar
 export function CartIconButton() {
-  const { isOrderActive, getTotalItems, setIsCartOpen } = useCart();
+  const cart = useCart();
+  
+  // Return null if not within CartProvider (e.g., on pages without cart functionality)
+  if (!cart) return null;
+  
+  const { isOrderActive, getTotalItems, setIsCartOpen } = cart;
 
   if (!isOrderActive) return null;
 
