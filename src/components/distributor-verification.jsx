@@ -16,15 +16,17 @@ export function DistributorVerificationSystem() {
   }, []);
 
   useEffect(() => {
-    if (searchTerm.length > 0) {
-      const filtered = distributors.filter(dist => 
-        dist.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        dist.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        dist.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        dist.state.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredDistributors(filtered);
+    // Force exact 3-digit code to show results; no partial autocomplete
+    const numeric = /^\d+$/.test(searchTerm);
+    if (numeric) {
+      if (searchTerm.length === 3) {
+        const filtered = distributors.filter(dist => dist.code === searchTerm);
+        setFilteredDistributors(filtered);
+      } else {
+        setFilteredDistributors([]);
+      }
     } else {
+      // If letters typed, do not show auto-results; require code instead
       setFilteredDistributors([]);
     }
   }, [searchTerm, distributors]);
@@ -170,6 +172,12 @@ export function DistributorVerificationSystem() {
             <p className="text-xs text-gray-500">
               Este distribuidor está verificado y autorizado por MVV Natural
             </p>
+            <a
+              href={`/productos?code=${selectedDistributor.code}`}
+              className="inline-block mt-4 px-6 py-2 bg-black text-white hover:bg-gray-800 transition-colors text-sm font-medium"
+            >
+              Comenzar Orden
+            </a>
           </div>
         </div>
       </div>
@@ -195,10 +203,11 @@ export function DistributorVerificationSystem() {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Ingresa nombre o número de distribuidor..."
+              placeholder="Ingresa código de 3 dígitos del distribuidor"
               className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent"
             />
           </div>
+          <p className="text-xs text-gray-500 mt-2">Para acceder al perfil, ingresa el código exacto de 3 dígitos.</p>
         </div>
 
         {/* Loading */}
@@ -209,7 +218,7 @@ export function DistributorVerificationSystem() {
         )}
 
         {/* Results */}
-        {searchTerm.length > 0 && filteredDistributors.length > 0 && (
+        {searchTerm.length === 3 && filteredDistributors.length > 0 && (
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
@@ -247,7 +256,7 @@ export function DistributorVerificationSystem() {
         )}
 
         {/* No Results */}
-        {searchTerm.length > 0 && filteredDistributors.length === 0 && !loading && (
+        {searchTerm.length === 3 && filteredDistributors.length === 0 && !loading && (
           <div className="text-center py-12">
             <p className="text-sm text-gray-500">No se encontraron distribuidores con ese término de búsqueda</p>
           </div>

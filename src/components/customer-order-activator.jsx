@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from './customer-cart';
 
 export function CustomerOrderActivator() {
@@ -12,6 +12,19 @@ export function CustomerOrderActivator() {
   if (!cart) return null;
   
   const { isOrderActive, activateOrder, distributorInfo } = cart;
+
+  // Auto-activate from query param ?code=123
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+      if (code && /^\d{3}$/.test(code)) {
+        setDistributorCode(code);
+        handleActivate(code);
+      }
+    } catch (_) {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (isOrderActive && distributorInfo) {
     return (
@@ -26,14 +39,15 @@ export function CustomerOrderActivator() {
     );
   }
 
-  const handleActivate = async () => {
-    if (!distributorCode.trim()) {
+  const handleActivate = async (overrideCode) => {
+    const codeToUse = (overrideCode ?? distributorCode).trim();
+    if (!codeToUse) {
       alert('Por favor ingresa un código de distribuidor');
       return;
     }
 
     setLoading(true);
-    const success = await activateOrder(distributorCode.trim());
+    const success = await activateOrder(codeToUse);
     setLoading(false);
 
     if (!success) {
