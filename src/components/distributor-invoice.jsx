@@ -420,9 +420,18 @@ export function DistributorInvoiceSystem() {
 
       // Insert into Supabase
       if (supabase) {
-        const { error } = await supabase
+        let { error } = await supabase
           .from('distributors')
           .insert([newDistributor]);
+
+        // Fallback: if schema doesn't have country yet, retry without it
+        if (error && (error.message?.toLowerCase().includes('country') || error.details?.toLowerCase().includes('country'))) {
+          const { country, ...withoutCountry } = newDistributor;
+          const retry = await supabase
+            .from('distributors')
+            .insert([withoutCountry]);
+          error = retry.error || null;
+        }
 
         if (error) throw error;
       }
