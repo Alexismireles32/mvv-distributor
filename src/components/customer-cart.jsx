@@ -160,7 +160,8 @@ export function CartProvider({ children }) {
     removeFromCart,
     clearCart,
     getTotalItems,
-    getTotal
+    getTotal,
+    showNotification
   };
 
   // Auto-activate from URL query param (?code=123) on first mount
@@ -214,7 +215,8 @@ function CartSidebar() {
     updateQuantity,
     removeFromCart,
     clearCart,
-    getTotal
+    getTotal,
+    showNotification
   } = useCart();
 
   const [currentView, setCurrentView] = useState('cart'); // 'cart' | 'checkout' | 'invoice'
@@ -264,12 +266,6 @@ function CartSidebar() {
     try {
       setGeneratingInvoice(true);
 
-      // Open a placeholder window immediately to avoid popup blockers
-      let waWindow = null;
-      try {
-        waWindow = window.open('about:blank', '_blank');
-      } catch (_) {}
-
       // Create invoice HTML
       const invoiceHTML = createCustomerInvoiceHTML();
       
@@ -307,38 +303,49 @@ function CartSidebar() {
         backgroundColor: '#FAF8F3'
       });
 
-      // Download the JPG
+      // Clean up temp div immediately
+      document.body.removeChild(tempDiv);
+
+      // Download the JPG first (synchronous user action)
       const link = document.createElement('a');
       link.download = `orden_${customerInfo.firstName}_${customerInfo.lastName}_${Date.now()}.jpg`;
       link.href = canvas.toDataURL('image/jpeg', 0.9);
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
 
-      // Clean up
-      document.body.removeChild(tempDiv);
+      // Small delay to ensure download starts before opening WhatsApp
+      await new Promise(resolve => setTimeout(resolve, 300));
 
-      // Show success message
-      alert('✅ La imagen de su orden ha sido guardada en su dispositivo');
-
-      // Generate WhatsApp message
+      // Generate WhatsApp message and open
       const whatsappMessage = generateWhatsAppMessage();
       const whatsappNumber = distributorInfo.phone.replace(/\D/g, '');
       const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
       
-      // Open WhatsApp (use pre-opened window if available to bypass blockers)
-      if (waWindow && !waWindow.closed) {
-        waWindow.location.href = whatsappLink;
-      } else {
-        window.open(whatsappLink, '_blank', 'noopener');
+      // Open WhatsApp in new tab (more reliable than window.open)
+      const waTab = window.open(whatsappLink, '_blank', 'noopener,noreferrer');
+      
+      // If popup blocked, try direct navigation (fallback)
+      if (!waTab) {
+        // Fallback: try to open in same window (less ideal but works)
+        window.location.href = whatsappLink;
+        return; // Exit early if we're navigating
       }
 
-      // Clear cart after successful order
-      clearCart();
-      setIsCartOpen(false);
-      setCurrentView('cart');
+      // Show non-blocking success notification
+      showNotification('✅ Imagen descargada. WhatsApp abierto.');
+
+      // Clear cart and close modal after a brief delay
+      setTimeout(() => {
+        clearCart();
+        setIsCartOpen(false);
+        setCurrentView('cart');
+      }, 500);
 
     } catch (error) {
       console.error('Error generating invoice:', error);
       alert('Error al generar la orden. Intenta nuevamente.');
+      setGeneratingInvoice(false);
     } finally {
       setGeneratingInvoice(false);
     }
