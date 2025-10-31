@@ -641,8 +641,8 @@ export function DistributorInvoiceSystem() {
       tempDiv.style.position = 'absolute';
       tempDiv.style.left = '-9999px';
       tempDiv.style.top = '-9999px';
-      tempDiv.style.width = '1080px';
-      tempDiv.style.backgroundColor = 'white';
+      tempDiv.style.width = '540px';
+      tempDiv.style.backgroundColor = '#FAF8F3';
       document.body.appendChild(tempDiv);
 
       const images = tempDiv.getElementsByTagName('img');
@@ -655,13 +655,13 @@ export function DistributorInvoiceSystem() {
       }));
 
       const canvas = await html2canvas(tempDiv, {
-        width: 1080,
+        width: 540,
         height: tempDiv.scrollHeight,
         scale: 2,
         useCORS: true,
         allowTaint: true,
         logging: false,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#FAF8F3'
       });
 
       const link = document.createElement('a');
@@ -765,35 +765,28 @@ export function DistributorInvoiceSystem() {
     const total = subtotal + invoiceData.shipping;
 
     let invoiceHTML = `
-      <div class="inv-container" style="font-family: Arial, sans-serif; padding: 20px; background: #FAF8F3; color: #1f2937; max-width: 820px; margin: 0 auto;">
+      <div class="inv-container" style="font-family: Arial, sans-serif; padding: 20px; background: #FAF8F3; color: #1f2937; width: 540px; margin: 0 auto;">
         <style>
-          .inv-header{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:2px solid #4A7C59;padding-bottom:10px;margin-bottom:12px}
+          .inv-header{display:flex;flex-direction:column;align-items:center;gap:8px;border-bottom:2px solid #4A7C59;padding-bottom:12px;margin-bottom:14px}
           .inv-brand{display:flex;align-items:center;gap:10px}
           .inv-brand img{height:36px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.06))}
-          .inv-title{margin:0;color:#376A4E;font-size:18px;letter-spacing:0.2px}
-          .inv-sub{margin:0;font-size:11px;color:#4b5563}
-          .inv-meta{font-size:11px;color:#374151;text-align:right}
-          .inv-info{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:10px}
-          .inv-info h3{margin:0 0 4px;color:#376A4E;font-size:12px}
-          .inv-info p{margin:2px 0;font-size:12px}
-          .inv-table{width:100%;border-collapse:collapse;background:#FFFFFF;border:1px solid #e5e7eb}
-          .inv-table th{padding:8px;text-align:left;border-bottom:1px solid #e5e7eb;background:#EAF3ED;font-size:12px;color:#2f5f46}
-          .inv-table td{padding:8px;border-bottom:1px solid #f1f5f9;font-size:12px}
-          .inv-totals{margin-top:12px;border-top:2px solid #4A7C59;padding-top:10px;display:flex;justify-content:flex-end}
-          .inv-totals .row{display:flex;justify-content:space-between;margin:6px 0;font-size:13px}
-          .inv-totals .total{display:flex;justify-content:space-between;margin:8px 0;padding:10px;background:#4A7C59;color:#fff;border-radius:6px;font-size:16px;box-shadow:0 1px 0 rgba(0,0,0,.05)}
-          .inv-legal{margin-top:10px;padding-top:8px;border-top:1px solid #e5e7eb}
-          .inv-legal p{font-size:10px;color:#4b5563;line-height:1.5;text-align:center;margin:0}
-          @media (max-width: 480px){
-            .inv-container{padding:14px; max-width: 100%}
-            .inv-header{flex-direction:row;align-items:center}
-            .inv-brand img{height:28px}
-            .inv-title{font-size:16px}
-            .inv-meta{font-size:11px}
-            .inv-info{grid-template-columns:1fr;gap:8px}
-            .inv-table th,.inv-table td{padding:6px;font-size:11px}
-            .inv-totals .total{font-size:15px}
-          }
+          .inv-title{margin:0;color:#376A4E;font-size:20px;text-align:center}
+          .inv-sub{margin:0;font-size:12px;color:#4b5563;text-align:center}
+          .inv-meta{font-size:12px;color:#374151;text-align:center}
+          .inv-info{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
+          .inv-info > div{background:#fff;padding:12px;border-radius:6px;border:1px solid #e5e7eb}
+          .inv-info h3{margin:0 0 6px;color:#376A4E;font-size:14px;text-transform:uppercase;font-weight:600}
+          .inv-info p{margin:2px 0;font-size:14px}
+          .inv-table{width:100%;border-collapse:collapse;background:#FFFFFF;border:1px solid #e5e7eb;font-size:12px}
+          .inv-table th{padding:8px 6px;text-align:left;border-bottom:1px solid #e5e7eb;background:#EAF3ED;font-size:12px;color:#2f5f46;font-weight:600}
+          .inv-table td{padding:8px 6px;border-bottom:1px solid #f1f5f9;font-size:12px;word-break:break-word}
+          .inv-table th:nth-child(2),.inv-table td:nth-child(2){text-align:center}
+          .inv-table th:nth-child(3),.inv-table td:nth-child(3),.inv-table th:nth-child(4),.inv-table td:nth-child(4){text-align:right}
+          .inv-totals{margin-top:12px;border-top:2px solid #4A7C59;padding-top:10px;background:#fff;padding:12px;border-radius:6px;border:1px solid #e5e7eb}
+          .inv-totals .row{display:flex;justify-content:space-between;margin:6px 0;font-size:14px}
+          .inv-totals .total{display:flex;justify-content:space-between;margin:8px 0;padding:10px;background:#4A7C59;color:#fff;border-radius:6px;font-size:18px;font-weight:600}
+          .inv-legal{margin-top:8px;padding-top:12px;border-top:1px solid #e5e7eb}
+          .inv-legal p{font-size:11px;color:#4b5563;line-height:1.5;text-align:center;margin:0}
         </style>
 
         <div class="inv-header">
@@ -825,8 +818,8 @@ export function DistributorInvoiceSystem() {
           </div>
         </div>
         
-        <div style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 20px 0;">
-          <h3 style="margin: 0 0 12px; color: #4A7C59; font-size:14px">Productos</h3>
+        <div style="margin: 12px 0;">
+          <h3 style="margin: 0 0 10px; color: #4A7C59; font-size:14px; font-weight:600">Productos</h3>
           <table class="inv-table">
             <thead>
               <tr>
@@ -847,15 +840,15 @@ export function DistributorInvoiceSystem() {
 
       invoiceHTML += `
         <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 15px 10px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-              ${product ? `<img src="${product.image}" style="width: 50px; height: 50px; object-fit: contain; border-radius: 5px;" />` : ''}
-              <span style="font-weight: 500;">${productName}</span>
+          <td style="padding: 8px 6px; font-size: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              ${product ? `<img src="${product.image}" style="width: 40px; height: 40px; object-fit: contain; border-radius: 4px; flex-shrink:0;" />` : ''}
+              <span style="font-weight: 500; word-break: break-word;">${productName}</span>
             </div>
           </td>
-          <td style="padding: 15px 10px; text-align: center;">${qty}</td>
-          <td style="padding: 15px 10px; text-align: right;">$${price.toFixed(2)}</td>
-          <td style="padding: 15px 10px; text-align: right; font-weight: bold;">$${total.toFixed(2)}</td>
+          <td style="padding: 8px 6px; text-align: center; font-size: 12px;">${qty}</td>
+          <td style="padding: 8px 6px; text-align: right; font-size: 12px;">$${price.toFixed(2)}</td>
+          <td style="padding: 8px 6px; text-align: right; font-weight: 600; font-size: 12px;">$${total.toFixed(2)}</td>
         </tr>
       `;
     }
@@ -866,11 +859,9 @@ export function DistributorInvoiceSystem() {
         </div>
         
         <div class="inv-totals">
-          <div style="width: 280px;">
-            <div class="row"><span><strong>Subtotal:</strong></span><span>$${subtotal.toFixed(2)}</span></div>
-            <div class="row"><span><strong>Envío:</strong></span><span>$${invoiceData.shipping.toFixed(2)}</span></div>
-            <div class="total"><span><strong>TOTAL:</strong></span><span><strong>$${total.toFixed(2)}</strong></span></div>
-          </div>
+          <div class="row"><span><strong>Subtotal:</strong></span><span>$${subtotal.toFixed(2)}</span></div>
+          <div class="row"><span><strong>Envío:</strong></span><span>$${invoiceData.shipping.toFixed(2)}</span></div>
+          <div class="total"><span><strong>TOTAL:</strong></span><span><strong>$${total.toFixed(2)}</strong></span></div>
         </div>
         
         <!-- Legal Disclaimer -->

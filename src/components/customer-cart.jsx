@@ -276,14 +276,14 @@ function CartSidebar() {
       // Import html2canvas dynamically
       const html2canvas = (await import('html2canvas')).default;
 
-      // Create temporary div for rendering
+      // Create temporary div for rendering (9:16 format - portrait mobile)
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = invoiceHTML;
       tempDiv.style.position = 'absolute';
       tempDiv.style.left = '-9999px';
       tempDiv.style.top = '-9999px';
-      tempDiv.style.width = '1080px';
-      tempDiv.style.backgroundColor = 'white';
+      tempDiv.style.width = '540px';
+      tempDiv.style.backgroundColor = '#FAF8F3';
       document.body.appendChild(tempDiv);
 
       // Wait for images to load
@@ -296,15 +296,15 @@ function CartSidebar() {
         });
       }));
 
-      // Generate canvas
+      // Generate canvas in 9:16 format (540px width = 1080px at 2x scale)
       const canvas = await html2canvas(tempDiv, {
-        width: 1080,
+        width: 540,
         height: tempDiv.scrollHeight,
         scale: 2,
         useCORS: true,
         allowTaint: true,
         logging: false,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#FAF8F3'
       });
 
       // Download the JPG
@@ -348,36 +348,34 @@ function CartSidebar() {
     const total = getTotal();
     const productsHTML = cart.map(item => `
       <tr style="border-bottom: 1px solid #e5e7eb;">
-        <td style="padding: 12px; text-align: left;">${item.name}</td>
-        <td style="padding: 12px; text-align: center;">${item.quantity}</td>
-        <td style="padding: 12px; text-align: right;">$${item.price.toFixed(2)}</td>
-        <td style="padding: 12px; text-align: right; font-weight: 600;">$${(item.quantity * item.price).toFixed(2)}</td>
+        <td style="padding: 8px 6px; text-align: left; font-size: 12px;">${item.name}</td>
+        <td style="padding: 8px 6px; text-align: center; font-size: 12px;">${item.quantity}</td>
+        <td style="padding: 8px 6px; text-align: right; font-size: 12px;">$${item.price.toFixed(2)}</td>
+        <td style="padding: 8px 6px; text-align: right; font-weight: 600; font-size: 12px;">$${(item.quantity * item.price).toFixed(2)}</td>
       </tr>
     `).join('');
     return `
-      <div class="inv-container" style="padding: 24px; font-family: Arial, sans-serif; background: #FAF8F3; color:#1f2937; max-width: 760px; margin: 0 auto;">
+      <div class="inv-container" style="padding: 20px; font-family: Arial, sans-serif; background: #FAF8F3; color:#1f2937; width: 540px; margin: 0 auto;">
         <style>
-          .inv-header{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:2px solid #4A7C59;padding-bottom:12px;margin-bottom:14px}
+          .inv-header{display:flex;flex-direction:column;align-items:center;gap:8px;border-bottom:2px solid #4A7C59;padding-bottom:12px;margin-bottom:14px}
           .inv-brand{display:flex;align-items:center;gap:10px}
-          .inv-brand img{height:40px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.06))}
-          .inv-title{margin:0;color:#376A4E;font-size:22px}
-          .inv-meta{font-size:12px;color:#374151;text-align:right}
-          .inv-info{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:10px}
-          .inv-info h3{margin:0 0 4px;color:#376A4E;font-size:13px;text-transform:uppercase}
-          .inv-info p{margin:2px 0;font-size:13px}
-          .inv-table{width:100%;border-collapse:collapse;margin-bottom:12px;background:#fff;border:1px solid #e5e7eb}
-          .inv-table th{padding:10px;text-align:left;border-bottom:1px solid #e5e7eb;background:#EAF3ED;font-size:13px;color:#2f5f46}
-          .inv-table td{padding:10px;border-bottom:1px solid #f1f5f9;font-size:13px}
-          .inv-totals{text-align:right;margin-bottom:12px}
-          .inv-legal{margin-top:6px;padding-top:8px;border-top:1px solid #e5e7eb}
-          .inv-legal p{font-size:12px;color:#4b5563;line-height:1.6;text-align:center;margin:0}
-          @media (max-width: 480px){
-            .inv-container{padding:16px; max-width: 100%}
-            .inv-brand img{height:32px}
-            .inv-title{font-size:20px}
-            .inv-info{grid-template-columns:1fr}
-            .inv-table th,.inv-table td{padding:8px;font-size:13px}
-          }
+          .inv-brand img{height:36px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.06))}
+          .inv-title{margin:0;color:#376A4E;font-size:20px;text-align:center}
+          .inv-meta{font-size:12px;color:#374151;text-align:center}
+          .inv-info{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
+          .inv-info > div{background:#fff;padding:12px;border-radius:6px;border:1px solid #e5e7eb}
+          .inv-info h3{margin:0 0 6px;color:#376A4E;font-size:14px;text-transform:uppercase;font-weight:600}
+          .inv-info p{margin:2px 0;font-size:14px}
+          .inv-table{width:100%;border-collapse:collapse;margin-bottom:12px;background:#fff;border:1px solid #e5e7eb;font-size:12px}
+          .inv-table th{padding:8px 6px;text-align:left;border-bottom:1px solid #e5e7eb;background:#EAF3ED;font-size:12px;color:#2f5f46;font-weight:600}
+          .inv-table td{padding:8px 6px;border-bottom:1px solid #f1f5f9;font-size:12px;word-break:break-word}
+          .inv-table th:nth-child(2),.inv-table td:nth-child(2){text-align:center}
+          .inv-table th:nth-child(3),.inv-table td:nth-child(3),.inv-table th:nth-child(4),.inv-table td:nth-child(4){text-align:right}
+          .inv-totals{text-align:right;margin-bottom:12px;background:#fff;padding:12px;border-radius:6px;border:1px solid #e5e7eb}
+          .inv-totals p{font-size:16px;margin:4px 0;font-weight:600}
+          .inv-totals p:first-child{font-size:20px;color:#4A7C59}
+          .inv-legal{margin-top:8px;padding-top:12px;border-top:1px solid #e5e7eb}
+          .inv-legal p{font-size:11px;color:#4b5563;line-height:1.5;text-align:center;margin:0}
         </style>
 
         <div class="inv-header">
@@ -419,12 +417,12 @@ function CartSidebar() {
         </table>
 
         <div class="inv-totals">
-          <p style="font-size:18px;margin:0;">Total Estimado: $${total.toFixed(2)}</p>
-          <p style="font-size:11px;color:#6b7280;margin:6px 0 0 0;">*El precio puede variar según costo de envío</p>
+          <p style="font-size:20px;margin:0;color:#4A7C59;">Total Estimado: $${total.toFixed(2)}</p>
+          <p style="font-size:12px;color:#6b7280;margin:6px 0 0 0;">*El precio puede variar según costo de envío</p>
         </div>
 
-        <div style="background: #f9fafb; padding: 14px; margin-bottom: 14px; border-radius: 6px;">
-          <h3 style="font-size: 12px; color: #6b7280; text-transform: uppercase; margin: 0 0 6px 0;">Método de Pago Seleccionado</h3>
+        <div style="background: #f9fafb; padding: 12px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #e5e7eb;">
+          <h3 style="font-size: 12px; color: #6b7280; text-transform: uppercase; margin: 0 0 6px 0; font-weight: 600;">Método de Pago Seleccionado</h3>
           <p style="font-size: 16px; color: #111827; margin: 0; font-weight: 600;">${selectedPaymentMethod}</p>
         </div>
 
