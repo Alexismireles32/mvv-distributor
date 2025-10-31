@@ -279,6 +279,9 @@ function CartSidebar() {
       tempDiv.style.left = '-9999px';
       tempDiv.style.top = '-9999px';
       tempDiv.style.width = '540px';
+      tempDiv.style.maxWidth = '540px';
+      tempDiv.style.overflow = 'hidden';
+      tempDiv.style.boxSizing = 'border-box';
       tempDiv.style.backgroundColor = '#FAF8F3';
       document.body.appendChild(tempDiv);
 
@@ -293,6 +296,9 @@ function CartSidebar() {
       }));
 
       // Generate canvas in 9:16 format (540px width = 1080px at 2x scale)
+      // Wait a moment for layout to stabilize
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       const canvas = await html2canvas(tempDiv, {
         width: 540,
         height: tempDiv.scrollHeight,
@@ -300,7 +306,9 @@ function CartSidebar() {
         useCORS: true,
         allowTaint: true,
         logging: false,
-        backgroundColor: '#FAF8F3'
+        backgroundColor: '#FAF8F3',
+        windowWidth: 540,
+        windowHeight: tempDiv.scrollHeight
       });
 
       // Clean up temp div immediately
@@ -355,34 +363,37 @@ function CartSidebar() {
     const total = getTotal();
     const productsHTML = cart.map(item => `
       <tr style="border-bottom: 1px solid #e5e7eb;">
-        <td style="padding: 8px 6px; text-align: left; font-size: 12px;">${item.name}</td>
-        <td style="padding: 8px 6px; text-align: center; font-size: 12px;">${item.quantity}</td>
-        <td style="padding: 8px 6px; text-align: right; font-size: 12px;">$${item.price.toFixed(2)}</td>
-        <td style="padding: 8px 6px; text-align: right; font-weight: 600; font-size: 12px;">$${(item.quantity * item.price).toFixed(2)}</td>
+        <td style="padding: 6px 4px; text-align: left; font-size: 11px; word-break: break-word;">${item.name}</td>
+        <td style="padding: 6px 4px; text-align: center; font-size: 11px;">${item.quantity}</td>
+        <td style="padding: 6px 4px; text-align: right; font-size: 11px;">$${item.price.toFixed(2)}</td>
+        <td style="padding: 6px 4px; text-align: right; font-weight: 600; font-size: 11px;">$${(item.quantity * item.price).toFixed(2)}</td>
       </tr>
     `).join('');
     return `
-      <div class="inv-container" style="padding: 20px; font-family: Arial, sans-serif; background: #FAF8F3; color:#1f2937; width: 540px; margin: 0 auto;">
+      <div class="inv-container" style="padding: 18px; font-family: Arial, sans-serif; background: #FAF8F3; color:#1f2937; width: 540px; max-width: 540px; margin: 0 auto; box-sizing: border-box; overflow: hidden;">
         <style>
+          * { box-sizing: border-box; }
           .inv-header{display:flex;flex-direction:column;align-items:center;gap:8px;border-bottom:2px solid #4A7C59;padding-bottom:12px;margin-bottom:14px}
-          .inv-brand{display:flex;align-items:center;gap:10px}
-          .inv-brand img{height:36px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.06))}
-          .inv-title{margin:0;color:#376A4E;font-size:20px;text-align:center}
-          .inv-meta{font-size:12px;color:#374151;text-align:center}
-          .inv-info{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
-          .inv-info > div{background:#fff;padding:12px;border-radius:6px;border:1px solid #e5e7eb}
-          .inv-info h3{margin:0 0 6px;color:#376A4E;font-size:14px;text-transform:uppercase;font-weight:600}
-          .inv-info p{margin:2px 0;font-size:14px}
-          .inv-table{width:100%;border-collapse:collapse;margin-bottom:12px;background:#fff;border:1px solid #e5e7eb;font-size:12px}
-          .inv-table th{padding:8px 6px;text-align:left;border-bottom:1px solid #e5e7eb;background:#EAF3ED;font-size:12px;color:#2f5f46;font-weight:600}
-          .inv-table td{padding:8px 6px;border-bottom:1px solid #f1f5f9;font-size:12px;word-break:break-word}
-          .inv-table th:nth-child(2),.inv-table td:nth-child(2){text-align:center}
-          .inv-table th:nth-child(3),.inv-table td:nth-child(3),.inv-table th:nth-child(4),.inv-table td:nth-child(4){text-align:right}
-          .inv-totals{text-align:right;margin-bottom:12px;background:#fff;padding:12px;border-radius:6px;border:1px solid #e5e7eb}
-          .inv-totals p{font-size:16px;margin:4px 0;font-weight:600}
-          .inv-totals p:first-child{font-size:20px;color:#4A7C59}
-          .inv-legal{margin-top:8px;padding-top:12px;border-top:1px solid #e5e7eb}
-          .inv-legal p{font-size:11px;color:#4b5563;line-height:1.5;text-align:center;margin:0}
+          .inv-brand{display:flex;align-items:center;gap:8px}
+          .inv-brand img{height:34px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.06)); flex-shrink:0}
+          .inv-title{margin:0;color:#376A4E;font-size:18px;text-align:center;font-weight:600}
+          .inv-meta{font-size:11px;color:#374151;text-align:center}
+          .inv-info{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+          .inv-info > div{background:#fff;padding:10px;border-radius:6px;border:1px solid #e5e7eb}
+          .inv-info h3{margin:0 0 5px;color:#376A4E;font-size:13px;text-transform:uppercase;font-weight:600}
+          .inv-info p{margin:2px 0;font-size:13px;word-wrap:break-word;overflow-wrap:break-word}
+          .inv-table{width:100%;max-width:100%;border-collapse:collapse;margin-bottom:12px;background:#fff;border:1px solid #e5e7eb;font-size:11px;table-layout:fixed}
+          .inv-table th{padding:6px 4px;text-align:left;border-bottom:1px solid #e5e7eb;background:#EAF3ED;font-size:11px;color:#2f5f46;font-weight:600;overflow:hidden;text-overflow:ellipsis}
+          .inv-table td{padding:6px 4px;border-bottom:1px solid #f1f5f9;font-size:11px;word-break:break-word;overflow:hidden;text-overflow:ellipsis}
+          .inv-table th:nth-child(1),.inv-table td:nth-child(1){width:45%}
+          .inv-table th:nth-child(2),.inv-table td:nth-child(2){width:15%;text-align:center}
+          .inv-table th:nth-child(3),.inv-table td:nth-child(3){width:20%;text-align:right}
+          .inv-table th:nth-child(4),.inv-table td:nth-child(4){width:20%;text-align:right}
+          .inv-totals{text-align:right;margin-bottom:12px;background:#fff;padding:10px;border-radius:6px;border:1px solid #e5e7eb}
+          .inv-totals p{font-size:15px;margin:4px 0;font-weight:600}
+          .inv-totals p:first-child{font-size:19px;color:#4A7C59}
+          .inv-legal{margin-top:8px;padding-top:10px;border-top:1px solid #e5e7eb}
+          .inv-legal p{font-size:10px;color:#4b5563;line-height:1.4;text-align:center;margin:0;word-wrap:break-word}
         </style>
 
         <div class="inv-header">
