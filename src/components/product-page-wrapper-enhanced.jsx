@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BiPlus, BiMinus } from "react-icons/bi";
 import { ProductCarousel } from "./product-carousel";
 import { WhatsAppContext } from "./home-wrapper";
@@ -9,9 +9,32 @@ import { useCart } from "./customer-cart";
 export function ProductPageWrapperEnhanced({ productData }) {
   const cart = useCart();
   const [quantity, setQuantity] = useState(1);
+  const [mounted, setMounted] = useState(false);
 
-  // Safe defaults if not within CartProvider
-  const isOrderActive = cart?.isOrderActive || false;
+  // Ensure component has mounted before checking cart state
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Force re-render when cart state changes
+  useEffect(() => {
+    // This will cause a re-render when cart state updates
+  }, [cart?.isOrderActive, cart?.distributorInfo]);
+
+  // Check if order is active - check both context and localStorage as fallback
+  const checkIsOrderActive = () => {
+    if (!mounted || typeof window === 'undefined') return false;
+    // First check context
+    if (cart?.isOrderActive) return true;
+    // Fallback to localStorage
+    try {
+      return !!localStorage.getItem('activeDistributorCode');
+    } catch {
+      return false;
+    }
+  };
+  
+  const isOrderActive = checkIsOrderActive();
   const distributorPrices = cart?.distributorPrices || {};
   const addToCart = cart?.addToCart || (() => {});
   const distributorInfo = cart?.distributorInfo || null;
@@ -81,21 +104,25 @@ export function ProductPageWrapperEnhanced({ productData }) {
               {isOrderActive && (
                 <div className="mb-6 space-y-4">
                   <div className="flex items-center gap-4">
-                    <p className="text-3xl font-bold text-gray-900">{hasPrice ? `$${price.toFixed(2)}` : ''}</p>
+                    {hasPrice ? (
+                      <p className="text-3xl font-bold text-gray-900">${price.toFixed(2)}</p>
+                    ) : (
+                      <p className="text-xl font-medium text-gray-600">Precio según distribuidor</p>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        className="w-10 h-10 flex items-center justify-center border-2 border-gray-300 hover:bg-gray-50 text-xl"
+                        className="w-10 h-10 flex items-center justify-center border-2 border-gray-300 hover:bg-gray-50 text-xl rounded"
                       >
                         <BiMinus />
                       </button>
                       <span className="w-16 text-center font-medium text-xl">{quantity}</span>
                       <button
                         onClick={() => setQuantity(quantity + 1)}
-                        className="w-10 h-10 flex items-center justify-center border-2 border-gray-300 hover:bg-gray-50 text-xl"
+                        className="w-10 h-10 flex items-center justify-center border-2 border-gray-300 hover:bg-gray-50 text-xl rounded"
                       >
                         <BiPlus />
                       </button>
@@ -103,7 +130,7 @@ export function ProductPageWrapperEnhanced({ productData }) {
 
                     <button
                       onClick={handleAddToCart}
-                      className="flex-1 px-8 py-3 bg-black text-white hover:bg-gray-800 transition-colors font-medium text-lg"
+                      className="flex-1 px-8 py-3 bg-black text-white hover:bg-gray-800 transition-colors font-medium text-lg rounded"
                     >
                       Agregar al Carrito
                     </button>
