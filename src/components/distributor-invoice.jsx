@@ -436,7 +436,8 @@ export function DistributorInvoiceSystem() {
       setLoading(false);
     } catch (error) {
       console.error('Error in registration:', error);
-      alert('Error al registrar. Intenta nuevamente.');
+      const message = (error && (error.message || error.error_description)) ? `${error.message || error.error_description}` : 'Error desconocido';
+      alert(`Error al registrar: ${message}`);
       setLoading(false);
     }
   };
