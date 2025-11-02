@@ -2,52 +2,20 @@
 
 import React from "react";
 import { ProductCardWithCart } from "./product-card-with-cart";
+import { PRODUCTS } from "./product-catalog";
 
-const FEATURED_PRODUCTS = [
-  { 
-    name: "Duo-60 Fusion", 
-    image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575568/Duo-60fusion_xhsjhs.png", 
-    slug: "/duo-60-fusion",
-    badge: { text: "🏆 #1 Más Vendido", color: "bg-[#FFD700]" }
-  },
-  { 
-    name: "Alpha Glow", 
-    image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575532/alphaglow_jwu8mg.png", 
-    slug: "/alphaglow",
-    badge: { text: "✨ Producto Nuevo", color: "bg-como" }
-  },
-  { 
-    name: "Chupa Panza", 
-    image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575545/chupapanza_m7zfgs.png", 
-    slug: "/chupapanza",
-    badge: { text: "📜 Producto Clásico", color: "bg-purple-500" }
-  },
-  { 
-    name: "SOS Burn", 
-    image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575596/sosburn_g2ui2b.png", 
-    slug: "/sosburn"
-  },
-  { 
-    name: "SOS Burn Sensitive", 
-    image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575600/sosburnsensitive_dfsrs1.png", 
-    slug: "/sosburn-sensitive"
-  },
-  { 
-    name: "Prime Rose", 
-    image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575597/primerose_jk26zj.png", 
-    slug: "/primrose"
-  },
-  { 
-    name: "Lida Booster", 
-    image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575576/Lidabooster_xd5mo9.png", 
-    slug: "/lidabooster"
-  },
-  { 
-    name: "Lipo HD 360", 
-    image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575584/lipohd_zg9lxy.png", 
-    slug: "/lipohd"
-  },
-];
+// Badges para productos destacados
+const PRODUCT_BADGES = {
+  "Duo-60 Fusion": { text: "🏆 #1 Más Vendido", color: "bg-[#FFD700]" },
+  "Alpha Glow": { text: "✨ Producto Nuevo", color: "bg-como" },
+  "Chupa Panza": { text: "📜 Producto Clásico", color: "bg-purple-500" },
+};
+
+// Primeros 13 productos del catálogo para la primera sección
+const FEATURED_PRODUCTS = PRODUCTS.slice(0, 13).map(product => ({
+  ...product,
+  badge: PRODUCT_BADGES[product.name]
+}));
 
 
 export function Product4Enhanced() {

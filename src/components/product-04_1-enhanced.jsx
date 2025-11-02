@@ -2,35 +2,18 @@
 
 import React from "react";
 import { ProductCardWithCart } from "./product-card-with-cart";
+import { PRODUCTS } from "./product-catalog";
 
-const PRODUCTS_SET_1 = [
-  { 
-    name: "30-Day Detox", 
-    image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575526/30daydetox_roziws.png", 
-    slug: "/30daydetox"
-  },
-  { 
-    name: "Lipo HD 360", 
-    image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575584/lipohd_zg9lxy.png", 
-    slug: "/lipohd"
-  },
-  { 
-    name: "Chupa Panza", 
-    image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575545/chupapanza_m7zfgs.png", 
-    slug: "/chupapanza"
-  },
-  { 
-    name: "Serenity", 
-    image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575589/serenity_mnncq7.png", 
-    slug: "/serenity"
-  },
-  { 
-    name: "Apple Cider Vinagre", 
-    image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575550/applecyder_xxg1ps.png", 
-    slug: "/applecyder",
-    badge: { text: "✨ Producto Nuevo", color: "bg-como" }
-  },
-];
+// Badges para productos nuevos
+const PRODUCT_BADGES = {
+  "Apple Cider Vinagre": { text: "✨ Producto Nuevo", color: "bg-como" },
+};
+
+// Productos 14-26 del catálogo para la segunda sección
+const PRODUCTS_SET_1 = PRODUCTS.slice(13, 26).map(product => ({
+  ...product,
+  badge: PRODUCT_BADGES[product.name]
+}));
 
 export function Product4_1Enhanced() {
   return (
