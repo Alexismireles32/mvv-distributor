@@ -51,6 +51,9 @@ export const CATALOG_IMAGE_MAPPING = {
   "SOS Burn Clear": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549528/catalogo-mvvnatural-12_pd7yxq.webp"
   },
+  "SOS Burn Clean": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549528/catalogo-mvvnatural-12_pd7yxq.webp"
+  },
   "Chupa Panza": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549515/catalogo-mvvnatural-13_lcfatz.webp"
   },
@@ -114,10 +117,22 @@ export const CATALOG_IMAGE_MAPPING = {
   "Slim Coffee Thermogenic": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549565/catalogo-mvvnatural-29_fqn4vq.webp"
   },
+  "Slim Coffee": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549565/catalogo-mvvnatural-29_fqn4vq.webp"
+  },
+  "Apple Cider Vinagre": {
+    secondaryImage: null
+  },
+  "Apple Cider Vinegar": {
+    secondaryImage: null
+  },
   "Slim Shake": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549586/catalogo-mvvnatural-31_jg76gh.webp"
   },
   "Blueberry Colágeno Hidrolizado": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549573/catalogo-mvvnatural-32_r5ipwu.webp"
+  },
+  "Blueberry Colágeno": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549573/catalogo-mvvnatural-32_r5ipwu.webp"
   },
   "Bikini Strong": {
