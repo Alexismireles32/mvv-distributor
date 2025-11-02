@@ -12,6 +12,9 @@ export const CATALOG_IMAGE_MAPPING = {
   "Duo-60 Fusion": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549485/catalogo-mvvnatural-4_hmppua.webp"
   },
+  "Duo 60 Fusion Xtreme": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549485/catalogo-mvvnatural-4_hmppua.webp"
+  },
   "Duo-60 Fusion Xtreme": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549485/catalogo-mvvnatural-4_hmppua.webp"
   },
@@ -25,6 +28,9 @@ export const CATALOG_IMAGE_MAPPING = {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549482/catalogo-mvvnatural-7_wzfkvr.webp"
   },
   "CM Push up Men": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549482/catalogo-mvvnatural-7_wzfkvr.webp"
+  },
+  "CM Push Up MEN": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549482/catalogo-mvvnatural-7_wzfkvr.webp"
   },
   "H-Flex": {
@@ -60,6 +66,9 @@ export const CATALOG_IMAGE_MAPPING = {
   "30 Day Detox": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvvnatural-14_obho2e.webp"
   },
+  "30-Day Detox": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvvnatural-14_obho2e.webp"
+  },
   "30daydetox": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvvnatural-14_obho2e.webp"
   },
@@ -72,11 +81,17 @@ export const CATALOG_IMAGE_MAPPING = {
   "Colágeno & Biotina": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvvnatural-17_lvwwel.webp"
   },
+  "Colágeno & Biotina con Ácido Hialurónico": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvvnatural-17_lvwwel.webp"
+  },
   "Maxi Fibra": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549538/catalogo-mvvnatural-18_l4r57w.webp",
     isNew: true
   },
   "Maca Premium": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549552/catalogo-mvvnatural-19_nbmjhq.webp"
+  },
+  "Maca Premium Peruana": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549552/catalogo-mvvnatural-19_nbmjhq.webp"
   },
   "Maca Premium (Mujeres)": {
@@ -88,13 +103,31 @@ export const CATALOG_IMAGE_MAPPING = {
   "Serenity": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549549/catalogo-mvvnatural-21_rcrlmk.webp"
   },
+  "Floryva": {
+    secondaryImage: null
+  },
+  "Floryva (Probióticos Íntimos)": {
+    secondaryImage: null
+  },
+  "Encimax": {
+    secondaryImage: null
+  },
+  "Encimax (Enzimas Digestivas)": {
+    secondaryImage: null
+  },
   "Colit 6": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549549/catalogo-mvvnatural-22_bvgzpm.webp"
+  },
+  "COLIT 6": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549549/catalogo-mvvnatural-22_bvgzpm.webp"
   },
   "Prime Rose": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549565/catalogo-mvvnatural-23_jdfcan.webp"
   },
   "Mens Exotic": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549796/catalogo-mvvnatural-25_mbl2mh.webp"
+  },
+  "Mens Exotic Potenciador Masculino": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549796/catalogo-mvvnatural-25_mbl2mh.webp"
   },
   "Higa2": {
@@ -111,8 +144,11 @@ export const CATALOG_IMAGE_MAPPING = {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549588/catalogo-mvvnatural-28_br04nr.webp",
     isNew: true
   },
-  "Slim Coffee": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549565/catalogo-mvvnatural-29_fqn4vq.webp"
+  "Thyroid Support": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549588/catalogo-mvvnatural-28_br04nr.webp"
+  },
+  "Thyroid Support & Weight Loss": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549588/catalogo-mvvnatural-28_br04nr.webp"
   },
   "Slim Coffee Thermogenic": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549565/catalogo-mvvnatural-29_fqn4vq.webp"
