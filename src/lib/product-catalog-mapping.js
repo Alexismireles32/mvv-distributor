@@ -21,12 +21,6 @@ export const CATALOG_IMAGE_MAPPING = {
   "Fusion Xtreme": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549505/catalogo-mvvnatural-5_bzvrlg.webp"
   },
-  "Extracto CBD": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549504/catalogo-mvvnatural-6_hdrlbr.webp"
-  },
-  "CBD": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549504/catalogo-mvvnatural-6_hdrlbr.webp"
-  },
   "CM Push Up Men": {
     secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549482/catalogo-mvvnatural-7_wzfkvr.webp"
   },

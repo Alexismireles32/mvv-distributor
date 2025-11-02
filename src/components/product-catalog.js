@@ -25,7 +25,6 @@ export const PRODUCTS = [
   { name: "Colágeno & Biotina", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549535/catalogo-mvvnatural-17_lvwwel.webp", slug: "/colageno-biotina" },
   { name: "15 Day Detox Tea", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549522/catalogo-mvvnatural-15_qpsuiu.webp", slug: "/15daydetoxtea" },
   { name: "3 Day Reset", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549535/catalogo-mvvnatural-16_yiewjp.webp", slug: "/3dayreset" },
-  { name: "Extracto CBD 15%", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549504/catalogo-mvvnatural-6_hdrlbr.webp", slug: "/extractocbd" },
   { name: "Protein Body", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549507/catalogo-mvvnatural-9_da08s1.webp", slug: "/proteinbody" },
   { name: "Mens Exotic", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549796/catalogo-mvvnatural-25_mbl2mh.webp", slug: "/mensexotic" },
   { name: "Thyroid Support", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549588/catalogo-mvvnatural-28_br04nr.webp", slug: "/thyroid-support" },
