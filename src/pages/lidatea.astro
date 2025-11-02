@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Li-Da Daidahua Slimming Tea",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549659/catalogo-mvvnatural-37_jbem0i.webp",
+  productUrl: "/lidatea",
+  description: "Li-Da Daidahua Slimming Tea es natural y orgánico eficiente en la pérdida de peso; ayuda a extraer la grasa consumida y la ya existente. Detox, depura, digestivo; limpia sangre, riñones y colon; ayuda con síntomas de gastritis; elimina costra intestinal; recoge la piel flácida (reafirma) y ayuda con la presión arterial. Desinflama, baja de peso y tallas y brinda saciedad.",
+  benefits: [
+    "Natural y orgánico eficiente",
+    "Pérdida de peso efectiva",
+    "Ayuda a extraer grasa consumida y existente",
+    "Detox y depuración profunda",
+    "Mejora digestión",
+    "Limpia sangre, riñones y colon",
+    "Ayuda con síntomas de gastritis",
+    "Elimina costra intestinal",
+    "Reafirma piel flácida",
+    "Ayuda con presión arterial",
+    "Desinflama naturalmente",
+    "Baja de peso y tallas",
+    "Brinda saciedad"
+  ],
+  ingredients: [
+    "Equisetum Arvense - Diurético natural",
+    "Cassia - Digestión y limpieza",
+    "Camelia Sinensis - Antioxidantes",
+    "Sen - Laxante suave",
+    "Lotus de la India - Digestión y detox"
+  ],
+  usage: "1 sobre de té por la noche, dejar reposar durante 3 minutos. Li-Da puede usarse de dos formas: para bajar de peso se toma diariamente por un mes; para mantenimiento se usa cada 2 o 3 días. Presentación de 12 bolsas de té."
+};
+---
+
+<Layout 
+  title="Li-Da Daidahua Slimming Tea - Té Natural para Bajar de Peso | MVV Natural"
+  description="Li-Da Slimming Tea: natural orgánico para pérdida de peso. Detox, limpia sangre y colon, reafirma piel, desinflama, baja peso y tallas. 12 bolsas."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

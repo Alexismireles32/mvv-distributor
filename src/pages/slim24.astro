@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Slim24",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549663/catalogo-mvvnatural-40_w0njj9.webp",
+  productUrl: "/slim24",
+  description: "Slim24 es 24 hrs sin hambre de día y noche. Quema grasa, regenera masa muscular, no es laxante, sin rebote y sin ansiedad. Acelera el metabolismo, controla el apetito, sin necesidad de dieta, no causa hipertensión y aporta energía.",
+  benefits: [
+    "24 hrs sin hambre de día y noche",
+    "Quema grasa efectivamente",
+    "Regenera masa muscular",
+    "No es laxante",
+    "Sin rebote de peso",
+    "Sin ansiedad",
+    "Acelera el metabolismo",
+    "Controla el apetito naturalmente",
+    "Sin necesidad de dieta estricta",
+    "No causa hipertensión",
+    "Aporta energía constante"
+  ],
+  ingredients: [
+    "Extractos de Naranja Amarga - Termogénico",
+    "Lotus de la India - Digestión y quema grasa",
+    "Semilla de Cassia - Control de apetito",
+    "Alisma Orientalis - Diurético natural",
+    "L-carnitina - Metaboliza grasa en energía"
+  ],
+  usage: "1 cápsula en ayunas. Presentación de 30 cápsulas. Para mejores resultados, usar consistentemente durante al menos 30 días. Beber abundante agua durante el día. Puede combinarse con alimentación balanceada para resultados óptimos."
+};
+---
+
+<Layout 
+  title="Slim24 - 24 Hrs Sin Hambre | Quema Grasa y Regenera Músculo | MVV Natural"
+  description="Slim24: 24 hrs sin hambre día y noche. Quema grasa, regenera masa muscular, sin rebote, sin ansiedad. Acelera metabolismo y controla apetito. 30 cápsulas."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

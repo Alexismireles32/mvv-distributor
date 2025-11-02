@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Thyroid Support & Weight Loss",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549588/catalogo-mvvnatural-28_br04nr.webp",
+  productUrl: "/thyroid-support",
+  description: "Thyroid Support & Weight Loss es la solución a los problemas hormonales. Regula los niveles de tiroides, rico en yodo, depurativo, ayuda a perder peso, digestivo, antioxidante, desintoxicante, nutritivo y alcalino. Apoyo completo para la función tiroidea y pérdida de peso saludable.",
+  benefits: [
+    "Solución a problemas hormonales",
+    "Regula niveles de tiroides",
+    "Rico en yodo esencial",
+    "Efecto depurativo natural",
+    "Ayuda a perder peso",
+    "Mejora digestión",
+    "Poderoso antioxidante",
+    "Desintoxicante y nutritivo",
+    "Efecto alcalino en el cuerpo"
+  ],
+  ingredients: [
+    "Tirosina - Precursor de hormonas tiroideas",
+    "Polvo de Baya de Schisandra - Adaptógeno",
+    "Raíz de Ashwagandha - Balance hormonal",
+    "Polvo de Bladderwrack - Rico en yodo",
+    "Kelp - Yodo natural",
+    "Cayena - Termogénico",
+    "Polvo de Pimiento Negro (50,000 HU) - Metabolismo",
+    "L-carnitina - Quema de grasa",
+    "Loto de India - Digestión",
+    "Naranja Amarga - Termogénico"
+  ],
+  usage: "Tomar 1 cápsula al día en ayunas. Para mejores resultados, usar consistentemente durante al menos 30 días. Consultar médico si tiene problemas de tiroides diagnosticados. Beber abundante agua durante el día."
+};
+---
+
+<Layout 
+  title="Thyroid Support & Weight Loss - Solución Hormonal | MVV Natural"
+  description="Thyroid Support: regula tiroides, rico en yodo, depurativo, ayuda perder peso, digestivo, antioxidante, desintoxicante y alcalino."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

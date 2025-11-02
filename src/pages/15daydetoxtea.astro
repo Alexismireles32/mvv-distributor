@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "15 Day Detox Tea",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549522/catalogo-mvvnatural-15_qpsuiu.webp",
+  productUrl: "/15daydetoxtea",
+  description: "15 Day Detox Tea limpia hígado, riñones y colon. Potente diurético que elimina toxinas y grasas almacenadas en los tejidos, regula la digestión, reduce triglicéridos y colesterol. Té herbal natural para desintoxicación profunda del organismo.",
+  benefits: [
+    "Limpia hígado, riñones y colon",
+    "Potente diurético natural",
+    "Elimina toxinas y grasas almacenadas",
+    "Regula la digestión efectivamente",
+    "Reduce triglicéridos y colesterol",
+    "Fórmula herbal 100% natural"
+  ],
+  ingredients: [
+    "Hoja de Sen - Laxante natural suave",
+    "Fenogreco - Regula digestión y azúcar",
+    "Raíz de Agracejo - Desintoxica hígado",
+    "Diente de León - Diurético natural",
+    "Raíz de Genciana - Estimula digestión"
+  ],
+  usage: "1 bolsa de té cada noche. Dejar reposar en agua caliente durante 3-5 minutos. Beber antes de dormir. Para mejores resultados, usar durante 15 días consecutivos. Beber abundante agua durante el día."
+};
+---
+
+<Layout 
+  title="15 Day Detox Tea - Limpia Hígado, Riñones y Colon | MVV Natural"
+  description="15 Day Detox Tea: limpia hígado, riñones y colon. Potente diurético, elimina toxinas y grasas. Regula digestión, reduce triglicéridos y colesterol."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

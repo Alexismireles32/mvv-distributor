@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Bikini Strong",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549586/catalogo-mvvnatural-33_tpgqj5.webp",
+  productUrl: "/bikinstrong",
+  description: "Bikini Strong es una fórmula superpotente que suprime el apetito, quema rápidamente las calorías y células grasas, comienza a trabajar desde la primera cápsula, aumenta considerablemente la energía, adelgaza desechando los depósitos de grasa acumulados. No provoca diarrea, no provoca rebotes y no tiene efectos secundarios.",
+  benefits: [
+    "Fórmula superpotente para pérdida de peso",
+    "Suprime el apetito efectivamente",
+    "Quema rápidamente calorías y células grasas",
+    "Comienza a trabajar desde la primera cápsula",
+    "Aumenta considerablemente la energía",
+    "Adelgaza desechando depósitos de grasa acumulados",
+    "No provoca diarrea",
+    "No provoca rebotes",
+    "Sin efectos secundarios"
+  ],
+  ingredients: [
+    "Extracto de Naranja Amarga - Termogénico potente",
+    "Loto de la India - Digestión y quema grasa",
+    "Semillas de Cassia - Control de apetito",
+    "Alisma - Diurético natural",
+    "Carnitina - Metaboliza grasa",
+    "Konjac - Fibra y saciedad",
+    "Rahe Chino - Metabolismo",
+    "Maca - Energía y vitalidad"
+  ],
+  usage: "1 cápsula después del desayuno. Para mejores resultados, usar consistentemente durante al menos 30-60 días. Beber abundante agua durante el día. Combinar con alimentación balanceada. No exceder dosis recomendadas."
+};
+---
+
+<Layout 
+  title="Bikini Strong - Fórmula Superpotente | Quema Grasa Rápido | MVV Natural"
+  description="Bikini Strong: fórmula superpotente que suprime apetito, quema grasa rápida, aumenta energía. Sin diarrea, sin rebotes, sin efectos secundarios."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

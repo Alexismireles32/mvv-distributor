@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Protein Body",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549507/catalogo-mvvnatural-9_da08s1.webp",
+  productUrl: "/proteinbody",
+  description: "Protein Body es proteína natural en sabores fresa y chocolate. Excelente multivitamínico, ayuda al sistema inmunológico y aporta colágeno para la mujer. Contribuye al buen funcionamiento de tejidos, aumenta y recupera masa muscular, fortalece el acondicionamiento físico y regenera fibras musculares después del entrenamiento. Presentación de 500g.",
+  benefits: [
+    "Proteína natural en sabores fresa y chocolate",
+    "Excelente multivitamínico completo",
+    "Ayuda al sistema inmunológico",
+    "Aporta colágeno para la mujer",
+    "Contribuye al buen funcionamiento de tejidos",
+    "Aumenta y recupera masa muscular",
+    "Fortalece acondicionamiento físico",
+    "Regenera fibras musculares post-entrenamiento"
+  ],
+  ingredients: [
+    "Proteína de origen natural - Para masa muscular",
+    "Colágeno - Salud de tejidos y piel",
+    "Multivitamínicos - Completo nutricional",
+    "Sabor fresa o chocolate - Delicioso"
+  ],
+  usage: "Mezclar 1-2 cucharadas (30-40g) en 250ml de agua, leche o jugo. Agitar bien. Ideal después del entrenamiento o como complemento nutricional. Presentación de 500g. Para mejores resultados, consumir dentro de 30 minutos después del ejercicio."
+};
+---
+
+<Layout 
+  title="Protein Body - Proteína Natural Fresa y Chocolate | 500g | MVV Natural"
+  description="Protein Body: proteína natural sabores fresa/chocolate. Multivitamínico, colágeno, aumenta masa muscular, regenera fibras. 500g."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

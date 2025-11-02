@@ -5,6 +5,8 @@ import { BiPlus, BiMinus } from "react-icons/bi";
 import { ProductCarousel } from "./product-carousel";
 import { WhatsAppContext } from "./home-wrapper";
 import { useCart } from "./customer-cart";
+import { ProductImageSwipe } from "./product-image-swipe";
+import { getProductImages } from "../lib/product-catalog-mapping";
 
 export function ProductPageWrapperEnhanced({ productData }) {
   const cart = useCart();
@@ -75,12 +77,10 @@ export function ProductPageWrapperEnhanced({ productData }) {
       <section className="px-[5%] py-10 md:py-16 lg:py-20">
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:gap-x-12">
-            {/* Product Image */}
+            {/* Product Image with Swipe */}
             <div className="flex justify-center">
-              <img
-                src={productData.productImage}
-                alt={productData.productName}
-                className="w-full max-w-md object-contain"
+              <ProductImageSwipe 
+                images={getProductImages(productData.productName, productData.productImage)}
               />
             </div>
 

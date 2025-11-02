@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Blueberry Colágeno Hidrolizado",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549573/catalogo-mvvnatural-32_r5ipwu.webp",
+  productUrl: "/blueberry-colageno",
+  description: "Blueberry Colágeno Hidrolizado con resveratrol ayuda al cuerpo a recuperarse después del ejercicio. Proteína que da estructura, firmeza y elasticidad a la piel; mantiene las células firmes y unidas y es importante para piel, uñas, cabello, huesos, ligamentos, tendones, cartílagos, visión y articulaciones. Elimina celulitis y mejora la salud integral del organismo.",
+  benefits: [
+    "Ayuda al cuerpo a recuperarse después del ejercicio",
+    "Da estructura, firmeza y elasticidad a la piel",
+    "Mantiene células firmes y unidas",
+    "Importante para piel, uñas y cabello",
+    "Fortalece huesos, ligamentos y tendones",
+    "Mejora cartílagos y visión",
+    "Fortalece articulaciones",
+    "Elimina celulitis",
+    "Mejora la salud integral"
+  ],
+  ingredients: [
+    "Colágeno Hidrolizado - Absorción superior",
+    "Resveratrol - Antioxidante potente",
+    "Maca - Nutrición completa",
+    "Aguaje - Antioxidantes",
+    "Kiwicha - Proteína y minerales",
+    "Stevia - Endulzante natural",
+    "Quinoa - Proteína completa",
+    "Polen - Vitaminas y energía",
+    "Granola - Fibra y textura"
+  ],
+  usage: "1 cucharada en agua (250 ml). Mezclar bien y consumir. Presentación de 250g. Ideal para consumir después del ejercicio o como complemento nutricional diario. Para mejores resultados, usar consistentemente durante al menos 60 días."
+};
+---
+
+<Layout 
+  title="Blueberry Colágeno Hidrolizado con Resveratrol | Recuperación y Salud | MVV Natural"
+  description="Blueberry Colágeno Hidrolizado: recuperación post-ejercicio, estructura de piel, firmeza, elasticidad. Fortalece huesos, articulaciones, elimina celulitis."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

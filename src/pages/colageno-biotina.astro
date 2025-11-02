@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Colágeno & Biotina con Ácido Hialurónico",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549535/catalogo-mvvnatural-17_lvwwel.webp",
+  productUrl: "/colageno-biotina",
+  description: "Colágeno & Biotina con ácido hialurónico reafirma tu belleza. Favorece una piel firme, elástica y saludable; fortalece huesos, cabello, uñas, músculos y articulaciones; ayuda al sistema nervioso y previene enfermedades degenerativas; fortalece el sistema cardiovascular. Fórmula completa para belleza y salud integral.",
+  benefits: [
+    "Reafirma tu belleza naturalmente",
+    "Piel firme, elástica y saludable",
+    "Fortalece huesos, cabello y uñas",
+    "Fortalece músculos y articulaciones",
+    "Ayuda al sistema nervioso",
+    "Previene enfermedades degenerativas",
+    "Fortalece el sistema cardiovascular"
+  ],
+  ingredients: [
+    "Colágeno - Proteína esencial para piel y tejidos",
+    "Biotina - Vitamina B7 para cabello y uñas fuertes",
+    "Ácido Hialurónico - Hidratación profunda de la piel"
+  ],
+  usage: "Tomar 2 cápsulas al día, preferiblemente con las comidas. Para mejores resultados, tomar consistentemente durante al menos 60 días. Complementar con alimentación balanceada y ejercicio regular."
+};
+---
+
+<Layout 
+  title="Colágeno & Biotina con Ácido Hialurónico - Reafirma tu Belleza | MVV Natural"
+  description="Colágeno & Biotina con ácido hialurónico: reafirma belleza, piel firme, fortalece cabello, uñas, huesos y articulaciones. Previene enfermedades degenerativas."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

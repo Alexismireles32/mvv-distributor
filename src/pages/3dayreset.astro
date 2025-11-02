@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "3 Day Reset",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549535/catalogo-mvvnatural-16_yiewjp.webp",
+  productUrl: "/3dayreset",
+  description: "3 Day Reset - Dale un reset a tu vida. Una cápsula limpia el colon, elimina toxinas, activa el metabolismo, mejora la absorción de nutrientes, reduce la inflamación abdominal, previene el estreñimiento o colon irritable y es diurético. Reseteo rápido y efectivo en solo 3 días.",
+  benefits: [
+    "Limpia el colon profundamente",
+    "Elimina toxinas del organismo",
+    "Activa el metabolismo naturalmente",
+    "Mejora la absorción de nutrientes",
+    "Reduce inflamación abdominal",
+    "Previene estreñimiento y colon irritable",
+    "Efecto diurético natural"
+  ],
+  ingredients: [
+    "Malva Silvestre - Laxante suave y calmante",
+    "Hoja de Té Verde - Antioxidante y termogénico",
+    "Extracto de Papaya - Enzimas digestivas",
+    "Extracto de Uva - Antioxidantes potentes",
+    "Extracto de Ciruela - Fibra y digestión",
+    "Tejocote - Vitamina C y digestión"
+  ],
+  usage: "1 cápsula diaria por la noche, antes de dormir. Para mejores resultados, tomar durante 3 días consecutivos. Beber abundante agua durante el tratamiento. Ideal para reseteo rápido del sistema digestivo."
+};
+---
+
+<Layout 
+  title="3 Day Reset - Dale un Reset a Tu Vida | Limpia Colon y Elimina Toxinas"
+  description="3 Day Reset: limpia colon, elimina toxinas, activa metabolismo, mejora absorción nutrientes. Reduce inflamación abdominal. Reseteo en 3 días."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

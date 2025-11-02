@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Magic Booty Up",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549572/catalogo-mvvnatural-27_ohefys.webp",
+  productUrl: "/magicbootyup",
+  description: "Magic Booty Up es un mágico tratamiento tópico que aumenta senos, aumenta glúteos, humecta, reafirma, anti estrías y volumiza. Fórmula especializada con ingredientes naturales que estimulan el crecimiento natural de tejidos y mejoran la apariencia de la piel.",
+  benefits: [
+    "Aumenta senos de forma natural",
+    "Aumenta glúteos visiblemente",
+    "Humecta y nutre la piel profundamente",
+    "Reafirma tejidos y mejora firmeza",
+    "Anti estrías - reduce apariencia de estrías",
+    "Volumiza áreas específicas del cuerpo"
+  ],
+  ingredients: [
+    "Extracto de Fenogreco - Estimula crecimiento de tejidos",
+    "Vitamina E - Antioxidante y humectante",
+    "Extracto de Camu Camu - Rico en vitamina C para colágeno",
+    "Colágeno - Firmeza y elasticidad de la piel",
+    "Extracto de Prim Rose - Regeneración celular"
+  ],
+  usage: "Aplique 5 gotas en el área deseada y dé un pequeño masaje circular. Repetir 2 veces al día, mañana y noche. Para mejores resultados, usar consistentemente durante al menos 30 días. Ideal para senos, glúteos, y áreas donde desees más volumen."
+};
+---
+
+<Layout 
+  title="Magic Booty Up - Aumenta Senos y Glúteos Naturalmente | MVV Natural"
+  description="Magic Booty Up: tratamiento mágico que aumenta senos, aumenta glúteos, humecta, reafirma y anti estrías. Volumiza de forma natural."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

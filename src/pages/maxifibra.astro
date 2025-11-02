@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Maxi Fibra",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549538/catalogo-mvvnatural-18_l4r57w.webp",
+  productUrl: "/maxifibra",
+  description: "Maxi Fibra es un suplemento de fibra en polvo de 500 g que mejora la digestión, ayuda con colitis y estreñimiento, reduce colesterol y triglicéridos, regula la flora intestinal y reduce la grasa abdominal. Presentación con sabor agradable. Ideal para mejorar la salud digestiva y promover la regularidad intestinal.",
+  benefits: [
+    "Mejora la digestión de forma natural",
+    "Ayuda con colitis y estreñimiento",
+    "Reduce colesterol y triglicéridos",
+    "Regula la flora intestinal",
+    "Reduce la grasa abdominal",
+    "Presentación con sabor agradable - 500g"
+  ],
+  ingredients: [
+    "Piña - Enzimas digestivas naturales",
+    "Linaza - Fibra soluble e insoluble",
+    "Psyllium - Laxante suave natural",
+    "Senna - Alivia estreñimiento",
+    "Avena - Fibra soluble para colesterol",
+    "Manzana - Pectina para salud digestiva",
+    "Germen de trigo - Fibra y nutrientes",
+    "Chía - Omega-3 y fibra",
+    "Nopal - Control de glucosa y digestión"
+  ],
+  usage: "Agregar 1-2 cucharadas en agua o jugo. Mezclar bien y consumir inmediatamente. Recomendado tomar antes de las comidas para mejor absorción. Beber abundante agua durante el día. Presentación de 500g."
+};
+---
+
+<Layout 
+  title="Maxi Fibra - Suplemento de Fibra Natural 500g | MVV Natural"
+  description="Maxi Fibra: suplemento de fibra en polvo 500g. Mejora digestión, ayuda colitis, reduce colesterol y triglicéridos. Regula flora intestinal. Sabor agradable."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

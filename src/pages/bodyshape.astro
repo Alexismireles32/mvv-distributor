@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Body Shape",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549663/catalogo-mvvnatural-39_s96fds.webp",
+  productUrl: "/bodyshape",
+  description: "Body Shape – Weight Loss System es exitosa pérdida de peso. Súper extra fuerte. Quemador de grasa, desintoxicador, quema grasa saturada. Elimina líquidos retenidos, tonificador, modelador de cuerpo e inhibidor del apetito.",
+  benefits: [
+    "Exitosa pérdida de peso",
+    "Súper extra fuerte",
+    "Quemador de grasa potente",
+    "Desintoxicador natural",
+    "Quema grasa saturada",
+    "Elimina líquidos retenidos",
+    "Tonificador del cuerpo",
+    "Modelador de cuerpo",
+    "Inhibidor del apetito"
+  ],
+  ingredients: [
+    "Ficus Bengalensis - Metabolismo y digestión",
+    "Piperiana Thunderber-giana - Termogénico",
+    "Calea Zacatechichi - Energía mental",
+    "Corteza de Acatechiuchechomera - Digestión",
+    "Ziziphus Spinosa - Balance hormonal",
+    "Sativus Flower - Antioxidante",
+    "Litchi - Energía y vitalidad"
+  ],
+  usage: "1 cápsula 30 min antes del desayuno. Presentación de 30 cápsulas. Para mejores resultados, usar consistentemente durante al menos 30 días. Beber abundante agua durante el día. Combinar con alimentación balanceada.",
+  warnings: "No apto para hipertensos, diabéticos, ni para mujeres lactando o embarazadas."
+};
+---
+
+<Layout 
+  title="Body Shape - Weight Loss System | Súper Extra Fuerte | MVV Natural"
+  description="Body Shape: exitosa pérdida de peso súper extra fuerte. Quemador de grasa, desintoxicador, quema grasa saturada, elimina líquidos. 30 cápsulas."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

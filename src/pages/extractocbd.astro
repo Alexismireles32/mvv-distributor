@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Extracto CBD 15%",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549504/catalogo-mvvnatural-6_hdrlbr.webp",
+  productUrl: "/extractocbd",
+  description: "Extracto CBD 15% - 15% Cannabidiol. Libre THC, libre gluten, cannabis orgánico, vegano, libre GMO. Ayuda en enfermedades como artritis, epilepsia, esclerosis múltiple, Crohn, Alzheimer, Parkinson, autismo, ansiedad y depresión. Producto de alta calidad y pureza.",
+  benefits: [
+    "15% Cannabidiol de alta pureza",
+    "Libre THC - Sin efectos psicoactivos",
+    "Libre gluten y GMO",
+    "Cannabis orgánico y vegano",
+    "Ayuda con artritis y dolor crónico",
+    "Beneficios para epilepsia y esclerosis múltiple",
+    "Ayuda con Crohn y enfermedades digestivas",
+    "Soporte para Alzheimer, Parkinson y autismo",
+    "Reduce ansiedad y depresión naturalmente"
+  ],
+  ingredients: [
+    "Cannabidiol (CBD) 15% - Componente principal",
+    "Aceite portador natural - Para mejor absorción",
+    "100% orgánico y vegano"
+  ],
+  usage: "Poner gotas bajo la lengua. Mantener 30-60 segundos antes de tragar. Dosis recomendada: 1-2 gotas por vez, 2-3 veces al día. Ajustar según necesidades. No exceder dosis recomendadas. Consultar médico si está tomando otros medicamentos."
+};
+---
+
+<Layout 
+  title="Extracto CBD 15% - Libre THC | Artritis, Epilepsia, Ansiedad | MVV Natural"
+  description="Extracto CBD 15%: libre THC, gluten y GMO. Cannabis orgánico vegano. Ayuda artritis, epilepsia, Crohn, Alzheimer, Parkinson, autismo, ansiedad y depresión."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

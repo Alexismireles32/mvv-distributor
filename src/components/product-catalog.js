@@ -19,6 +19,24 @@ export const PRODUCTS = [
   { name: "Apple Cider Vinagre", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575550/applecyder_xxg1ps.png", slug: "/applecyder" },
   { name: "30-Day Detox", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575526/30daydetox_roziws.png", slug: "/30daydetox" },
   { name: "Colit 6", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575551/colit6_te7kpi.png", slug: "/colit6" },
-  { name: "CM Push up Men", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575544/cmpushup_ncxzh6.png", slug: "/cmpushupmen" }
+  { name: "CM Push up Men", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575544/cmpushup_ncxzh6.png", slug: "/cmpushupmen" },
+  { name: "Maxi Fibra", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549538/catalogo-mvvnatural-18_l4r57w.webp", slug: "/maxifibra" },
+  { name: "Magic Booty Up", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549572/catalogo-mvvnatural-27_ohefys.webp", slug: "/magicbootyup" },
+  { name: "Colágeno & Biotina", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549535/catalogo-mvvnatural-17_lvwwel.webp", slug: "/colageno-biotina" },
+  { name: "15 Day Detox Tea", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549522/catalogo-mvvnatural-15_qpsuiu.webp", slug: "/15daydetoxtea" },
+  { name: "3 Day Reset", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549535/catalogo-mvvnatural-16_yiewjp.webp", slug: "/3dayreset" },
+  { name: "Extracto CBD 15%", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549504/catalogo-mvvnatural-6_hdrlbr.webp", slug: "/extractocbd" },
+  { name: "Protein Body", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549507/catalogo-mvvnatural-9_da08s1.webp", slug: "/proteinbody" },
+  { name: "Mens Exotic", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549796/catalogo-mvvnatural-25_mbl2mh.webp", slug: "/mensexotic" },
+  { name: "Thyroid Support", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549588/catalogo-mvvnatural-28_br04nr.webp", slug: "/thyroid-support" },
+  { name: "H-Flex", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549507/catalogo-mvvnatural-8_kctrrh.webp", slug: "/hflex" },
+  { name: "30 Fusion Xtreme", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575568/30Fusion_avb3e6.png", slug: "/30fusion" },
+  { name: "Slim Shake", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549586/catalogo-mvvnatural-31_jg76gh.webp", slug: "/slimshake" },
+  { name: "Blueberry Colágeno Hidrolizado", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549573/catalogo-mvvnatural-32_r5ipwu.webp", slug: "/blueberry-colageno" },
+  { name: "Bikini Strong", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549586/catalogo-mvvnatural-33_tpgqj5.webp", slug: "/bikinstrong" },
+  { name: "Meizitang Soft Gel", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549584/catalogo-mvvnatural-35_ao2pay.webp", slug: "/meizitang" },
+  { name: "Body Shape", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549663/catalogo-mvvnatural-39_s96fds.webp", slug: "/bodyshape" },
+  { name: "Slim24", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549663/catalogo-mvvnatural-40_w0njj9.webp", slug: "/slim24" },
+  { name: "Li-Da Daidahua Slimming Tea", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549659/catalogo-mvvnatural-37_jbem0i.webp", slug: "/lidatea" }
 ];
 

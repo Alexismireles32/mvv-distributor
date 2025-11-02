@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Mens Exotic Potenciador Masculino",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549796/catalogo-mvvnatural-25_mbl2mh.webp",
+  productUrl: "/mensexotic",
+  description: "Mens Exotic Potenciador Masculino - Máxima potencia natural. Mejora el flujo sanguíneo hacia el pene, logrando una erección más dura y rígida. Recupera sensibilidad y excitación natural. Aumenta la resistencia física y sexual, la fertilidad masculina y la concentración mental. Disminuye los efectos del estrés y la fatiga y favorece el buen estado de ánimo.",
+  benefits: [
+    "Máxima potencia natural para el hombre",
+    "Mejora flujo sanguíneo hacia el pene",
+    "Erección más dura y rígida",
+    "Recupera sensibilidad y excitación natural",
+    "Aumenta resistencia física y sexual",
+    "Mejora fertilidad masculina",
+    "Aumenta concentración mental",
+    "Disminuye efectos del estrés y fatiga",
+    "Favorece buen estado de ánimo"
+  ],
+  ingredients: [
+    "Yumbina - Mejora rendimiento sexual",
+    "Maca Negra - Energía y vitalidad masculina",
+    "Arginina - Mejora flujo sanguíneo"
+  ],
+  usage: "Tomar 1 cápsula al día; según los efectos se puede subir a 2 por día. Para mejores resultados, tomar consistentemente. No exceder dosis recomendadas. Consultar médico si tiene condiciones cardíacas."
+};
+---
+
+<Layout 
+  title="Mens Exotic Potenciador Masculino - Máxima Potencia Natural | MVV Natural"
+  description="Mens Exotic: potenciador masculino máxima potencia. Mejora flujo sanguíneo, erección más dura, resistencia sexual, fertilidad masculina."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+

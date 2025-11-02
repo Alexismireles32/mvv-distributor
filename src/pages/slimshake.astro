@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Navbar6 } from '../components/navbar-06.jsx';
+import { WhatsAppProvider } from '../components/home-wrapper.jsx';
+import { CartProvider } from '../components/customer-cart.jsx';
+import { ProductPageWrapperEnhanced } from '../components/product-page-wrapper-enhanced.jsx';
+import { Footer2 } from '../components/footer-02.jsx';
+
+const productData = {
+  productName: "Slim Shake",
+  productImage: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549586/catalogo-mvvnatural-31_jg76gh.webp",
+  productUrl: "/slimshake",
+  description: "Slim Shake es proteína natural que no engorda. Malteada diseñada para hacer tus curvas más pronunciadas sin subir tallas en cintura. Lipo sin bisturí: sus ingredientes ayudan a aumentar las glándulas mamarias y los glúteos. Moldea tu figura y ayuda a combatir los problemas hormonales brindando vitalidad y energía. Puede usarse como sustituto de desayuno, cena o ambos.",
+  benefits: [
+    "Proteína natural que no engorda",
+    "Hace tus curvas más pronunciadas",
+    "No sube tallas en cintura",
+    "Aumenta glándulas mamarias",
+    "Aumenta glúteos",
+    "Moldea tu figura",
+    "Combate problemas hormonales",
+    "Brinda vitalidad y energía",
+    "Sustituto de desayuno o cena"
+  ],
+  ingredients: [
+    "Maca - Hormonas y curvas",
+    "Aguaje - Fitoestrógenos",
+    "Colágeno - Estructura y firmeza",
+    "Kiwicha - Proteína completa",
+    "Stevia - Endulzante natural",
+    "Quinoa - Proteína y nutrientes",
+    "Polen - Energía y vitaminas",
+    "Granola - Fibra y textura"
+  ],
+  usage: "1 cucharada en un vaso con 250 ml de agua. Mezclar bien y consumir. Puede usarse como sustituto de desayuno, cena o ambos. Presentación de 250g. Para mejores resultados, usar consistentemente y combinar con alimentación balanceada."
+};
+---
+
+<Layout 
+  title="Slim Shake - Proteína Natural que No Engorda | Moldea Curvas | MVV Natural"
+  description="Slim Shake: proteína natural que no engorda. Malteada que hace curvas más pronunciadas, aumenta senos y glúteos. Moldea figura sin subir tallas."
+>
+  <CartProvider client:load>
+    <WhatsAppProvider client:load>
+      <Navbar6 client:load />
+      <ProductPageWrapperEnhanced client:load productData={productData} />
+      <Footer2 client:idle />
+    </WhatsAppProvider>
+  </CartProvider>
+</Layout>
+
