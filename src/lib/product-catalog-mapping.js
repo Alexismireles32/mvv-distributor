@@ -1,107 +1,223 @@
 // Mapeo de productos del catálogo a productos existentes y sus imágenes secundarias
-// Basado en catalogo-mvv.md
+// Basado en catalogo-mvv.md actualizado
 
 export const CATALOG_IMAGE_MAPPING = {
-  // Productos existentes con imágenes secundarias del catálogo
-  "Lipo HD 360": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549485/catalogo-mvv-natural-3_fpfmfj.webp"
-  },
-  "Lipo HD 360°": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549485/catalogo-mvv-natural-3_fpfmfj.webp"
+  // Mapeo según catalogo-mvv.md corregido
+  "Fusion Xtreme Duo-60": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-4_lwf6po.webp"
   },
   "Duo-60 Fusion": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549485/catalogo-mvv-natural-4_hmppua.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-4_lwf6po.webp"
   },
   "Duo 60 Fusion Xtreme": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549485/catalogo-mvv-natural-4_hmppua.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-4_lwf6po.webp"
   },
   "Duo-60 Fusion Xtreme": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549485/catalogo-mvv-natural-4_hmppua.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-4_lwf6po.webp"
+  },
+  "Fusion Xtreme 30": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-5_hh9xkg.webp"
   },
   "30 Fusion": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549505/catalogo-mvv-natural-5_bzvrlg.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-5_hh9xkg.webp"
   },
   "Fusion Xtreme": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549505/catalogo-mvv-natural-5_bzvrlg.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-5_hh9xkg.webp"
+  },
+  "30 Fusion Xtreme": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-5_hh9xkg.webp"
+  },
+  "Extracto CBD (15% Cannabidiol)": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-6_ecjl14.webp"
+  },
+  "Extracto CBD 15%": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-6_ecjl14.webp"
   },
   "CM Push Up Men": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549482/catalogo-mvv-natural-7_wzfkvr.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-7_pfkwq9.webp"
   },
   "CM Push up Men": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549482/catalogo-mvv-natural-7_wzfkvr.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-7_pfkwq9.webp"
   },
   "CM Push Up MEN": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549482/catalogo-mvv-natural-7_wzfkvr.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-7_pfkwq9.webp"
+  },
+  "H-Flex (triple fuerza)": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-8_jduebo.webp"
   },
   "H-Flex": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549507/catalogo-mvv-natural-8_kctrrh.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-8_jduebo.webp"
   },
   "Hflex": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549507/catalogo-mvv-natural-8_kctrrh.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-8_jduebo.webp"
   },
   "Protein Body": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549507/catalogo-mvv-natural-9_da08s1.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-9_x4mbwd.webp"
   },
   "SOS Burn": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549517/catalogo-mvv-natural-10_vs3aqv.webp"
-  },
-  "SAS Burn Sensitive": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549520/catalogo-mvv-natural-11_we83am.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-10_drstvu.webp"
   },
   "SOS Burn Sensitive": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549520/catalogo-mvv-natural-11_we83am.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-11_hqpxok.webp"
   },
-  "SAS Burn Clean": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549528/catalogo-mvv-natural-12_pd7yxq.webp"
-  },
-  "SOS Burn Clear": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549528/catalogo-mvv-natural-12_pd7yxq.webp"
+  "SAS Burn Sensitive": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-11_hqpxok.webp"
   },
   "SOS Burn Clean": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549528/catalogo-mvv-natural-12_pd7yxq.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-12_vhazhu.webp"
+  },
+  "SOS Burn Clear": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-12_vhazhu.webp"
+  },
+  "SAS Burn Clean": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-12_vhazhu.webp"
+  },
+  "Chupa Panza (Cápsulas)": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-13_hdnhdg.webp"
   },
   "Chupa Panza": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549515/catalogo-mvv-natural-13_lcfatz.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-13_hdnhdg.webp"
   },
   "30 Day Detox": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvv-natural-14_obho2e.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-14_miylnf.webp"
   },
   "30-Day Detox": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvv-natural-14_obho2e.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-14_miylnf.webp"
   },
   "30daydetox": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvv-natural-14_obho2e.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-14_miylnf.webp"
   },
   "15 Day Detox Tea": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549522/catalogo-mvv-natural-15_qpsuiu.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-15_ojfmth.webp"
   },
   "3 Day Reset": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvv-natural-16_yiewjp.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-16_ydcn0m.webp"
+  },
+  "Colágeno & Biotina (ácido hialurónico)": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-17_qhlkxa.webp"
   },
   "Colágeno & Biotina": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvv-natural-17_lvwwel.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-17_qhlkxa.webp"
   },
   "Colágeno & Biotina con Ácido Hialurónico": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvv-natural-17_lvwwel.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-17_qhlkxa.webp"
   },
   "Maxi Fibra": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549538/catalogo-mvv-natural-18_l4r57w.webp",
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-18_bj3iwu.webp",
     isNew: true
   },
-  "Maca Premium": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549552/catalogo-mvv-natural-19_nbmjhq.webp"
-  },
-  "Maca Premium Peruana": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549552/catalogo-mvv-natural-19_nbmjhq.webp"
+  "Maca Premium (mujeres)": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-19_aabf7p.webp"
   },
   "Maca Premium (Mujeres)": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549552/catalogo-mvv-natural-19_nbmjhq.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-19_aabf7p.webp"
+  },
+  "Maca Premium": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-19_aabf7p.webp"
+  },
+  "Maca Premium Peruana": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-19_aabf7p.webp"
+  },
+  "Maca Premium (hombres)": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-20_zplemr.webp"
   },
   "Maca Premium (Hombres)": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549548/catalogo-mvv-natural-20_aihpsv.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-20_zplemr.webp"
   },
   "Serenity": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549549/catalogo-mvv-natural-21_rcrlmk.webp"
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-21_slzqqk.webp"
+  },
+  "Colit 6": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-22_ymfzfk.webp"
+  },
+  "COLIT 6": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-22_ymfzfk.webp"
+  },
+  "Prime Rose": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-23_xxwr78.webp"
+  },
+  "Mens Exotic": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-24_cayyap.webp"
+  },
+  "Mens Exotic Potenciador Masculino": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-24_cayyap.webp"
+  },
+  "Higa2 Hepato Protector": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-25_mbl2mh.webp"
+  },
+  "Higa2": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-25_mbl2mh.webp"
+  },
+  "Magic Booty Up": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-26_qacvkr.webp",
+    isNew: true
+  },
+  "Thyroide": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-27_wezqrg.webp"
+  },
+  "Thyroide support & weight-loss": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-27_wezqrg.webp",
+    isNew: true
+  },
+  "Thyroid Support": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-27_wezqrg.webp"
+  },
+  "Thyroid Support & Weight Loss": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-27_wezqrg.webp"
+  },
+  "Slim Coffe Thermogenic": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-28_wok8x6.webp"
+  },
+  "Slim Coffee Thermogenic": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-28_wok8x6.webp"
+  },
+  "Slim Coffee": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-28_wok8x6.webp"
+  },
+  "Energy Up": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-29_hm7ayt.webp"
+  },
+  "Slim Shake": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-30_nal8d7.webp"
+  },
+  "Blueberry Colágeno Hidrolizado": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-31_qsewuj.webp"
+  },
+  "Blueberry Colágeno": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-31_qsewuj.webp"
+  },
+  "Bikini Strong": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-32_qqgu08.webp"
+  },
+  "Bikini Trim Fast": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-33_i1bpqa.webp"
+  },
+  "Meizitang Soft Gel": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-34_nja22n.webp"
+  },
+  "LiDa Daidaihua (cápsulas)": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-35_omhexy.webp"
+  },
+  "Li-Da Daidahua Slimming Tea": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-36_mj6ljw.webp"
+  },
+  "LiDa Daidaihua Slimming Tea": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-36_mj6ljw.webp"
+  },
+  "LiDa Daidaihua Booster": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-37_xwmvln.webp"
+  },
+  "Li-Da Daidahua Booster": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-37_xwmvln.webp"
+  },
+  "Lida Booster": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-37_xwmvln.webp"
+  },
+  "Body Shape": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-38_stdnup.webp"
+  },
+  "Slim24": {
+    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549733/catalogo-mvvnatural-39_ylthvp.webp"
   },
   "Floryva": {
     secondaryImage: null
@@ -115,88 +231,11 @@ export const CATALOG_IMAGE_MAPPING = {
   "Encimax (Enzimas Digestivas)": {
     secondaryImage: null
   },
-  "Colit 6": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549549/catalogo-mvv-natural-22_bvgzpm.webp"
-  },
-  "COLIT 6": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549549/catalogo-mvv-natural-22_bvgzpm.webp"
-  },
-  "Prime Rose": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549565/catalogo-mvv-natural-23_jdfcan.webp"
-  },
-  "Mens Exotic": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549796/catalogo-mvv-natural-25_mbl2mh.webp"
-  },
-  "Mens Exotic Potenciador Masculino": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549796/catalogo-mvv-natural-25_mbl2mh.webp"
-  },
-  "Higa2": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549558/catalogo-mvv-natural-26_aqrhoz.webp"
-  },
-  "Higa2 Hepato Protector": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549558/catalogo-mvv-natural-26_aqrhoz.webp"
-  },
-  "Magic Booty Up": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549572/catalogo-mvv-natural-27_ohefys.webp",
-    isNew: true
-  },
-  "Thyroide support & weight-loss": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549588/catalogo-mvv-natural-28_br04nr.webp",
-    isNew: true
-  },
-  "Thyroid Support": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549588/catalogo-mvv-natural-28_br04nr.webp"
-  },
-  "Thyroid Support & Weight Loss": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549588/catalogo-mvv-natural-28_br04nr.webp"
-  },
-  "Slim Coffee Thermogenic": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549565/catalogo-mvv-natural-29_fqn4vq.webp"
-  },
-  "Slim Coffee": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549565/catalogo-mvv-natural-29_fqn4vq.webp"
-  },
   "Apple Cider Vinagre": {
     secondaryImage: null
   },
   "Apple Cider Vinegar": {
     secondaryImage: null
-  },
-  "Slim Shake": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549586/catalogo-mvv-natural-31_jg76gh.webp"
-  },
-  "Blueberry Colágeno Hidrolizado": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549573/catalogo-mvv-natural-32_r5ipwu.webp"
-  },
-  "Blueberry Colágeno": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549573/catalogo-mvv-natural-32_r5ipwu.webp"
-  },
-  "Bikini Strong": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549586/catalogo-mvv-natural-33_tpgqj5.webp"
-  },
-  "Meizitang Soft Gel": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549584/catalogo-mvv-natural-35_ao2pay.webp"
-  },
-  "Li-Da Daidahua Slimming Tea": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549659/catalogo-mvv-natural-37_jbem0i.webp"
-  },
-  "Li-Da Daidahua Booster": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549664/catalogo-mvv-natural-38_ekzkq5.webp"
-  },
-  "Lida Booster": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549664/catalogo-mvv-natural-38_ekzkq5.webp"
-  },
-  "Body Shape": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549663/catalogo-mvv-natural-39_s96fds.webp"
-  },
-  "Slim24": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549663/catalogo-mvv-natural-40_w0njj9.webp"
-  },
-  "30 Fusion Xtreme": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549505/catalogo-mvv-natural-5_bzvrlg.webp"
-  },
-  "Fusion Xtreme": {
-    secondaryImage: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761549505/catalogo-mvv-natural-5_bzvrlg.webp"
   }
 };
 
@@ -227,4 +266,3 @@ export function getProductImages(productName, primaryImage) {
   }
   return images;
 }
-
