@@ -36,22 +36,22 @@ export function ProductCardWithCart({ product, badge = null }) {
           <div className={`absolute -top-2 -right-2 z-10 ${badge.color} text-white px-3 py-1 rounded-full font-bold text-xs shadow-xl rotate-12 animate-pulse`}>
             {badge.text}
           </div>
-          <a href={product.slug} className="block aspect-[5/6] overflow-hidden rounded-lg border-2 border-transparent transition-all duration-300 group-hover:border-como">
+          <a href={product.slug} className="block aspect-[5/6] overflow-hidden rounded-lg border-2 border-transparent transition-all duration-300 group-hover:border-como bg-white flex items-center justify-center">
             <img
               src={product.image}
               alt={`${product.name} - MVV Natural`}
-              className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
               loading="lazy"
             />
           </a>
         </div>
       )}
       {!badge && (
-        <a href={product.slug} className="mb-3 block aspect-[5/6] overflow-hidden rounded-lg border-2 border-transparent transition-all duration-300 group-hover:border-como md:mb-4">
+        <a href={product.slug} className="mb-3 block aspect-[5/6] overflow-hidden rounded-lg border-2 border-transparent transition-all duration-300 group-hover:border-como md:mb-4 bg-white flex items-center justify-center">
           <img
             src={product.image}
             alt={`${product.name} - MVV Natural`}
-            className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
         </a>
