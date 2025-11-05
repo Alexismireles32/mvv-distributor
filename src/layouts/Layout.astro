@@ -16,9 +16,8 @@ const {
   noindex = true // Default to true for distributor site - prevent indexing
 } = Astro.props;
 
-// Point canonical URLs to main site to prevent duplicate content issues
-const mainSiteURL = 'https://www.mvvnatural.com';
-const canonicalURL = new URL(Astro.url.pathname, mainSiteURL);
+// Point canonical URLs to current site
+const canonicalURL = Astro.url;
 const currentPageURL = Astro.url;
 const siteName = 'MVV Natural';
 ---
@@ -95,7 +94,6 @@ const siteName = 'MVV Natural';
     
     <!-- Structured Data (JSON-LD) - DISABLED for distributor site -->
     <!-- Removed to prevent Google from crawling and indexing this internal tool -->
-    <!-- Structured data should only be on the main public site (www.mvvnatural.com) -->
   </head>
   <body>
     <slot />

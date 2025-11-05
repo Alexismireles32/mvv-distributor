@@ -37,7 +37,7 @@ export function LegalAviso() {
                 2. Objeto y Aceptación
               </h2>
               <p>
-                El presente Aviso Legal regula el uso y utilización del sitio web www.mvvnatural.com, del que es titular MVV Natural USA. La navegación por el sitio web atribuye la condición de usuario del mismo e implica la aceptación plena y sin reservas de todas y cada una de las disposiciones incluidas en este Aviso Legal.
+                El presente Aviso Legal regula el uso y utilización del sitio web, del que es titular MVV Natural USA. La navegación por el sitio web atribuye la condición de usuario del mismo e implica la aceptación plena y sin reservas de todas y cada una de las disposiciones incluidas en este Aviso Legal.
               </p>
               <p>
                 <strong>MVV Natural</strong> se dedica a la comercialización de <strong>suplementos naturales para control de peso</strong>, productos de bienestar y salud natural, con envíos a <strong>México y Estados Unidos</strong>. Todos nuestros productos son de origen natural y cumplen con las regulaciones sanitarias aplicables.
@@ -156,7 +156,7 @@ export function LegalAviso() {
                 8. Propiedad Intelectual e Industrial
               </h2>
               <p>
-                Todos los contenidos del sitio web www.mvvnatural.com, incluyendo textos, fotografías, gráficos, imágenes, iconos, tecnología, software, links y demás contenidos audiovisuales o sonoros, así como su diseño gráfico y códigos fuente, son propiedad intelectual de MVV Natural USA o de terceros que han autorizado su uso.
+                Todos los contenidos del sitio web, incluyendo textos, fotografías, gráficos, imágenes, iconos, tecnología, software, links y demás contenidos audiovisuales o sonoros, así como su diseño gráfico y códigos fuente, son propiedad intelectual de MVV Natural USA o de terceros que han autorizado su uso.
               </p>
               <p>
                 Queda prohibida la reproducción, distribución, comunicación pública y transformación de cualquier contenido del sitio web sin la autorización expresa y por escrito de MVV Natural.

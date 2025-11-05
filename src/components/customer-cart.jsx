@@ -456,7 +456,6 @@ function CartSidebar() {
         <!-- Footer -->
         <div style="text-align: center; padding-top: 16px; border-top: 1px solid #e5e7eb;">
           <p style="font-size: 12px; color: #6b7280; margin: 0;">MVV Natural - Suplementos 100% Naturales</p>
-          <p style="font-size: 12px; color: #6b7280; margin: 5px 0 0 0;">www.mvvnaturales.org</p>
         </div>
       </div>
     `;
