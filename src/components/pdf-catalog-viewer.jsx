@@ -1,9 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
 export function PDFCatalogViewer() {
   const [pdfLoaded, setPdfLoaded] = useState(false);
+  const [distributorPhone, setDistributorPhone] = useState(null);
+  const [loadingDistributor, setLoadingDistributor] = useState(false);
 
   useEffect(() => {
     // Timeout para ocultar el loader después de 2 segundos
@@ -13,6 +16,66 @@ export function PDFCatalogViewer() {
     }, 2000);
 
     return () => clearTimeout(timer);
+  }, []);
+
+  // Load distributor phone from URL code parameter
+  useEffect(() => {
+    const loadDistributorPhone = async () => {
+      try {
+        if (typeof window === 'undefined' || !supabase) return;
+
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code');
+        
+        // Also check localStorage as fallback
+        const savedCode = code || localStorage.getItem('activeDistributorCode');
+        
+        if (savedCode && /^\d{3}$/.test(savedCode)) {
+          setLoadingDistributor(true);
+          
+          const { data, error } = await supabase
+            .from('distributors')
+            .select('phone')
+            .eq('code', savedCode)
+            .single();
+
+          if (!error && data && data.phone) {
+            setDistributorPhone(data.phone);
+          } else {
+            // Reset to default if no phone found
+            setDistributorPhone(null);
+          }
+          
+          setLoadingDistributor(false);
+        } else {
+          // Reset to default if no valid code
+          setDistributorPhone(null);
+        }
+      } catch (error) {
+        console.error('Error loading distributor phone:', error);
+        setLoadingDistributor(false);
+        setDistributorPhone(null);
+      }
+    };
+
+    loadDistributorPhone();
+
+    // Listen for storage changes (when distributor code changes in other tabs/components)
+    const handleStorageChange = (e) => {
+      if (e.key === 'activeDistributorCode') {
+        loadDistributorPhone();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also listen for popstate (when URL changes via back/forward)
+    window.addEventListener('popstate', loadDistributorPhone);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('popstate', loadDistributorPhone);
+    };
   }, []);
 
   return (
@@ -93,15 +156,32 @@ export function PDFCatalogViewer() {
             >
               Ver Todos los Productos
             </a>
-            <a
-              href="https://wa.me/526312982043?text=Hola,%20vi%20su%20catálogo%20y%20me%20interesa"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-como bg-white px-8 py-4 text-base font-bold text-como transition-all duration-300 hover:bg-ecru-white active:scale-95"
-            >
-              <span className="text-xl">💬</span>
-              Cotizar por WhatsApp
-            </a>
+            {(() => {
+              // Generate WhatsApp link dynamically based on distributor
+              let whatsappHref = 'https://wa.me/526312982043?text=Hola,%20vi%20su%20catálogo%20y%20me%20interesa';
+              let buttonText = 'Cotizar por WhatsApp';
+              
+              if (distributorPhone && !loadingDistributor) {
+                // Clean phone number (remove all non-digits)
+                const cleanPhone = distributorPhone.replace(/\D/g, '');
+                if (cleanPhone) {
+                  whatsappHref = `https://wa.me/${cleanPhone}?text=Hola,%20vi%20su%20catálogo%20y%20me%20interesa%20en%20sus%20productos%20MVV%20Natural`;
+                  buttonText = 'Cotizar por WhatsApp';
+                }
+              }
+              
+              return (
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-como bg-white px-8 py-4 text-base font-bold text-como transition-all duration-300 hover:bg-ecru-white active:scale-95"
+                >
+                  <span className="text-xl">💬</span>
+                  {buttonText}
+                </a>
+              );
+            })()}
           </div>
         </div>
       </div>
