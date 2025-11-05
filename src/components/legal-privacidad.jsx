@@ -28,8 +28,6 @@ export function LegalPrivacidad() {
               <ul className="ml-6 list-disc space-y-2">
                 <li><strong>Denominación:</strong> MVV Natural USA</li>
                 <li><strong>Nombre comercial:</strong> MVV Natural</li>
-                <li><strong>Sitio web:</strong> www.mvvnatural.com</li>
-                <li><strong>Email de contacto:</strong> privacidad@mvvnatural.com</li>
               </ul>
               <p>
                 Operamos en <strong>México</strong> y <strong>Estados Unidos</strong>, cumpliendo con las leyes de protección de datos de ambos países.
@@ -228,13 +226,8 @@ export function LegalPrivacidad() {
                 ¿Cómo ejercer sus derechos?
               </h3>
               <p>
-                Para ejercer cualquiera de estos derechos, puede contactarnos:
+                Para ejercer cualquiera de estos derechos, puede contactarnos a través del sitio web con el asunto "Ejercicio de Derechos ARCO" o "Privacy Rights Request" e incluir: nombre completo, email y descripción de su solicitud.
               </p>
-              <ul className="ml-6 list-disc space-y-2">
-                <li><strong>Email:</strong> privacidad@mvvnatural.com</li>
-                <li><strong>Asunto:</strong> "Ejercicio de Derechos ARCO" o "Privacy Rights Request"</li>
-                <li><strong>Información a incluir:</strong> nombre completo, email, descripción de su solicitud</li>
-              </ul>
               <p>
                 Responderemos a su solicitud en un plazo máximo de <strong>20 días hábiles</strong>.
               </p>
@@ -329,14 +322,8 @@ export function LegalPrivacidad() {
                 14. Contacto y Quejas
               </h2>
               <p>
-                Para cualquier pregunta, solicitud o queja relacionada con la privacidad y protección de sus datos:
+                Para cualquier pregunta, solicitud o queja relacionada con la privacidad y protección de sus datos, puede contactarnos a través del sitio web.
               </p>
-              <ul className="ml-6 list-disc space-y-2">
-                <li><strong>Email de privacidad:</strong> privacidad@mvvnatural.com</li>
-                <li><strong>Email general:</strong> contacto@mvvnatural.com</li>
-                <li><strong>WhatsApp México:</strong> +52 631 298 2043</li>
-                <li><strong>WhatsApp USA:</strong> +1 520 216 1443</li>
-              </ul>
               <p className="mt-4">
                 Si no está satisfecho con nuestra respuesta, tiene derecho a presentar una queja ante la autoridad de protección de datos de su país:
               </p>

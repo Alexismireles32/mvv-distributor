@@ -27,8 +27,6 @@ export function LegalAviso() {
               <ul className="ml-6 list-disc space-y-2">
                 <li><strong>Denominación social:</strong> MVV Natural USA</li>
                 <li><strong>Nombre comercial:</strong> MVV Natural</li>
-                <li><strong>Sitio web:</strong> https://www.mvvnatural.com</li>
-                <li><strong>Email de contacto:</strong> contacto@mvvnatural.com</li>
                 <li><strong>Países de operación:</strong> México y Estados Unidos</li>
               </ul>
             </div>
@@ -237,14 +235,8 @@ export function LegalAviso() {
                 14. Contacto
               </h2>
               <p>
-                Para cualquier duda, sugerencia o reclamación relacionada con el uso del sitio web, puede contactarnos:
+                Para cualquier duda, sugerencia o reclamación relacionada con el uso del sitio web, puede contactarnos a través del sitio web.
               </p>
-              <ul className="ml-6 list-disc space-y-2">
-                <li><strong>Email:</strong> contacto@mvvnatural.com</li>
-                <li><strong>WhatsApp México:</strong> +52 631 298 2043</li>
-                <li><strong>WhatsApp USA:</strong> +1 520 216 1443</li>
-                <li><strong>Sitio web:</strong> www.mvvnatural.com</li>
-              </ul>
             </div>
 
             {/* FOOTER NOTE */}

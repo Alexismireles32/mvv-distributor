@@ -47,7 +47,6 @@ export const WhatsAppFloat = forwardRef((props, ref) => {
               <span className="text-2xl sm:text-3xl">🇲🇽</span>
               <div className="flex flex-col text-white flex-1">
                 <span className="font-bold text-sm sm:text-base">México</span>
-                <span className="text-xs opacity-90">+52 631 298 2043</span>
               </div>
               <BiLogoWhatsapp className="h-7 w-7 text-white sm:h-8 sm:w-8" />
             </a>
@@ -63,7 +62,6 @@ export const WhatsAppFloat = forwardRef((props, ref) => {
               <span className="text-2xl sm:text-3xl">🇺🇸</span>
               <div className="flex flex-col text-como flex-1">
                 <span className="font-bold text-sm sm:text-base">USA</span>
-                <span className="text-xs opacity-90">+1 520 216 1443</span>
               </div>
               <BiLogoWhatsapp className="h-7 w-7 text-como sm:h-8 sm:w-8" />
             </a>
