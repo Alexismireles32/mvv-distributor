@@ -29,7 +29,7 @@ export const PRODUCTS = [
   { name: "Mens Exotic", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549733/catalogo-mvv-natural-24_cayyap.webp", slug: "/mensexotic" },
   { name: "Thyroid Support", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549733/catalogo-mvv-natural-27_wezqrg.webp", slug: "/thyroid-support" },
   { name: "H-Flex", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549733/catalogo-mvv-natural-8_jduebo.webp", slug: "/hflex" },
-  { name: "30 Fusion Xtreme", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575568/30Fusion_avb3e6.png", slug: "/30fusion" },
+  { name: "30 Fusion Xtreme", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575561/duo30fusion_t59hk3.png", slug: "/30fusion" },
   { name: "Slim Shake", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549733/catalogo-mvv-natural-30_nal8d7.webp", slug: "/slimshake" },
   { name: "Blueberry Colágeno Hidrolizado", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549733/catalogo-mvv-natural-31_qsewuj.webp", slug: "/blueberry-colageno" },
   { name: "Bikini Strong", image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761549733/catalogo-mvv-natural-32_qqgu08.webp", slug: "/bikinstrong" },

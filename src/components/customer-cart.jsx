@@ -322,6 +322,9 @@ function CartSidebar() {
       link.click();
       document.body.removeChild(link);
 
+      // Stop loading spinner
+      setGeneratingInvoice(false);
+
       // Small delay to ensure download starts before opening WhatsApp
       await new Promise(resolve => setTimeout(resolve, 300));
 
@@ -348,13 +351,22 @@ function CartSidebar() {
         clearCart();
         setIsCartOpen(false);
         setCurrentView('cart');
+        setCustomerInfo({
+          firstName: '',
+          lastName: '',
+          phone: '',
+          email: '',
+          address: '',
+          city: '',
+          state: '',
+          zipCode: ''
+        });
+        setSelectedPaymentMethod('');
       }, 500);
 
     } catch (error) {
       console.error('Error generating invoice:', error);
-      alert('Error al generar la orden. Intenta nuevamente.');
-      setGeneratingInvoice(false);
-    } finally {
+      alert('Error al generar la orden. Por favor intenta nuevamente.');
       setGeneratingInvoice(false);
     }
   };
