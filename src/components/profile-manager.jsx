@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 
 export function ProfileManager({ distributorCode, currentPhotoUrl, onBack, onSaved }) {
   const [file, setFile] = useState(null);
@@ -21,43 +21,26 @@ export function ProfileManager({ distributorCode, currentPhotoUrl, onBack, onSav
   useEffect(() => {
     const loadProfile = async () => {
       try {
-        if (!supabase) return;
-        const { data, error } = await supabase
-          .from('distributors')
-          .select('*')
-          .eq('code', distributorCode)
-          .single();
-        if (!error && data) {
-          setForm({
-            name: data.name || '',
-            last_name: data.last_name || '',
-            country: data.country || '',
-            state: data.state || '',
-            phone: data.phone || '',
-            email: data.email || '',
-            pin: data.pin || ''
-          });
-          if (data.photo_url) setPreview(data.photo_url);
-        }
+        const { profile } = await api.myData();
+        if (!profile) return;
+        setForm({
+          name: profile.name || '',
+          last_name: profile.last_name || '',
+          country: profile.country || '',
+          state: profile.state || '',
+          phone: profile.phone || '',
+          email: profile.email || '',
+          // The PIN is never sent to the browser now. Leaving this blank means
+          // "keep the current PIN"; typing 4 digits sets a new one.
+          pin: ''
+        });
+        if (profile.photo_url) setPreview(profile.photo_url);
       } catch (e) {
         console.error('Error loading profile:', e);
       }
     };
     loadProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [distributorCode]);
-
-  const onSelect = (e) => {
-    const f = e.target.files?.[0];
-    if (!f) return;
-    if (!f.type.startsWith('image/')) {
-      setError('Selecciona una imagen válida');
-      return;
-    }
-    setError('');
-    setFile(f);
-    setPreview(URL.createObjectURL(f));
-  };
 
   const upload = async () => {
     try {
@@ -65,36 +48,28 @@ export function ProfileManager({ distributorCode, currentPhotoUrl, onBack, onSav
         setError('Selecciona una imagen primero');
         return;
       }
-      if (!supabase) {
-        setError('Supabase no disponible');
-        return;
-      }
       setSaving(true);
-      const ext = file.name.split('.').pop() || 'jpg';
-      const path = `distributors/${distributorCode}/${Date.now()}.${ext}`;
-      const { error: upErr } = await supabase
-        .storage
-        .from('profiles')
-        .upload(path, file, {
-          upsert: true,
-          cacheControl: '3600',
-          contentType: file.type || 'image/jpeg'
-        });
-      if (upErr) throw upErr;
-      const { data: pub } = supabase.storage.from('profiles').getPublicUrl(path);
-      const publicUrl = pub?.publicUrl;
-      if (!publicUrl) throw new Error('No se pudo obtener URL pública');
-      const { error: updErr } = await supabase
-        .from('distributors')
-        .update({ photo_url: publicUrl })
-        .eq('code', distributorCode);
-      if (updErr) throw updErr;
-      if (onSaved) onSaved({ photo_url: publicUrl });
+      setError('');
+
+      // Uploaded through our own endpoint so the storage token stays on the server
+      // and the destination path is derived from the session, not from the client.
+      const body = new FormData();
+      body.append('file', file);
+      const response = await fetch('/api/me/photo', {
+        method: 'POST',
+        body,
+        credentials: 'same-origin'
+      });
+      const payload = await response.json().catch(() => null);
+      if (!response.ok) throw new Error(payload?.error || 'No se pudo subir la imagen');
+
+      setPreview(payload.photo_url);
+      if (onSaved) onSaved({ photo_url: payload.photo_url });
       alert('Foto de perfil actualizada');
       onBack();
     } catch (e) {
       console.error('Upload error:', e);
-      setError(`Error al subir imagen: ${e?.message || e?.error_description || 'verifica el bucket "profiles" y las políticas de Storage'}`);
+      setError(`Error al subir imagen: ${e?.message || 'intenta de nuevo'}`);
     } finally {
       setSaving(false);
     }
@@ -102,33 +77,30 @@ export function ProfileManager({ distributorCode, currentPhotoUrl, onBack, onSav
 
   const saveProfile = async () => {
     try {
-      if (!supabase) {
-        setError('Supabase no disponible');
-        return;
-      }
       if (!form.name || !form.last_name || !form.state || !form.country) {
         setError('Nombre, Apellido, País y Estado son requeridos');
         return;
       }
+      const pin = (form.pin || '').trim();
+      if (pin && !/^\d{4}$/.test(pin)) {
+        setError('El PIN debe ser de 4 dígitos numéricos');
+        return;
+      }
       setSaving(true);
-      const updateData = {
+      setError('');
+
+      const profile = {
         name: form.name.trim(),
         last_name: form.last_name.trim(),
         country: form.country.trim(),
         state: form.state.trim(),
         phone: (form.phone || '').trim(),
-        email: (form.email || '').trim(),
-        pin: (form.pin || '').trim()
+        email: (form.email || '').trim()
       };
-      const { data, error: updErr } = await supabase
-        .from('distributors')
-        .update(updateData)
-        .eq('code', distributorCode)
-        .select()
-        .single();
-      if (updErr) throw updErr;
+      await api.saveSettings({ profile });
+
       alert('Perfil actualizado');
-      if (onSaved) onSaved({ ...updateData });
+      if (onSaved) onSaved(profile);
       onBack();
     } catch (e) {
       console.error('Save profile error:', e);

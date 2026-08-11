@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 
 export function AdminProductsManager({ onBack }) {
   const [items, setItems] = useState([]);
@@ -13,13 +13,11 @@ export function AdminProductsManager({ onBack }) {
 
   const load = async () => {
     try {
-      if (!supabase) { setError('Supabase no disponible'); return; }
       setLoading(true);
-      const { data, error } = await supabase.from('products').select('*').order('name', { ascending: true });
-      if (error) throw error;
+      const { products: data, images: imgs } = await api.adminProducts();
       setItems(data || []);
       // Load images for all products
-      const { data: imgs } = await supabase.from('product_images').select('*').in('product_id', (data||[]).map(d=>d.id));
+
       const map = {};
       (imgs||[]).forEach(img=>{ (map[img.product_id] ||= []).push(img); });
       setImagesById(map);
@@ -38,8 +36,7 @@ export function AdminProductsManager({ onBack }) {
       if (!newItem.name || !newItem.image_url) { setError('Nombre e imagen son requeridos'); return; }
       setSaving(true);
       const payload = { name: newItem.name.trim(), image_url: newItem.image_url.trim(), slug: (newItem.slug || '').trim() };
-      const { error } = await supabase.from('products').insert([payload]);
-      if (error) throw error;
+      await api.adminCreateProduct(payload);
       setNewItem({ name: '', image_url: '', slug: '' });
       await load();
     } catch (e) {
@@ -50,8 +47,7 @@ export function AdminProductsManager({ onBack }) {
   const save = async (id, patch) => {
     try {
       setSaving(true);
-      const { error } = await supabase.from('products').update(patch).eq('id', id);
-      if (error) throw error;
+      await api.adminUpdateProduct({ id, ...patch });
       await load();
     } catch (e) {
       setError(e?.message || 'No se pudo guardar');
@@ -62,8 +58,7 @@ export function AdminProductsManager({ onBack }) {
     try {
       if (!confirm('¿Eliminar este producto?')) return;
       setSaving(true);
-      const { error } = await supabase.from('products').delete().eq('id', id);
-      if (error) throw error;
+      await api.adminDeleteProduct({ id });
       await load();
     } catch (e) {
       setError(e?.message || 'No se pudo eliminar');
@@ -74,8 +69,7 @@ export function AdminProductsManager({ onBack }) {
     try {
       if (!url) return;
       setSaving(true);
-      const { error } = await supabase.from('product_images').insert([{ product_id: productId, image_url: url }]);
-      if (error) throw error;
+      await api.adminCreateProduct({ productId, imageUrl: url });
       await load();
     } catch (e) {
       setError(e?.message || 'No se pudo agregar la imagen');
@@ -85,8 +79,7 @@ export function AdminProductsManager({ onBack }) {
   const removeImage = async (imageId) => {
     try {
       setSaving(true);
-      const { error } = await supabase.from('product_images').delete().eq('id', imageId);
-      if (error) throw error;
+      await api.adminDeleteProduct({ imageId });
       await load();
     } catch (e) {
       setError(e?.message || 'No se pudo eliminar la imagen');

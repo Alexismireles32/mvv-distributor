@@ -2,13 +2,21 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
+import vercel from '@astrojs/vercel';
 // import sitemap from '@astrojs/sitemap'; // Disabled for distributor site
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.mvvnatural.com',
+
+  // Stays 'static': with an adapter installed, Astro 5 prerenders every page by
+  // default and only routes that opt out with `export const prerender = false`
+  // (the /api/* endpoints) run on the server. The 52 marketing pages keep shipping
+  // as static HTML; only the database-backed API becomes serverless.
   output: 'static',
-  
+  adapter: vercel(),
+
+
   // Build optimizations
   build: {
     inlineStylesheets: 'auto', // Inline small CSS for faster load

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect, useMemo, createContext, useContext } from 'react';
 import { BiMinus, BiPlus, BiCart, BiTrash } from 'react-icons/bi';
-import { supabase } from '../lib/supabase';
+import { api, ApiError } from '../lib/api';
 import { PRODUCTS } from './product-catalog';
 
 // Context for cart state management across the app
@@ -26,39 +26,19 @@ export function CartProvider({ children }) {
   // Load distributor data when code is entered
   const activateOrder = async (code) => {
     try {
-      if (!supabase) {
-        alert('Sistema no disponible');
-        return false;
-      }
+      // One request returns the distributor and their price list. The endpoint
+      // selects a fixed column list server-side, so this no longer pulls the
+      // distributor's PIN into the browser the way `select('*')` did.
+      const { distributor: distData, prices: pricesObj } = await api.lookupDistributor(code);
 
-      // Fetch distributor info
-      const { data: distData, error: distError } = await supabase
-        .from('distributors')
-        .select('*')
-        .eq('code', code)
-        .single();
-
-      if (distError || !distData) {
+      if (!distData) {
         alert('Código de distribuidor no válido');
         return false;
       }
 
-      // Fetch distributor prices
-      const { data: pricesData, error: pricesError } = await supabase
-        .from('distributor_prices')
-        .select('*')
-        .eq('distributor_code', code);
-
-      const pricesObj = {};
-      if (!pricesError && pricesData) {
-        pricesData.forEach(item => {
-          pricesObj[item.product_name] = parseFloat(item.price) || 0;
-        });
-      }
-
       setDistributorCode(code);
       setDistributorInfo(distData);
-      setDistributorPrices(pricesObj);
+      setDistributorPrices(pricesObj || {});
       setIsOrderActive(true);
       // Persist code in URL for continuity
       try {
@@ -75,7 +55,13 @@ export function CartProvider({ children }) {
       return true;
     } catch (error) {
       console.error('Error activating order:', error);
-      alert('Error al cargar información del distribuidor');
+      // Tell an unknown code apart from a failed request, so a customer is not told
+      // their distributor's code is wrong during an outage.
+      if (error instanceof ApiError && error.status === 404) {
+        alert('Código de distribuidor no válido');
+      } else {
+        alert(error.message || 'Error al cargar información del distribuidor');
+      }
       return false;
     }
   };
@@ -136,7 +122,10 @@ export function CartProvider({ children }) {
     return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   };
 
-  const value = {
+  // Memoized so the context value keeps a stable identity between renders. As a bare
+  // object literal it was rebuilt every render, re-rendering every consumer (the whole
+  // product grid) and making the value unusable as a hook dependency anywhere.
+  const value = useMemo(() => ({
     distributorCode,
     distributorInfo,
     distributorPrices,
@@ -162,7 +151,7 @@ export function CartProvider({ children }) {
     getTotalItems,
     getTotal,
     showNotification
-  };
+  }), [distributorCode, distributorInfo, distributorPrices, cart, isCartOpen, isOrderActive]);
 
   // Auto-activate from URL query param (?code=123) on first mount
   React.useEffect(() => {

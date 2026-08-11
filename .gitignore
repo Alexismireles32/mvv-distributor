@@ -22,3 +22,15 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# vercel build output & project link
+.vercel/
+
+# local env backups
+.env.backup-*
+.vercel
+.env*.local
+
+# local env pulled from vercel
+.env.local
+.env*.local

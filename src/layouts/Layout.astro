@@ -1,5 +1,7 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+// ClientRouter is the current name; `ViewTransitions` is a legacy alias for the
+// same component and is slated for removal in a future Astro major.
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
@@ -31,7 +33,7 @@ const siteName = 'MVV Natural';
     <meta name="generator" content={Astro.generator} />
     
     <!-- Astro View Transitions for SPA-like navigation -->
-    <ViewTransitions />
+    <ClientRouter />
     
     <!-- Mobile Optimization -->
     <meta name="theme-color" content="#4A7C59" />

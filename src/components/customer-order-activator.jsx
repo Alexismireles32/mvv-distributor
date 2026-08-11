@@ -7,14 +7,16 @@ export function CustomerOrderActivator() {
   const cart = useCart();
   const [distributorCode, setDistributorCode] = useState('');
   const [loading, setLoading] = useState(false);
-  
-  // Return null if not within CartProvider
-  if (!cart) return null;
-  
-  const { isOrderActive, activateOrder, distributorInfo } = cart;
 
-  // Auto-activate from query param ?code=123
+  const { isOrderActive, activateOrder, distributorInfo } = cart || {};
+
+  // Auto-activate from query param ?code=123.
+  // This hook must run before any conditional return: an early `if (!cart) return null`
+  // used to sit above it, so a render where the cart context was missing called fewer
+  // hooks than one where it was present — React throws "rendered more hooks than
+  // during the previous render" the moment those two renders alternate.
   useEffect(() => {
+    if (!cart) return;
     try {
       const params = new URLSearchParams(window.location.search);
       const code = params.get('code');
@@ -23,8 +25,14 @@ export function CustomerOrderActivator() {
         handleActivate(code);
       }
     } catch (_) {}
+    // Mount-only on purpose. `cart` is NOT a valid dependency here: CartProvider
+    // builds its context value inline, so it is a fresh object on every render and
+    // would re-fire this effect (and re-activate the order) in an endless loop.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Not within CartProvider — render nothing, but only after all hooks have run.
+  if (!cart) return null;
 
   if (isOrderActive && distributorInfo) {
     return (

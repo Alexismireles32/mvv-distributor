@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 
 const USA_PAYMENT_METHODS = ['Zelle', 'Venmo', 'Cash App', 'PayPal', 'Credit Card', 'Cash'];
 const MEXICO_PAYMENT_METHODS = ['OXXO', 'SPEI', 'Transferencia', 'Efectivo', 'Tarjeta'];
@@ -18,19 +18,10 @@ export function PaymentMethodsManager({ distributorCode, onBack }) {
 
   const loadPaymentMethods = async () => {
     try {
-      if (!supabase) return;
-
       setLoading(true);
-      const { data, error } = await supabase
-        .from('distributors')
-        .select('payment_methods_usa, payment_methods_mexico')
-        .eq('code', distributorCode)
-        .single();
-
-      if (!error && data) {
-        setSelectedUSA(Array.isArray(data.payment_methods_usa) ? data.payment_methods_usa : []);
-        setSelectedMEX(Array.isArray(data.payment_methods_mexico) ? data.payment_methods_mexico : []);
-      }
+      const { profile } = await api.myData();
+      setSelectedUSA(Array.isArray(profile?.payment_methods_usa) ? profile.payment_methods_usa : []);
+      setSelectedMEX(Array.isArray(profile?.payment_methods_mexico) ? profile.payment_methods_mexico : []);
     } catch (error) {
       console.error('Error loading payment methods:', error);
     } finally {
@@ -38,38 +29,14 @@ export function PaymentMethodsManager({ distributorCode, onBack }) {
     }
   };
 
-  const toggleMethodUSA = (method) => {
-    setSelectedUSA(prev => prev.includes(method) ? prev.filter(m => m !== method) : [...prev, method]);
-  };
-  const toggleMethodMEX = (method) => {
-    setSelectedMEX(prev => prev.includes(method) ? prev.filter(m => m !== method) : [...prev, method]);
-  };
-
   const savePaymentMethods = async () => {
     try {
-      if (!supabase) {
-        alert('Supabase no disponible');
-        return;
-      }
-
       setSaving(true);
-
-      const updateData = {
-        payment_methods_usa: selectedUSA,
-        payment_methods_mexico: selectedMEX
-      };
-
-      const { error } = await supabase
-        .from('distributors')
-        .update(updateData)
-        .eq('code', distributorCode);
-
-      if (error) throw error;
-
-      alert('✅ Métodos de pago guardados exitosamente');
+      await api.saveSettings({ paymentMethods: { usa: selectedUSA, mexico: selectedMEX } });
+      alert('✅ Métodos de pago guardados');
     } catch (error) {
       console.error('Error saving payment methods:', error);
-      alert('Error al guardar métodos de pago');
+      alert(error.message || 'Error al guardar métodos de pago');
     } finally {
       setSaving(false);
     }

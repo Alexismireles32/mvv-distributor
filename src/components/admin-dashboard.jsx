@@ -2,8 +2,12 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { BiLock, BiTrendingUp, BiMoney, BiUser, BiPhone } from 'react-icons/bi';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
+import { escapeHtml } from '../lib/escape-html';
 import { AdminProductsManager } from './admin-products-manager';
+
+// Reserved code for the admin account row in the distributors table.
+const ADMIN_DISTRIBUTOR_CODE = '999';
 
 export function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -21,90 +25,54 @@ export function AdminDashboard() {
     topSellers: []
   });
 
+  // Ask the server whether this browser holds an admin session. The old version
+  // trusted `localStorage.admin_authed === 'true'`, which anyone could set from the
+  // console to unlock the whole dashboard.
   useEffect(() => {
-    try {
-      const flag = localStorage.getItem('admin_authed');
-      if (flag === 'true') {
-        setIsAuthenticated(true);
-        loadUSADistributors();
+    let cancelled = false;
+    (async () => {
+      try {
+        const { role } = await api.session();
+        if (!cancelled && role === 'admin') {
+          setIsAuthenticated(true);
+          loadUSADistributors();
+        }
+      } catch {
+        // Not signed in — stay on the login screen.
       }
-    } catch {}
+    })();
+    return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleLogin = () => {
-    if (adminCode === '0505') {
-      try { localStorage.setItem('admin_authed', 'true'); } catch {}
+  const handleLogin = async () => {
+    try {
+      setLoading(true);
+      // Admins sign in through the normal login endpoint; the server decides whether
+      // the account carries the admin role.
+      const { role } = await api.login(ADMIN_DISTRIBUTOR_CODE, adminCode);
+      if (role !== 'admin') {
+        alert('Esta cuenta no tiene permisos de administrador');
+        return;
+      }
       setIsAuthenticated(true);
-      loadUSADistributors();
-    } else {
-      alert('Código de admin incorrecto');
+      await loadUSADistributors();
+    } catch (error) {
+      alert(error.message || 'Código de admin incorrecto');
+    } finally {
+      setLoading(false);
     }
   };
 
   const loadUSADistributors = async () => {
     try {
-      if (!supabase) {
-        alert('Supabase no disponible');
-        return;
-      }
-
       setLoading(true);
-
-      // Cargar distribuidores de USA (phone con +1)
-      const { data: distributors, error: distError } = await supabase
-        .from('distributors')
-        .select('*')
-        .like('phone', '+1%');
-
-      if (distError) throw distError;
-
-      setUsaDistributors(distributors || []);
-
-      // Calcular estadísticas por distribuidor
-      const distributorStats = [];
-      
-      for (const dist of distributors || []) {
-        // Cargar facturas del distribuidor
-        const { data: invoices, error: invError } = await supabase
-          .from('invoices')
-          .select('*')
-          .eq('distributor_code', dist.code);
-
-        if (!invError && invoices) {
-          const sales = invoices.reduce((sum, inv) => sum + parseFloat(inv.total_amount || 0), 0);
-          const uniqueClients = new Set(invoices.map(inv => inv.client_number));
-          
-          distributorStats.push({
-            ...dist,
-            sales,
-            invoiceCount: invoices.length,
-            clientsCount: uniqueClients.size
-          });
-        }
-      }
-
-      // Calcular estadísticas generales
-      const totalSales = distributorStats.reduce((sum, dist) => sum + dist.sales, 0);
-      const totalClients = new Set();
-      distributorStats.forEach(dist => {
-        totalClients.add(dist.code);
-      });
-
-      // Ordenar por ventas
-      distributorStats.sort((a, b) => b.sales - a.sales);
-
-      setStats({
-        totalDistributors: distributorStats.length,
-        totalSales,
-        totalClients: distributorStats.reduce((sum, dist) => sum + dist.clientsCount, 0),
-        topSellers: distributorStats.slice(0, 5)
-      });
-
-      setUsaDistributors(distributorStats);
+      const { distributors, stats: serverStats } = await api.adminDistributors();
+      setUsaDistributors(distributors);
+      setStats(serverStats);
     } catch (error) {
       console.error('Error loading distributors:', error);
-      alert('Error al cargar distribuidores');
+      alert(error.message || 'Error al cargar distribuidores');
     } finally {
       setLoading(false);
     }
@@ -113,32 +81,37 @@ export function AdminDashboard() {
   const openDistributor = async (dist) => {
     setSelectedDistributor(dist);
     setSelectedInvoices([]);
-    if (!supabase) return;
-    const { data } = await supabase
-      .from('invoices')
-      .select('*')
-      .eq('distributor_code', dist.code)
-      .order('invoice_date', { ascending: false });
-    setSelectedInvoices(data || []);
+    try {
+      const { invoices } = await api.adminInvoices(dist.code);
+      setSelectedInvoices(invoices || []);
+    } catch (error) {
+      console.error('Error loading invoices:', error);
+      alert(error.message || 'Error al cargar facturas');
+    }
   };
 
   const saveDistributor = async () => {
     try {
-      if (!supabase || !selectedDistributor) return;
+      if (!selectedDistributor) return;
       setSavingDistributor(true);
-      const update = { 
+
+      // `pin` is only sent when the admin actually typed a new one; the server hashes
+      // it. Sending an empty string would otherwise overwrite a working PIN.
+      const payload = {
+        code: selectedDistributor.code,
         name: selectedDistributor.name,
         last_name: selectedDistributor.last_name,
         state: selectedDistributor.state,
         phone: selectedDistributor.phone,
         email: selectedDistributor.email,
-        pin: selectedDistributor.pin,
         is_active: selectedDistributor.is_active ?? true
       };
-      await supabase.from('distributors').update(update).eq('code', selectedDistributor.code);
+      if (selectedDistributor.pin) payload.pin = selectedDistributor.pin;
+
+      await api.adminUpdateDistributor(payload);
       alert('Cambios guardados');
-    } catch (e) {
-      alert('Error al guardar');
+    } catch (error) {
+      alert(error.message || 'Error al guardar');
     } finally {
       setSavingDistributor(false);
     }
@@ -161,7 +134,7 @@ export function AdminDashboard() {
       const qty = products[p];
       const price = parseFloat(productPrices[p] || 0);
       subtotal += qty * price;
-      rows += `<tr><td style="padding:8px">${p}</td><td style="padding:8px;text-align:center">${qty}</td><td style="padding:8px;text-align:right">$${price.toFixed(2)}</td><td style=\"padding:8px;text-align:right\">$${(qty*price).toFixed(2)}</td></tr>`;
+      rows += `<tr><td style="padding:8px">${escapeHtml(p)}</td><td style="padding:8px;text-align:center">${escapeHtml(qty)}</td><td style="padding:8px;text-align:right">$${price.toFixed(2)}</td><td style=\"padding:8px;text-align:right\">$${(qty*price).toFixed(2)}</td></tr>`;
     });
     const total = subtotal + parseFloat(inv.shipping_price || 0);
     return `
@@ -171,8 +144,8 @@ export function AdminDashboard() {
           <div style="font-size:12px;text-align:right">Fecha: ${new Date(inv.invoice_date).toLocaleDateString('es-MX')}</div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
-          <div><h4 style="margin:0 0 4px;color:#376A4E;font-size:12px">Cliente</h4><div style="font-size:12px">${client.firstName || ''} ${client.lastName || ''}</div></div>
-          <div><h4 style="margin:0 0 4px;color:#376A4E;font-size:12px">Distribuidor</h4><div style="font-size:12px"><strong>${distributor.name} ${distributor.last_name}</strong><br/>${distributor.state} • ID ${distributor.code}</div></div>
+          <div><h4 style="margin:0 0 4px;color:#376A4E;font-size:12px">Cliente</h4><div style="font-size:12px">${escapeHtml(client.firstName)} ${escapeHtml(client.lastName)}</div></div>
+          <div><h4 style="margin:0 0 4px;color:#376A4E;font-size:12px">Distribuidor</h4><div style="font-size:12px"><strong>${escapeHtml(distributor.name)} ${escapeHtml(distributor.last_name)}</strong><br/>${escapeHtml(distributor.state)} • ID ${escapeHtml(distributor.code)}</div></div>
         </div>
         <table style="width:100%;border-collapse:collapse;background:#fff;border:1px solid #e5e7eb">
           <thead><tr style="background:#EAF3ED;color:#2f5f46"><th style="padding:8px;text-align:left">Producto</th><th style="padding:8px;text-align:center">Cant</th><th style="padding:8px;text-align:right">Precio</th><th style="padding:8px;text-align:right">Total</th></tr></thead>

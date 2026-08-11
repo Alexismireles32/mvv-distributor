@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { BiPlus, BiMinus } from 'react-icons/bi';
-import { supabase } from '../lib/supabase';
+import { api, ApiError, isAuthError } from '../lib/api';
+import { escapeHtml } from '../lib/escape-html';
 import { DistributorDashboard } from './distributor-dashboard';
 import { InventoryManager } from './inventory-manager';
 import { PriceManager } from './price-manager';
@@ -14,6 +15,10 @@ import { ProfileManager } from './profile-manager';
 
 // Product catalog - Imported from centralized catalog
 import { PRODUCTS } from './product-catalog';
+
+// The registration gate and the admin check now live on the server (REGISTRATION_CODE
+// env var, and the `is_admin` column checked against a signed session cookie). Nothing
+// secret is left in this bundle.
 
 export function DistributorInvoiceSystem() {
   const [currentView, setCurrentView] = useState('login');
@@ -57,6 +62,10 @@ export function DistributorInvoiceSystem() {
   }, []);
 
   const handleLogout = () => {
+    // Clear the server session too — the cookie is httpOnly, so JavaScript cannot
+    // remove it directly the way the old localStorage flag was removed.
+    api.logout().catch(() => {});
+
     // Clear all session data
     setDistributorId('');
     setDistributorInfo(null);
@@ -70,439 +79,191 @@ export function DistributorInvoiceSystem() {
     setShowPreview(false);
     setPin('');
     
-    // Clear localStorage to force new login
-    localStorage.removeItem('lastLoggedIn');
-    localStorage.removeItem('admin_authed');
-    
     // Return to login view
     setCurrentView('login');
   };
 
+  /** Applies one /api/me/data payload to all the dashboard state. */
+  const applyMyData = (data) => {
+    setSavedClients(data.clients || {});
+    setDefaultPrices(data.prices || {});
+    setInventory(data.inventory || {});
+    setInvoiceHistory(
+      (data.invoices || []).map((inv) => ({
+        ...inv,
+        date: inv.date ? new Date(inv.date) : new Date(),
+        confirmedAt: inv.confirmedAt ? new Date(inv.confirmedAt) : null
+      }))
+    );
+  };
+
   const loadInitialData = async () => {
     try {
-      if (!supabase) {
-        console.warn('Supabase client not available');
-        return;
-      }
+      // Restore from the signed session cookie instead of a localStorage code.
+      // The old flow trusted `lastLoggedIn` — an attacker could set it to any code
+      // and be handed that distributor's dashboard without knowing the PIN.
+      const { distributor, role } = await api.session();
+      if (!distributor) return;
 
-      // Load from local storage as fallback
-      const lastDistributor = localStorage.getItem('lastLoggedIn');
-      if (lastDistributor) {
-        // Try to load from Supabase
-        const { data, error } = await supabase
-          .from('distributors')
-          .select('*')
-          .eq('code', lastDistributor)
-          .single();
+      setDistributorId(distributor.code);
+      setDistributorInfo(distributor);
+      setCurrentView(role === 'admin' ? 'admin' : 'dashboard');
 
-        if (!error && data) {
-          setDistributorId(lastDistributor);
-          setDistributorInfo(data);
-          setCurrentView('dashboard');
-          
-          // Load clients
-          await loadClients(data.code);
-          
-          // Load invoices
-          await loadInvoices(data.code);
-          
-          // Load default prices
-          await loadDefaultPrices(data.code);
-          
-          // Load inventory
-          await loadInventory(data.code);
-        }
+      if (role !== 'admin') {
+        applyMyData(await api.myData());
       }
     } catch (error) {
-      console.error('Error loading initial data:', error);
+      // Not being logged in is the normal case on first visit, not an error.
+      if (!isAuthError(error)) {
+        console.error('Error loading initial data:', error);
+      }
     }
   };
 
-  const loadClients = async (distCode) => {
+  /** Re-pulls everything for the logged-in distributor after a mutation. */
+  const refreshMyData = async () => {
     try {
-      if (!supabase) return;
-      
-      const { data, error } = await supabase
-        .from('clients')
-        .select('*')
-        .eq('distributor_code', distCode);
-
-      if (!error && data) {
-        const clientsObj = {};
-        data.forEach(client => {
-          clientsObj[client.client_number] = {
-            firstName: client.first_name,
-            lastName: client.last_name,
-            address: client.address,
-            city: client.city || '',
-            state: client.state || '',
-            zipCode: client.zip_code || '',
-            phone: client.phone || '',
-            email: client.email || ''
-          };
-        });
-        setSavedClients(clientsObj);
-      }
+      applyMyData(await api.myData());
     } catch (error) {
-      console.error('Error loading clients:', error);
-    }
-  };
-
-  const loadInvoices = async (distCode) => {
-    try {
-      if (!supabase) return;
-      
-      const { data, error } = await supabase
-        .from('invoices')
-        .select('*')
-        .eq('distributor_code', distCode)
-        .order('invoice_date', { ascending: false });
-
-      if (!error && data) {
-        const history = data.map(inv => {
-          const parsedDate = inv.invoice_date ? new Date(inv.invoice_date) : new Date();
-          let fullData = inv.full_data ? { ...inv.full_data } : null;
-
-          if (fullData) {
-            if (fullData.date && !(fullData.date instanceof Date)) {
-              fullData.date = new Date(fullData.date);
-            }
-            if (fullData.confirmedAt && !(fullData.confirmedAt instanceof Date)) {
-              fullData.confirmedAt = new Date(fullData.confirmedAt);
-            }
-            if (fullData.client && fullData.client.lastPurchaseDate && !(fullData.client.lastPurchaseDate instanceof Date)) {
-              fullData.client.lastPurchaseDate = new Date(fullData.client.lastPurchaseDate);
-            }
-          }
-
-          return {
-            id: inv.id,
-            date: parsedDate,
-            client: inv.client_name,
-            total: parseFloat(inv.total_amount) || 0,
-            products: inv.products || {},
-            productPrices: inv.product_prices || {},
-            shipping: parseFloat(inv.shipping_price) || 0,
-            fullData,
-            confirmed: Boolean(inv.confirmed),
-            confirmedAt: inv.confirmed_at ? new Date(inv.confirmed_at) : null
-          };
-        });
-        setInvoiceHistory(history);
-      }
-    } catch (error) {
-      console.error('Error loading invoices:', error);
-    }
-  };
-
-  // Load default prices
-  const loadDefaultPrices = async (distributorCode) => {
-    try {
-      if (!supabase) return;
-
-      const { data, error } = await supabase
-        .from('distributor_prices')
-        .select('*')
-        .eq('distributor_code', distributorCode);
-
-      if (!error && data) {
-        const pricesObj = {};
-        data.forEach(item => {
-          pricesObj[item.product_name] = parseFloat(item.price) || 0;
-        });
-        setDefaultPrices(pricesObj);
-      }
-    } catch (error) {
-      console.error('Error loading default prices:', error);
-    }
-  };
-
-  // Load inventory
-  const loadInventory = async (distributorCode) => {
-    try {
-      if (!supabase) return;
-
-      const { data, error } = await supabase
-        .from('inventory')
-        .select('*')
-        .eq('distributor_code', distributorCode);
-
-      if (!error && data) {
-        const invObj = {};
-        data.forEach(item => {
-          invObj[item.product_name] = item.stock_quantity || 0;
-        });
-        setInventory(invObj);
-      }
-    } catch (error) {
-      console.error('Error loading inventory:', error);
+      if (!isAuthError(error)) console.error('Error refreshing data:', error);
     }
   };
 
   // Confirm sale and update inventory
   const confirmSale = async (invoiceId) => {
     try {
-      if (!supabase) return;
+      // The server confirms the invoice and decrements stock in one transaction-safe
+      // step, and returns the authoritative inventory. The old client version computed
+      // new stock from a possibly-stale React snapshot before writing it back.
+      const { inventory: updatedInventory } = await api.confirmInvoice(invoiceId);
 
-      // Update invoice as confirmed
-      const { data, error } = await supabase
-        .from('invoices')
-        .update({
-          confirmed: true,
-          confirmed_at: new Date().toISOString()
-        })
-        .eq('id', invoiceId)
-        .select()
-        .single();
+      setInvoiceHistory(prev =>
+        prev.map(inv =>
+          inv.id === invoiceId
+            ? { ...inv, confirmed: true, confirmedAt: new Date() }
+            : inv
+        )
+      );
+      setInventory(updatedInventory || {});
 
-      if (!error && data) {
-        // Update local state
-        setInvoiceHistory(prev => 
-          prev.map(inv => 
-            inv.id === invoiceId 
-              ? { ...inv, confirmed: true, confirmedAt: new Date() }
-              : inv
-          )
-        );
-
-        // Now update inventory since sale is confirmed
-        await updateInventoryAfterSale(data.distributor_code, data.products);
-        
-        alert('✅ Venta confirmada e inventario actualizado');
-      }
+      alert('✅ Venta confirmada e inventario actualizado');
     } catch (error) {
       console.error('Error confirming sale:', error);
-      alert('Error al confirmar la venta');
+      alert(error.message || 'Error al confirmar la venta');
     }
   };
 
   // Cancel/unconfirm sale
   const cancelSale = async (invoiceId) => {
     try {
-      if (!supabase) return;
-
       const confirmed = window.confirm('¿Estás seguro de que quieres cancelar esta venta?');
       if (!confirmed) return;
 
-      // Delete the invoice
-      const { error } = await supabase
-        .from('invoices')
-        .delete()
-        .eq('id', invoiceId);
-
-      if (!error) {
-        // Remove from local state
-        setInvoiceHistory(prev => prev.filter(inv => inv.id !== invoiceId));
-        alert('✅ Venta cancelada');
-      }
+      await api.deleteInvoice(invoiceId);
+      setInvoiceHistory(prev => prev.filter(inv => inv.id !== invoiceId));
+      alert('✅ Venta cancelada');
     } catch (error) {
       console.error('Error canceling sale:', error);
-      alert('Error al cancelar la venta');
+      alert(error.message || 'Error al cancelar la venta');
     }
-  };
-
-  // Update inventory after sale
-  const updateInventoryAfterSale = async (distributorCode, soldProducts) => {
-    try {
-      if (!supabase) return;
-
-      // Update each product's inventory
-      const promises = Object.entries(soldProducts).map(([productName, soldQty]) => {
-        const currentStock = inventory[productName] || 0;
-        const newStock = Math.max(0, currentStock - soldQty);
-        
-        return supabase
-          .from('inventory')
-          .upsert({
-            distributor_code: distributorCode,
-            product_name: productName,
-            stock_quantity: newStock,
-            updated_at: new Date().toISOString()
-          });
-      });
-
-      await Promise.all(promises);
-      await loadInventory(distributorCode);
-      
-    } catch (error) {
-      console.error('Error updating inventory after sale:', error);
-    }
-  };
-
-  const generateDistributorCode = async () => {
-    if (!supabase) {
-      // Fallback if Supabase unavailable
-      return Math.floor(Math.random() * 900) + 100 + '';
-    }
-
-    let newCode;
-    do {
-      newCode = Math.floor(Math.random() * 900) + 100;
-      
-      // Check if code exists in Supabase
-      const { data } = await supabase
-        .from('distributors')
-        .select('code')
-        .eq('code', newCode.toString())
-        .single();
-      
-      if (!data) break;
-    } while (true);
-    
-    return newCode.toString();
   };
 
   const handleRegister = async () => {
     try {
-      const code = document.getElementById('registrationCode')?.value;
-      if (code !== '3232') {
-        alert('Código de registro incorrecto');
-        return;
-      }
-
-      const name = document.getElementById('regName')?.value;
-      const lastName = document.getElementById('regLastName')?.value;
-      const state = document.getElementById('regState')?.value;
+      const registrationCode = document.getElementById('registrationCode')?.value || '';
+      const name = document.getElementById('regName')?.value || '';
+      const lastName = document.getElementById('regLastName')?.value || '';
+      const state = document.getElementById('regState')?.value || '';
       const country = document.getElementById('regCountry')?.value || '';
+      const pin = document.getElementById('regPin')?.value || '';
 
       if (!name || !lastName || !state) {
         alert('Completa los campos requeridos (Nombre, Apellido, Estado)');
         return;
       }
+      if (!/^\d{4}$/.test(pin)) {
+        alert('El PIN debe ser de 4 dígitos numéricos');
+        return;
+      }
 
-      setLoading(true);
-      const distributorCode = await generateDistributorCode();
-      
-      // Concatenar lada + número de teléfono
       const phoneLada = document.getElementById('regPhoneLada')?.value || '';
       const phoneNumber = document.getElementById('regPhone')?.value || '';
       const fullPhone = phoneLada && phoneNumber ? `${phoneLada}${phoneNumber}` : '';
-      
-      // Get PIN from form
-      const pin = document.getElementById('regPin')?.value || '';
-      if (!pin || pin.length !== 4 || !/^\d+$/.test(pin)) {
-        alert('El PIN debe ser de 4 dígitos numéricos');
-        setLoading(false);
-        return;
-      }
-      
-      const newDistributor = {
-        code: distributorCode,
-        name: name.trim(),
-        last_name: lastName.trim(),
-        state: state.trim(),
-        country: country.trim(),
+
+      setLoading(true);
+
+      // The server validates the registration gate, allocates a free code under the
+      // table's primary key (so two simultaneous signups cannot collide), hashes the
+      // PIN, and sets the session cookie — all in one request.
+      const { distributor, code } = await api.register({
+        registrationCode,
+        name,
+        lastName,
+        state,
+        country,
         phone: fullPhone,
         email: document.getElementById('regEmail')?.value || '',
-        pin: pin.trim()
-      };
+        pin
+      });
 
-      // Insert into Supabase
-      if (supabase) {
-        let { error } = await supabase
-          .from('distributors')
-          .insert([newDistributor]);
-
-        // Fallback: if schema doesn't have country yet, retry without it
-        if (error && (error.message?.toLowerCase().includes('country') || error.details?.toLowerCase().includes('country'))) {
-          const { country, ...withoutCountry } = newDistributor;
-          const retry = await supabase
-            .from('distributors')
-            .insert([withoutCountry]);
-          error = retry.error || null;
-        }
-
-        if (error) throw error;
-      }
-
-      localStorage.setItem('lastLoggedIn', distributorCode);
-      
-      alert(`¡Registro exitoso! Tu código es: ${distributorCode}. Guarda tu PIN: ${pin}`);
-      setDistributorId(distributorCode);
-      setDistributorInfo(newDistributor);
+      alert(`¡Registro exitoso! Tu código es: ${code}. Guarda tu PIN: ${pin}`);
+      setDistributorId(code);
+      setDistributorInfo(distributor);
       setCurrentView('dashboard');
-      setLoading(false);
+      await refreshMyData();
     } catch (error) {
       console.error('Error in registration:', error);
-      const message = (error && (error.message || error.error_description)) ? `${error.message || error.error_description}` : 'Error desconocido';
-      alert(`Error al registrar: ${message}`);
+      alert(`Error al registrar: ${error.message || 'Error desconocido'}`);
+    } finally {
       setLoading(false);
     }
   };
 
   const handleLogin = async () => {
     try {
-      if (!supabase) {
-        alert('Sistema no disponible. Verifica la conexión.');
+      if (!/^\d{3}$/.test(distributorId)) {
+        alert('El código debe ser de 3 dígitos');
         return;
       }
-
-      // Admin login: code 999 + PIN 0505
-      if (distributorId === '999' && pin === '0505') {
-        try {
-          localStorage.setItem('admin_authed', 'true');
-        } catch {}
-        setCurrentView('admin');
-        setPin('');
-        return;
-      }
-
-      // Validate PIN for regular distributors
-      if (!pin || pin.length !== 4 || !/^\d+$/.test(pin)) {
+      if (!/^\d{4}$/.test(pin)) {
         alert('PIN inválido. Debe ser de 4 dígitos numéricos');
         return;
       }
 
       setLoading(true);
-      const { data, error } = await supabase
-        .from('distributors')
-        .select('*')
-        .eq('code', distributorId)
-        .single();
 
-      if (error || !data) {
-        alert('Código no válido');
-        setLoading(false);
-        setPin(''); // Clear PIN on error
+      // The PIN is verified server-side against a scrypt hash and the session is
+      // returned as an httpOnly cookie. Nothing about the credential — and no admin
+      // flag — is decided in this bundle any more.
+      const { distributor, role } = await api.login(distributorId, pin);
+
+      setDistributorInfo(distributor);
+      setPin('');
+
+      if (role === 'admin') {
+        setCurrentView('admin');
         return;
       }
 
-      // Verify PIN
-      if (data.pin !== pin) {
-        alert('PIN incorrecto');
-        setLoading(false);
-        setPin(''); // Clear PIN on error
-        return;
-      }
-
-      setDistributorInfo(data);
       setCurrentView('dashboard');
-      localStorage.setItem('lastLoggedIn', distributorId);
-      
-      // Load clients and invoices
-      await loadClients(data.code);
-      await loadInvoices(data.code);
-      
-      // Load default prices
-      await loadDefaultPrices(data.code);
-      
-      // Load inventory
-      await loadInventory(data.code);
-      
-      setLoading(false);
+      await refreshMyData();
     } catch (error) {
       console.error('Error in login:', error);
-      alert('Error al iniciar sesión');
+      alert(error.message || 'Error al iniciar sesión');
+      setPin('');
+    } finally {
       setLoading(false);
     }
   };
 
   const handleProductClick = (productName) => {
     try {
-      setSelectedProducts({
-        ...selectedProducts,
-        [productName]: (selectedProducts[productName] || 0) + 1
-      });
+      // Functional update: spreading the captured `selectedProducts` dropped
+      // increments when a distributor tapped several products quickly.
+      setSelectedProducts(prev => ({
+        ...prev,
+        [productName]: (prev[productName] || 0) + 1
+      }));
       
       // Auto-fill price from default prices if not already set
       if (!clientData.productPrices[productName] && defaultPrices[productName]) {
@@ -520,18 +281,20 @@ export function DistributorInvoiceSystem() {
   const updateQuantity = (productName, newQuantity) => {
     try {
       if (newQuantity <= 0) {
-        const newSelected = { ...selectedProducts };
-        delete newSelected[productName];
-        setSelectedProducts(newSelected);
-        
+        setSelectedProducts(prev => {
+          const newSelected = { ...prev };
+          delete newSelected[productName];
+          return newSelected;
+        });
+
         // Remove price when removing product
         setClientData(prevData => ({
           ...prevData,
           productPrices: { ...prevData.productPrices, [productName]: '' }
         }));
       } else {
-        setSelectedProducts({ ...selectedProducts, [productName]: newQuantity });
-        
+        setSelectedProducts(prev => ({ ...prev, [productName]: newQuantity }));
+
         // Auto-fill price from default prices if not already set
         if (!clientData.productPrices[productName] && defaultPrices[productName]) {
           setClientData(prevData => ({
@@ -669,62 +432,34 @@ export function DistributorInvoiceSystem() {
       link.href = canvas.toDataURL('image/jpeg', 0.9);
       link.click();
 
-      if (!isExistingInvoice && supabase) {
+      if (!isExistingInvoice) {
         try {
-          await supabase
-            .from('clients')
-            .upsert({
-              client_number: invoiceData.client.clientNumber || `TEMP_${Date.now()}`,
-              distributor_code: invoiceData.distributor.code,
-              first_name: invoiceData.client.firstName,
-              last_name: invoiceData.client.lastName,
-              address: invoiceData.client.address,
-              city: invoiceData.client.city,
-              state: invoiceData.client.state,
-              zip_code: invoiceData.client.zipCode,
-              phone: invoiceData.client.phone,
-              email: invoiceData.client.email
-            });
+          // One request upserts the client and inserts the invoice. The server
+          // recomputes the total from the line items rather than trusting a number
+          // sent by the browser, and scopes both writes to the session's distributor.
+          const { invoice } = await api.createInvoice({
+            client: invoiceData.client,
+            products: invoiceData.products,
+            productPrices: invoiceData.productPrices,
+            shipping: invoiceData.shipping,
+            date: invoiceData.date.toISOString(),
+            fullData: invoiceData
+          });
 
-          const total = calculateTotal(invoiceData);
-          const { data, error: invError } = await supabase
-            .from('invoices')
-            .insert({
-              distributor_code: invoiceData.distributor.code,
-              client_number: invoiceData.client.clientNumber || `TEMP_${Date.now()}`,
-              client_name: `${invoiceData.client.firstName || ''} ${invoiceData.client.lastName || ''}`.trim(),
-              invoice_date: invoiceData.date.toISOString(),
-              total_amount: total,
-              products: invoiceData.products,
-              product_prices: invoiceData.productPrices,
-              shipping_price: invoiceData.shipping,
-              full_data: invoiceData,
-              confirmed: false,
-              confirmed_at: null
-            })
-            .select()
-            .single();
+          setInvoiceHistory(prev => [{
+            ...invoice,
+            date: invoice.date ? new Date(invoice.date) : new Date(),
+            confirmedAt: null
+          }, ...prev]);
 
-          if (!invError && data) {
-            const insertedFullData = data.full_data ? { ...data.full_data } : null;
-            if (insertedFullData && insertedFullData.date && !(insertedFullData.date instanceof Date)) {
-              insertedFullData.date = new Date(insertedFullData.date);
-            }
-            setInvoiceHistory(prev => [{
-              id: data.id,
-              date: new Date(data.invoice_date),
-              client: data.client_name,
-              total: parseFloat(data.total_amount) || 0,
-              products: data.products || {},
-              productPrices: data.product_prices || {},
-              shipping: parseFloat(data.shipping_price) || 0,
-              fullData: insertedFullData,
-              confirmed: false,
-              confirmedAt: null
-            }, ...prev]);
-          }
+          // Keep the saved-clients map in step so the next invoice autofills.
+          setSavedClients(prev => ({
+            ...prev,
+            [invoiceData.client.clientNumber]: { ...invoiceData.client }
+          }));
         } catch (dbError) {
-          console.error('Error saving to Supabase:', dbError);
+          console.error('Error saving invoice:', dbError);
+          alert(`La factura se descargó, pero no se pudo guardar: ${dbError.message}`);
         }
 
         resetForm();
@@ -799,22 +534,22 @@ export function DistributorInvoiceSystem() {
           </div>
           <div class="inv-meta">
             <div><strong>Fecha:</strong> ${invoiceData.date.toLocaleDateString('es-MX')}</div>
-            <div><strong>ID:</strong> ${invoiceData.distributor.code}</div>
+            <div><strong>ID:</strong> ${escapeHtml(invoiceData.distributor.code)}</div>
           </div>
         </div>
 
         <div class="inv-info">
           <div>
             <h3>Cliente</h3>
-            <p><strong>${invoiceData.client.firstName} ${invoiceData.client.lastName}</strong></p>
-            <p>${invoiceData.client.address || ''}</p>
-            <p>${invoiceData.client.city ? invoiceData.client.city + ', ' : ''}${invoiceData.client.state || ''} ${invoiceData.client.zipCode || ''}</p>
+            <p><strong>${escapeHtml(invoiceData.client.firstName)} ${escapeHtml(invoiceData.client.lastName)}</strong></p>
+            <p>${escapeHtml(invoiceData.client.address)}</p>
+            <p>${invoiceData.client.city ? escapeHtml(invoiceData.client.city) + ', ' : ''}${escapeHtml(invoiceData.client.state)} ${escapeHtml(invoiceData.client.zipCode)}</p>
           </div>
           <div>
             <h3>Distribuidor</h3>
-            <p><strong>${invoiceData.distributor.name} ${invoiceData.distributor.last_name}</strong></p>
-            <p>${invoiceData.distributor.state || ''}</p>
-            <p><strong>ID:</strong> ${invoiceData.distributor.code}</p>
+            <p><strong>${escapeHtml(invoiceData.distributor.name)} ${escapeHtml(invoiceData.distributor.last_name)}</strong></p>
+            <p>${escapeHtml(invoiceData.distributor.state)}</p>
+            <p><strong>ID:</strong> ${escapeHtml(invoiceData.distributor.code)}</p>
           </div>
         </div>
         
@@ -842,11 +577,11 @@ export function DistributorInvoiceSystem() {
         <tr style="border-bottom: 1px solid #eee;">
           <td style="padding: 6px 4px; font-size: 11px;">
             <div style="display: flex; align-items: center; gap: 6px;">
-              ${product ? `<img src="${product.image}" style="width: 32px; height: 32px; object-fit: contain; border-radius: 3px; flex-shrink:0;" />` : ''}
-              <span style="font-weight: 500; word-break: break-word; overflow: hidden; text-overflow: ellipsis;">${productName}</span>
+              ${product ? `<img src="${escapeHtml(product.image)}" style="width: 32px; height: 32px; object-fit: contain; border-radius: 3px; flex-shrink:0;" />` : ''}
+              <span style="font-weight: 500; word-break: break-word; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(productName)}</span>
             </div>
           </td>
-          <td style="padding: 6px 4px; text-align: center; font-size: 11px;">${qty}</td>
+          <td style="padding: 6px 4px; text-align: center; font-size: 11px;">${escapeHtml(qty)}</td>
           <td style="padding: 6px 4px; text-align: right; font-size: 11px;">$${price.toFixed(2)}</td>
           <td style="padding: 6px 4px; text-align: right; font-weight: 600; font-size: 11px;">$${total.toFixed(2)}</td>
         </tr>
@@ -1155,6 +890,7 @@ export function DistributorInvoiceSystem() {
       distributorInfo={distributorInfo}
       invoiceHistory={invoiceHistory}
       inventory={inventory}
+      prices={defaultPrices}
       onViewChange={setCurrentView}
       onLogout={handleLogout}
     />;

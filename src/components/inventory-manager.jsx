@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { BiPackage, BiPlus, BiMinus } from 'react-icons/bi';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 import { useProducts } from './use-products';
 
 export function InventoryManager({ distributorCode, onBack }) {
@@ -17,21 +17,9 @@ export function InventoryManager({ distributorCode, onBack }) {
 
   const loadInventory = async () => {
     try {
-      if (!supabase) return;
-
       setLoading(true);
-      const { data, error } = await supabase
-        .from('inventory')
-        .select('*')
-        .eq('distributor_code', distributorCode);
-
-      if (!error && data) {
-        const invObj = {};
-        data.forEach(item => {
-          invObj[item.product_name] = item.stock_quantity || 0;
-        });
-        setInventory(invObj);
-      }
+      const { inventory: serverInventory } = await api.myData();
+      setInventory(serverInventory || {});
     } catch (error) {
       console.error('Error loading inventory:', error);
     } finally {
@@ -48,35 +36,16 @@ export function InventoryManager({ distributorCode, onBack }) {
 
   const saveInventory = async () => {
     try {
-      if (!supabase) {
-        alert('Supabase no disponible');
-        return;
-      }
-
       setSaving(true);
-
-      // Upsert para cada producto
-      const promises = Object.entries(inventory).map(([productName, quantity]) =>
-        supabase
-          .from('inventory')
-          .upsert({
-            distributor_code: distributorCode,
-            product_name: productName,
-            stock_quantity: quantity,
-            updated_at: new Date().toISOString()
-          })
-      );
-
-      await Promise.all(promises);
+      await api.saveSettings({ inventory });
       alert('✅ Inventario guardado exitosamente');
     } catch (error) {
       console.error('Error saving inventory:', error);
-      alert('Error al guardar inventario');
+      alert(error.message || 'Error al guardar inventario');
     } finally {
       setSaving(false);
     }
   };
-
 
   if (loading) {
     return (

@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
 import { BiTrendingUp, BiMoney, BiUser, BiPackage } from 'react-icons/bi';
 
-export function DistributorDashboard({ distributorInfo, invoiceHistory, inventory, onViewChange, onLogout }) {
+export function DistributorDashboard({ distributorInfo, invoiceHistory, inventory, prices, onViewChange, onLogout }) {
   const [timeFilter, setTimeFilter] = useState('monthly'); // daily, weekly, monthly, yearly
   const [hasPaymentMethods, setHasPaymentMethods] = useState(true);
   const [hasPrices, setHasPrices] = useState(true);
@@ -17,14 +16,9 @@ export function DistributorDashboard({ distributorInfo, invoiceHistory, inventor
         const pmMEX = Array.isArray(distributorInfo?.payment_methods_mexico) ? distributorInfo.payment_methods_mexico : [];
         setHasPaymentMethods((pmUSA.length + pmMEX.length) > 0);
 
-        // Check if distributor has at least one price configured
-        if (supabase && distributorInfo?.code) {
-          const { count } = await supabase
-            .from('distributor_prices')
-            .select('*', { count: 'exact', head: true })
-            .eq('distributor_code', distributorInfo.code);
-          setHasPrices((count || 0) > 0);
-        }
+        // Prices already arrive with the dashboard payload, so this no longer needs
+        // its own round trip.
+        setHasPrices(Object.keys(prices || {}).length > 0);
       } catch (e) {
         // Fail safe: don't block dashboard
         setHasPaymentMethods(true);

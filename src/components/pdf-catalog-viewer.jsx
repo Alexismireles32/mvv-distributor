@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/api';
 
 export function PDFCatalogViewer() {
   const [pdfLoaded, setPdfLoaded] = useState(false);
@@ -22,7 +22,7 @@ export function PDFCatalogViewer() {
   useEffect(() => {
     const loadDistributorPhone = async () => {
       try {
-        if (typeof window === 'undefined' || !supabase) return;
+        if (typeof window === 'undefined') return;
 
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code');
@@ -33,18 +33,8 @@ export function PDFCatalogViewer() {
         if (savedCode && /^\d{3}$/.test(savedCode)) {
           setLoadingDistributor(true);
           
-          const { data, error } = await supabase
-            .from('distributors')
-            .select('phone')
-            .eq('code', savedCode)
-            .single();
-
-          if (!error && data && data.phone) {
-            setDistributorPhone(data.phone);
-          } else {
-            // Reset to default if no phone found
-            setDistributorPhone(null);
-          }
+          const { distributor } = await api.lookupDistributor(savedCode);
+          setDistributorPhone(distributor?.phone || null);
           
           setLoadingDistributor(false);
         } else {

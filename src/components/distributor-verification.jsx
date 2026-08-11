@@ -1,55 +1,55 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { api, ApiError } from '../lib/api';
 import { BiSearch, BiUser, BiMapPin, BiCheckCircle, BiLeftArrowAlt, BiPhone } from 'react-icons/bi';
 
 export function DistributorVerificationSystem() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [distributors, setDistributors] = useState([]);
   const [filteredDistributors, setFilteredDistributors] = useState([]);
   const [selectedDistributor, setSelectedDistributor] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  // Look up only the exact code the visitor typed, on demand. Previously the whole
+  // table was pulled on mount and filtered client-side, which shipped every
+  // distributor's PIN and contact details to anyone who opened the page.
   useEffect(() => {
-    loadAllDistributors();
-  }, []);
-
-  useEffect(() => {
-    // Force exact 3-digit code to show results; no partial autocomplete
-    const numeric = /^\d+$/.test(searchTerm);
-    if (numeric) {
-      if (searchTerm.length === 3) {
-        const filtered = distributors.filter(dist => dist.code === searchTerm);
-        setFilteredDistributors(filtered);
-      } else {
-        setFilteredDistributors([]);
-      }
-    } else {
-      // If letters typed, do not show auto-results; require code instead
+    if (!/^\d{3}$/.test(searchTerm)) {
       setFilteredDistributors([]);
+      setError(null);
+      return;
     }
-  }, [searchTerm, distributors]);
 
-  const loadAllDistributors = async () => {
-    try {
+    let cancelled = false;
+
+    const lookup = async () => {
       setLoading(true);
-      if (supabase) {
-        const { data, error } = await supabase
-          .from('distributors')
-          .select('*')
-          .order('name', { ascending: true });
-
-        if (!error && data) {
-          setDistributors(data);
+      setError(null);
+      try {
+        const { distributor } = await api.lookupDistributor(searchTerm);
+        if (cancelled) return;
+        setFilteredDistributors(distributor ? [distributor] : []);
+      } catch (err) {
+        if (cancelled) return;
+        // 404 means "no distributor with that code" — a normal result, not a fault.
+        // Anything else is a real failure and must be shown, otherwise an outage
+        // looks identical to a mistyped code.
+        if (err instanceof ApiError && err.status === 404) {
+          setFilteredDistributors([]);
+        } else {
+          console.error('Error looking up distributor:', err);
+          setError(err.message);
+          setFilteredDistributors([]);
         }
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-    } catch (error) {
-      console.error('Error loading distributors:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    lookup();
+    return () => { cancelled = true; };
+  }, [searchTerm]);
 
   const handleDistributorClick = (dist) => {
     setSelectedDistributor(dist);
@@ -213,7 +213,15 @@ export function DistributorVerificationSystem() {
         {/* Loading */}
         {loading && (
           <div className="text-center py-12">
-            <p className="text-sm text-gray-500">Cargando distribuidores...</p>
+            <p className="text-sm text-gray-500">Buscando distribuidor...</p>
+          </div>
+        )}
+
+        {/* Error - distinct from "not found" so outages are visible */}
+        {error && !loading && (
+          <div className="border border-red-200 bg-red-50 rounded-lg p-4 text-center">
+            <p className="text-sm text-red-800 font-medium">No se pudo completar la búsqueda</p>
+            <p className="text-xs text-red-600 mt-1">{error}</p>
           </div>
         )}
 
@@ -256,9 +264,9 @@ export function DistributorVerificationSystem() {
         )}
 
         {/* No Results */}
-        {searchTerm.length === 3 && filteredDistributors.length === 0 && !loading && (
+        {searchTerm.length === 3 && filteredDistributors.length === 0 && !loading && !error && (
           <div className="text-center py-12">
-            <p className="text-sm text-gray-500">No se encontraron distribuidores con ese término de búsqueda</p>
+            <p className="text-sm text-gray-500">No se encontraron distribuidores con ese código</p>
           </div>
         )}
       </div>
