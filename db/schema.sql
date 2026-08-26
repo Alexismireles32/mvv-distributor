@@ -104,3 +104,13 @@ CREATE INDEX IF NOT EXISTS idx_invoices_distributor  ON invoices(distributor_cod
 CREATE INDEX IF NOT EXISTS idx_invoices_date         ON invoices(distributor_code, invoice_date DESC);
 CREATE INDEX IF NOT EXISTS idx_inventory_distributor ON inventory(distributor_code);
 CREATE INDEX IF NOT EXISTS idx_prices_distributor    ON distributor_prices(distributor_code);
+
+-- ---------------------------------------------------------------------------
+-- Brute-force protection (added after a production audit)
+-- ---------------------------------------------------------------------------
+-- Distributor codes are public — they appear on the verification page and in
+-- /productos?code=NNN links — so the 4-digit PIN is the only secret. Without a
+-- lockout the whole 10,000-PIN space falls in about an hour. These columns back a
+-- per-account lockout enforced in /api/auth/login.
+ALTER TABLE distributors ADD COLUMN IF NOT EXISTS failed_attempts INT NOT NULL DEFAULT 0;
+ALTER TABLE distributors ADD COLUMN IF NOT EXISTS locked_until TIMESTAMPTZ;

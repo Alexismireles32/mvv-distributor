@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getSql, jsonResponse, errorResponse, handleServerError } from '../../../server/db.js';
 import { requireSession } from '../../../server/auth.js';
+import { isPlainObject, MAX_UNIT_PRICE, MAX_QUANTITY } from '../../../server/validate.js';
 
 export const prerender = false;
 
@@ -20,10 +21,13 @@ export const PUT: APIRoute = async (context) => {
 
     const sql = getSql();
 
-    if (body.prices && typeof body.prices === 'object') {
+    if (isPlainObject(body.prices)) {
       for (const [productName, price] of Object.entries(body.prices)) {
         const value = Number(price);
-        if (!Number.isFinite(value) || value < 0) continue;
+        // Upper bound added after an audit: an oversized price overflowed
+        // NUMERIC(12,2) and surfaced as a 500 instead of a validation error.
+        if (!Number.isFinite(value) || value < 0 || value > MAX_UNIT_PRICE) continue;
+        if (typeof productName !== 'string' || !productName || productName.length > 200) continue;
         await sql`
           INSERT INTO distributor_prices (distributor_code, product_name, price, updated_at)
           VALUES (${code}, ${productName}, ${value}, NOW())
@@ -33,9 +37,10 @@ export const PUT: APIRoute = async (context) => {
       }
     }
 
-    if (body.inventory && typeof body.inventory === 'object') {
+    if (isPlainObject(body.inventory)) {
       for (const [productName, qty] of Object.entries(body.inventory)) {
-        const value = Math.max(0, Math.trunc(Number(qty) || 0));
+        const value = Math.min(MAX_QUANTITY, Math.max(0, Math.trunc(Number(qty) || 0)));
+        if (typeof productName !== 'string' || !productName || productName.length > 200) continue;
         await sql`
           INSERT INTO inventory (distributor_code, product_name, stock_quantity, updated_at)
           VALUES (${code}, ${productName}, ${value}, NOW())
@@ -45,7 +50,7 @@ export const PUT: APIRoute = async (context) => {
       }
     }
 
-    if (body.paymentMethods && typeof body.paymentMethods === 'object') {
+    if (isPlainObject(body.paymentMethods)) {
       const usa = Array.isArray(body.paymentMethods.usa) ? body.paymentMethods.usa : [];
       const mex = Array.isArray(body.paymentMethods.mexico) ? body.paymentMethods.mexico : [];
       await sql`
@@ -57,7 +62,7 @@ export const PUT: APIRoute = async (context) => {
       `;
     }
 
-    if (body.profile && typeof body.profile === 'object') {
+    if (isPlainObject(body.profile)) {
       const p = body.profile;
       // Column list is fixed: a distributor must not be able to flip their own
       // is_admin flag by adding it to the request body.

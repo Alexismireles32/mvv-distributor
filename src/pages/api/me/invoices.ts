@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getSql, jsonResponse, errorResponse, handleServerError } from '../../../server/db.js';
 import { requireSession } from '../../../server/auth.js';
+import { validateLineItems, validateAmount, validateTotal, sanitizeClient } from '../../../server/validate.js';
 
 export const prerender = false;
 
@@ -14,23 +15,25 @@ export const POST: APIRoute = async (context) => {
     const body = await context.request.json().catch(() => null);
     if (!body) return errorResponse('Cuerpo de la solicitud inválido.', 400);
 
-    const client = body.client ?? {};
-    const products = body.products ?? {};
-    const productPrices = body.productPrices ?? {};
-    const shipping = Number(body.shipping) || 0;
+    // Validate before touching the database. An audit found that a negative
+    // quantity produced a negative invoice total, a non-object `products` value was
+    // written straight into JSONB, and oversized numbers overflowed NUMERIC(12,2)
+    // and escaped as a 500.
+    const items = validateLineItems(body.products, body.productPrices);
+    if (items.error) return errorResponse(items.error, 400);
 
-    if (Object.keys(products).length === 0) {
-      return errorResponse('La factura no tiene productos.', 400);
-    }
+    const shippingCheck = validateAmount(body.shipping, 'El costo de envío');
+    if (shippingCheck.error) return errorResponse(shippingCheck.error, 400);
+    const shipping = shippingCheck.amount;
 
-    // Recompute the total server-side. Trusting a client-sent total would let anyone
-    // post an invoice claiming any amount, which then feeds the admin sales figures.
-    let subtotal = 0;
-    for (const [name, qty] of Object.entries(products)) {
-      const price = Number(productPrices[name]) || 0;
-      subtotal += (Number(qty) || 0) * price;
-    }
-    const total = subtotal + shipping;
+    // The total is always recomputed here; a client-supplied total is ignored.
+    const totalCheck = validateTotal(items.subtotal + shipping);
+    if (totalCheck.error) return errorResponse(totalCheck.error, 400);
+    const total = totalCheck.total;
+
+    const client = sanitizeClient(body.client);
+    const products = items.products;
+    const productPrices = items.productPrices;
 
     const sql = getSql();
     const clientNumber = String(client.clientNumber || '').trim() || `TEMP_${Date.now()}`;
@@ -53,7 +56,10 @@ export const POST: APIRoute = async (context) => {
                             full_data, confirmed)
       VALUES (${code}, ${clientNumber},
               ${`${client.firstName || ''} ${client.lastName || ''}`.trim()},
-              ${body.date ? new Date(body.date).toISOString() : new Date().toISOString()},
+              ${(() => {
+                const d = body.date ? new Date(body.date) : new Date();
+                return Number.isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
+              })()},
               ${total}, ${shipping}, ${JSON.stringify(products)},
               ${JSON.stringify(productPrices)}, ${JSON.stringify(body.fullData ?? null)}, FALSE)
       RETURNING id, client_name, invoice_date, total_amount, shipping_price,
@@ -108,13 +114,18 @@ export const PATCH: APIRoute = async (context) => {
     // Decrement in SQL rather than reading stock into JS and writing it back — the
     // old client-side version computed new stock from a stale React state snapshot,
     // so two confirmations in a row could both write the same value.
-    const products = updated[0].products || {};
+    // Existing rows predate the validation above and may hold a non-object value,
+    // so re-check rather than trusting the column.
+    const stored = updated[0].products;
+    const products = (typeof stored === 'object' && stored !== null && !Array.isArray(stored)) ? stored : {};
     for (const [productName, qty] of Object.entries(products)) {
+      const amount = Number(qty);
+      if (!Number.isFinite(amount) || amount <= 0) continue;
       await sql`
         INSERT INTO inventory (distributor_code, product_name, stock_quantity, updated_at)
-        VALUES (${code}, ${productName}, ${-(Number(qty) || 0)}, NOW())
+        VALUES (${code}, ${productName}, 0, NOW())
         ON CONFLICT (distributor_code, product_name) DO UPDATE SET
-          stock_quantity = GREATEST(0, inventory.stock_quantity - ${Number(qty) || 0}),
+          stock_quantity = GREATEST(0, inventory.stock_quantity - ${amount}),
           updated_at = NOW()
       `;
     }
