@@ -9,6 +9,10 @@
  * CSV header (order does not matter; only `code` and `pin` are required):
  *   code,name,last_name,state,country,phone,email,pin,is_admin
  *
+ * `country` must be "USA" or "Mexico"; it defaults to USA when the column is absent
+ * or a cell is blank. It sets the currency the distributor quotes in and which
+ * payment methods their customers are offered.
+ *
  * Example:
  *   code,name,last_name,state,phone,email,pin
  *   101,Maria,Lopez,Jalisco,+523331234567,maria@example.com,4821
@@ -23,6 +27,11 @@
 import { readFileSync } from 'node:fs';
 import { neon } from '@neondatabase/serverless';
 import { hashPin } from '../src/server/auth.js';
+
+// Must match the registration form's options. Country decides the quoted currency
+// and which payment methods the checkout shows, so it is never left blank.
+const VALID_COUNTRIES = ['USA', 'Mexico'];
+const DEFAULT_COUNTRY = 'USA';
 
 const file = process.argv[2];
 const dryRun = process.argv.includes('--dry-run');
@@ -91,6 +100,9 @@ for (const r of records) {
   if (!/^\d{4}$/.test(r.pin)) problems.push(`line ${r.__line}: pin for code ${r.code} must be exactly 4 digits`);
   if (!r.name) problems.push(`line ${r.__line}: name is required for code ${r.code}`);
   if (seen.has(r.code)) problems.push(`line ${r.__line}: duplicate code ${r.code} in this file`);
+  if (r.country && !VALID_COUNTRIES.includes(r.country)) {
+    problems.push(`line ${r.__line}: country "${r.country}" for code ${r.code} must be one of: ${VALID_COUNTRIES.join(', ')}`);
+  }
   seen.add(r.code);
 }
 if (problems.length) {
@@ -114,12 +126,13 @@ for (const r of records) {
   const existing = await sql`SELECT code FROM distributors WHERE code = ${r.code}`;
   const pinHash = hashPin(r.pin);
   const isAdmin = ['1', 'true', 'yes', 'si', 'sí'].includes(String(r.is_admin || '').toLowerCase());
+  const country = r.country || DEFAULT_COUNTRY;
 
   if (existing.length > 0) {
     await sql`
       UPDATE distributors SET
         name = ${r.name}, last_name = ${r.last_name || ''}, state = ${r.state || null},
-        country = ${r.country || null}, phone = ${r.phone || null}, email = ${r.email || null},
+        country = ${country}, phone = ${r.phone || null}, email = ${r.email || null},
         pin_hash = ${pinHash}, is_admin = ${isAdmin}, updated_at = NOW()
       WHERE code = ${r.code}`;
     updated++;
@@ -127,7 +140,7 @@ for (const r of records) {
   } else {
     await sql`
       INSERT INTO distributors (code, name, last_name, state, country, phone, email, pin_hash, is_admin)
-      VALUES (${r.code}, ${r.name}, ${r.last_name || ''}, ${r.state || null}, ${r.country || null},
+      VALUES (${r.code}, ${r.name}, ${r.last_name || ''}, ${r.state || null}, ${country},
               ${r.phone || null}, ${r.email || null}, ${pinHash}, ${isAdmin})`;
     created++;
     console.log(`  created ${r.code}  ${r.name} ${r.last_name || ''}`.trimEnd());

@@ -8,6 +8,9 @@ const CODE_MIN = 100;
 const CODE_MAX = 999;
 const MAX_ATTEMPTS = 5;
 
+// Must match the options in the registration form's country select.
+const VALID_COUNTRIES = ['USA', 'Mexico'];
+
 export const POST: APIRoute = async (context) => {
   try {
     const body = await context.request.json().catch(() => null);
@@ -30,13 +33,23 @@ export const POST: APIRoute = async (context) => {
     if (!name || !lastName || !state) {
       return errorResponse('Nombre, apellido y estado son obligatorios.', 400);
     }
+
+    // Country is required: it decides the quoted currency and which payment-method
+    // list the checkout shows, so a distributor without one would quote the wrong
+    // currency and show the wrong payment options.
+    const country = String(body?.country ?? '').trim();
+    if (!VALID_COUNTRIES.includes(country)) {
+      return errorResponse(
+        `El país es obligatorio y debe ser uno de: ${VALID_COUNTRIES.join(', ')}.`,
+        400
+      );
+    }
     if (!/^\d{4}$/.test(pin)) {
       return errorResponse('El PIN debe ser de 4 dígitos numéricos.', 400);
     }
 
     const sql = getSql();
     const pinHash = hashPin(pin);
-    const country = String(body?.country ?? '').trim() || null;
     const phone = String(body?.phone ?? '').trim() || null;
     const email = String(body?.email ?? '').trim() || null;
 

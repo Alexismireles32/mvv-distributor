@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo, createContext, useContext } from 'react';
 import { BiMinus, BiPlus, BiCart, BiTrash } from 'react-icons/bi';
 import { api, ApiError } from '../lib/api';
-import { currencyCode, formatMoney } from '../lib/currency';
+import { currencyCode, formatMoney, isMexico } from '../lib/currency';
 import { PRODUCTS } from './product-catalog';
 
 // Context for cart state management across the app
@@ -224,9 +224,11 @@ function CartSidebar() {
   const [generatingInvoice, setGeneratingInvoice] = useState(false);
 
   // Get payment methods for current distributor
-  const paymentMethods = distributorInfo?.country === 'USA'
-    ? distributorInfo?.payment_methods_usa || []
-    : distributorInfo?.payment_methods_mexico || [];
+  // Same country rule as the currency helper, so payment methods and the quoted
+  // currency can never disagree. An unrecognised or missing country means USA.
+  const paymentMethods = isMexico(distributorInfo?.country)
+    ? distributorInfo?.payment_methods_mexico || []
+    : distributorInfo?.payment_methods_usa || [];
 
   const handleGenerateOrder = () => {
     if (cart.length === 0) {

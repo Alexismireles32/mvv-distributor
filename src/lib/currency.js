@@ -2,24 +2,28 @@
  * Currency follows the distributor's country.
  *
  * `country` comes from the registration dropdown and is either "USA" or "Mexico".
- * Anything else (including null, for distributors created before the field existed)
- * falls back to MXN, matching how payment methods already treat non-USA as Mexico.
+ * Anything unrecognised is treated as USA, which is the business default.
  *
  * Previously every total was labelled "USD", so a Mexican distributor collecting
  * through OXXO still quoted their customers in dollars.
  */
 
-export function currencyCode(country) {
-  return country === 'USA' ? 'USD' : 'MXN';
+/** The set of values that count as Mexico, tolerant of accents and abbreviations. */
+export function isMexico(country) {
+  return /^(mexico|méxico|mx|mex)$/i.test(String(country ?? '').trim());
 }
 
-/** "$1,234.50 MXN" — the symbol plus an explicit code, since both use "$". */
+export function currencyCode(country) {
+  return isMexico(country) ? 'MXN' : 'USD';
+}
+
+/** "$1234.50 USD" — the symbol plus an explicit code, since both use "$". */
 export function formatMoney(amount, country) {
   const value = Number(amount) || 0;
   return `$${value.toFixed(2)} ${currencyCode(country)}`;
 }
 
-/** "$1,234.50" — symbol only, for tables where the code is shown once nearby. */
+/** "$1234.50" — symbol only, for tables where the code is shown once nearby. */
 export function formatAmount(amount) {
   const value = Number(amount) || 0;
   return `$${value.toFixed(2)}`;

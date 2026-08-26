@@ -114,3 +114,13 @@ CREATE INDEX IF NOT EXISTS idx_prices_distributor    ON distributor_prices(distr
 -- per-account lockout enforced in /api/auth/login.
 ALTER TABLE distributors ADD COLUMN IF NOT EXISTS failed_attempts INT NOT NULL DEFAULT 0;
 ALTER TABLE distributors ADD COLUMN IF NOT EXISTS locked_until TIMESTAMPTZ;
+
+-- ---------------------------------------------------------------------------
+-- Country is required
+-- ---------------------------------------------------------------------------
+-- It decides the quoted currency and which payment-method list the checkout shows,
+-- so a distributor without one quotes the wrong currency and shows the wrong payment
+-- options. Defaults to 'USA'.
+UPDATE distributors SET country = 'USA' WHERE country IS NULL OR btrim(country) = '';
+ALTER TABLE distributors ALTER COLUMN country SET DEFAULT 'USA';
+ALTER TABLE distributors ALTER COLUMN country SET NOT NULL;

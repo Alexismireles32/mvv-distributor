@@ -49,8 +49,8 @@ if (existing.length > 0) {
   console.log(`Updated admin account ${code} with a new PIN.`);
 } else {
   await sql`
-    INSERT INTO distributors (code, name, last_name, state, pin_hash, is_admin)
-    VALUES (${code}, 'Admin', 'MVV', 'USA', ${hashPin(pin)}, TRUE)`;
+    INSERT INTO distributors (code, name, last_name, state, country, pin_hash, is_admin)
+    VALUES (${code}, 'Admin', 'MVV', 'USA', 'USA', ${hashPin(pin)}, TRUE)`;
   console.log(`Created admin account ${code}.`);
 }
 
