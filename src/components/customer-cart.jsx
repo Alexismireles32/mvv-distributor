@@ -216,11 +216,50 @@ export function CartProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // The sticky bar is the only persistent proof that adding worked. Before it, the
+  // sole lasting signal was the cart badge in the header — roughly 745px from the
+  // add button on a 375x812 phone, so the action and its feedback sat at opposite
+  // ends of the screen and there was no checkout CTA anywhere near the products.
+  const showStickyBar = isOrderActive && cart.length > 0 && !isCartOpen;
+  const stickyItemCount = getTotalItems();
+
   return (
     <CartContext.Provider value={value}>
       {children}
+
+      {/* Keeps the bar from covering the end of the page. */}
+      {showStickyBar && <div aria-hidden="true" className="h-24" />}
+
+      {showStickyBar && (
+        <div
+          className="fixed inset-x-0 bottom-0 z-[9998] border-t border-gray-200 bg-white shadow-[0_-2px_14px_rgba(0,0,0,0.10)]"
+          style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        >
+          <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3">
+            <div className="min-w-0">
+              <p className="text-xs uppercase tracking-wide text-gray-500">
+                {stickyItemCount} {stickyItemCount === 1 ? 'producto' : 'productos'}
+              </p>
+              <p className="text-lg font-semibold text-gray-900 leading-tight">
+                {formatMoney(getTotal(), distributorInfo?.country)}
+              </p>
+            </div>
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="shrink-0 bg-black px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-800"
+            >
+              Ver mi orden →
+            </button>
+          </div>
+        </div>
+      )}
+
       {notification && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[99999] bg-black text-white text-sm px-4 py-2 shadow-lg">
+        <div
+          className={`fixed left-1/2 -translate-x-1/2 z-[99999] bg-black text-white text-sm px-4 py-2 shadow-lg ${
+            showStickyBar ? 'bottom-24' : 'bottom-4'
+          }`}
+        >
           {notification}
         </div>
       )}
