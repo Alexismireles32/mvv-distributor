@@ -90,7 +90,7 @@ export function DistributorVerificationSystem() {
                 <img 
                   src={selectedDistributor.photo_url} 
                   alt={`${selectedDistributor.name} ${selectedDistributor.last_name}`}
-                  className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 object-cover object-top border-2 border-gray-200"
+                  className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 object-cover border-2 border-gray-200"
                 />
               ) : (
                 <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 bg-gray-100 flex items-center justify-center border-2 border-gray-200">
@@ -245,7 +245,7 @@ export function DistributorVerificationSystem() {
                     <img 
                       src={dist.photo_url} 
                       alt={`${dist.name} ${dist.last_name}`}
-                      className="w-12 h-12 rounded-full object-cover object-top"
+                      className="w-12 h-12 rounded-full object-cover"
                     />
                   ) : (
                     <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">

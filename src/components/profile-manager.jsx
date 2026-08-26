@@ -122,7 +122,7 @@ export function ProfileManager({ distributorCode, currentPhotoUrl, onBack, onSav
           <div className="flex flex-col sm:flex-row gap-6 items-start">
             <div className="w-32 h-32 rounded-full bg-gray-100 overflow-hidden border border-gray-200 flex items-center justify-center">
               {preview ? (
-                <img src={preview} alt="Foto de perfil" className="w-full h-full object-cover object-top" />
+                <img src={preview} alt="Foto de perfil" className="w-full h-full object-cover" />
               ) : (
                 <span className="text-gray-400 text-sm">Sin foto</span>
               )}

@@ -18,7 +18,7 @@ export function HomeDistributorBanner({ variant = 'full' }) {
         <div className="max-w-5xl mx-auto flex items-center gap-3 text-gray-900">
           <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-100 border border-gray-200 flex-shrink-0">
             {distributor.photo_url ? (
-              <img src={distributor.photo_url} alt="Foto" className="w-full h-full object-cover object-top" />
+              <img src={distributor.photo_url} alt="Foto" className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-[10px] text-gray-400">Sin foto</div>
             )}
@@ -55,7 +55,7 @@ export function HomeDistributorBanner({ variant = 'full' }) {
           </div>
           <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden bg-gray-100 border-[6px] border-como shadow-md">
             {distributor.photo_url ? (
-              <img src={distributor.photo_url} alt="Foto del distribuidor" className="w-full h-full object-cover object-top" />
+              <img src={distributor.photo_url} alt="Foto del distribuidor" className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">Sin foto</div>
             )}
