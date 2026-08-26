@@ -516,7 +516,7 @@ function CartSidebar() {
 
     const total = getTotal();
 
-    return `Hola ${distributorInfo.name}, mi orden sería:\n\n${productsList}\n\nSería un total aproximado de ${formatMoney(total, distributorInfo?.country)}\n\nMétodo de pago: ${selectedPaymentMethod}\n\n*El precio puede variar según costo de envío\n\nAquí te dejo la imagen de mi cotización 👇`;
+    return `Hola ${distributorInfo.name}, mi orden sería:\n\n${productsList}\n\nSería un total aproximado de ${formatMoney(total, distributorInfo?.country)}\n\nMétodo de pago: ${selectedPaymentMethod}\n\n*El precio puede variar según costo de envío\n\nAquí te dejo la imagen de mi cotización ↓`;
   };
 
   if (!isCartOpen) return null;
