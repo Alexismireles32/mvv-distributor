@@ -9,6 +9,42 @@ import { PRODUCTS } from './product-catalog';
 // Context for cart state management across the app
 const CartContext = createContext();
 
+// The distributor code was already persisted, but the cart itself was not, so a
+// customer who followed a "Ver Producto" link and came back found an empty cart.
+// The saved cart is stamped with the distributor code and re-priced from that
+// distributor's current list on restore, so a stale price can never come back.
+const CART_KEY = 'mvvCart';
+
+function saveCart(code, items) {
+  try {
+    if (!code || !items?.length) localStorage.removeItem(CART_KEY);
+    else localStorage.setItem(CART_KEY, JSON.stringify({ code, items }));
+  } catch {}
+}
+
+function loadCart(code, prices) {
+  try {
+    const raw = localStorage.getItem(CART_KEY);
+    if (!raw) return [];
+    const saved = JSON.parse(raw);
+    // A cart saved under a different distributor must not carry over — their prices
+    // differ, and the order would be sent to the wrong person.
+    if (!saved || saved.code !== code || !Array.isArray(saved.items)) return [];
+    return saved.items
+      .filter(it => it && typeof it.name === 'string' && Number(it.quantity) > 0)
+      .map(it => ({
+        name: it.name,
+        quantity: Math.max(1, Math.trunc(Number(it.quantity) || 1)),
+        price: Number(prices?.[it.name]) || 0,
+        image: PRODUCTS.find(p => p.name === it.name)?.image || ''
+      }))
+      // Drop anything the distributor no longer prices.
+      .filter(it => it.price > 0);
+  } catch {
+    return [];
+  }
+}
+
 export function CartProvider({ children }) {
   const [distributorCode, setDistributorCode] = useState('');
   const [distributorInfo, setDistributorInfo] = useState(null);
@@ -40,6 +76,7 @@ export function CartProvider({ children }) {
       setDistributorCode(code);
       setDistributorInfo(distData);
       setDistributorPrices(pricesObj || {});
+      setCart(loadCart(code, pricesObj || {}));
       setIsOrderActive(true);
       // Persist code in URL for continuity
       try {
@@ -123,6 +160,11 @@ export function CartProvider({ children }) {
     return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   };
 
+  // Mirror the cart to localStorage so it survives navigation between pages.
+  useEffect(() => {
+    if (distributorCode) saveCart(distributorCode, cart);
+  }, [cart, distributorCode]);
+
   // Memoized so the context value keeps a stable identity between renders. As a bare
   // object literal it was rebuilt every render, re-rendering every consumer (the whole
   // product grid) and making the value unusable as a hook dependency anywhere.
@@ -139,7 +181,9 @@ export function CartProvider({ children }) {
     clearDistributorSession: () => {
       try {
         localStorage.removeItem('activeDistributorCode');
+        localStorage.removeItem(CART_KEY);
       } catch {}
+      setCart([]);
       setDistributorCode('');
       setDistributorInfo(null);
       setDistributorPrices({});
