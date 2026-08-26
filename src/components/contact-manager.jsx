@@ -1,9 +1,10 @@
 "use client";
 
+import { formatCurrencyIntl } from '../lib/currency';
 import React, { useState, useEffect } from 'react';
 import { BiSortUp, BiSortDown, BiMessage, BiTime, BiDollar } from 'react-icons/bi';
 
-export function ContactManager({ distributorCode, invoiceHistory, onBack }) {
+export function ContactManager({ distributorCode, invoiceHistory, onBack, distributorCountry }) {
   const [contacts, setContacts] = useState([]);
   const [sortBy, setSortBy] = useState('amount'); // 'amount' or 'time'
   const [sortOrder, setSortOrder] = useState('desc'); // 'desc' or 'asc'
@@ -127,12 +128,8 @@ export function ContactManager({ distributorCode, invoiceHistory, onBack }) {
     window.open(`https://wa.me/${cleanPhone}?text=${message}`, '_blank');
   };
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('es-MX', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(amount);
-  };
+  // Currency follows the distributor's country rather than always saying USD.
+  const formatCurrency = (amount) => formatCurrencyIntl(amount, distributorCountry);
 
   const formatDate = (date) => {
     if (!date) return 'Sin registro';

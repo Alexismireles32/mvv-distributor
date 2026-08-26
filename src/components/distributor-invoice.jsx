@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { BiPlus, BiMinus } from 'react-icons/bi';
 import { api, ApiError, isAuthError } from '../lib/api';
 import { escapeHtml } from '../lib/escape-html';
+import { currencyCode } from '../lib/currency';
 import { DistributorDashboard } from './distributor-dashboard';
 import { InventoryManager } from './inventory-manager';
 import { PriceManager } from './price-manager';
@@ -596,7 +597,7 @@ export function DistributorInvoiceSystem() {
         <div class="inv-totals">
           <div class="row"><span><strong>Subtotal:</strong></span><span>$${subtotal.toFixed(2)}</span></div>
           <div class="row"><span><strong>Envío:</strong></span><span>$${invoiceData.shipping.toFixed(2)}</span></div>
-          <div class="total"><span><strong>TOTAL:</strong></span><span><strong>$${total.toFixed(2)}</strong></span></div>
+          <div class="total"><span><strong>TOTAL:</strong></span><span><strong>$${total.toFixed(2)} ${currencyCode(invoiceData.distributor?.country)}</strong></span></div>
         </div>
         
         <!-- Legal Disclaimer -->
@@ -938,6 +939,7 @@ export function DistributorInvoiceSystem() {
   if (currentView === 'contacts') {
     return <ContactManager 
       distributorCode={distributorInfo.code}
+      distributorCountry={distributorInfo.country}
       invoiceHistory={invoiceHistory}
       onBack={backToDashboard}
     />;

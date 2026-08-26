@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo, createContext, useContext } from 'react';
 import { BiMinus, BiPlus, BiCart, BiTrash } from 'react-icons/bi';
 import { api, ApiError } from '../lib/api';
+import { currencyCode, formatMoney } from '../lib/currency';
 import { PRODUCTS } from './product-catalog';
 
 // Context for cart state management across the app
@@ -436,7 +437,7 @@ function CartSidebar() {
         </table>
 
         <div class="inv-totals">
-          <p style="font-size:20px;margin:0;color:#4A7C59;">Total Estimado: $${total.toFixed(2)}</p>
+          <p style="font-size:20px;margin:0;color:#4A7C59;">Total Estimado: ${formatMoney(total, distributorInfo?.country)}</p>
           <p style="font-size:12px;color:#6b7280;margin:6px 0 0 0;">*El precio puede variar según costo de envío</p>
         </div>
 
@@ -469,7 +470,7 @@ function CartSidebar() {
 
     const total = getTotal();
 
-    return `Hola ${distributorInfo.name}, mi orden sería:\n\n${productsList}\n\nSería un total aproximado de $${total.toFixed(2)} USD\n\nMétodo de pago: ${selectedPaymentMethod}\n\n*El precio puede variar según costo de envío\n\nAquí te dejo la imagen de mi cotización 👇`;
+    return `Hola ${distributorInfo.name}, mi orden sería:\n\n${productsList}\n\nSería un total aproximado de ${formatMoney(total, distributorInfo?.country)}\n\nMétodo de pago: ${selectedPaymentMethod}\n\n*El precio puede variar según costo de envío\n\nAquí te dejo la imagen de mi cotización 👇`;
   };
 
   if (!isCartOpen) return null;
@@ -654,7 +655,7 @@ function CartSidebar() {
               <>
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-lg text-gray-900">Total Estimado:</span>
-                  <span className="text-2xl font-medium text-gray-900">${getTotal().toFixed(2)}</span>
+                  <span className="text-2xl font-medium text-gray-900">${getTotal().toFixed(2)} {currencyCode(distributorInfo?.country)}</span>
                 </div>
                 <p className="text-xs text-gray-500 mb-4">*El precio puede variar según costo de envío</p>
                 <button
