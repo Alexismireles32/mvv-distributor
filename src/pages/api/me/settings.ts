@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getSql, jsonResponse, errorResponse, handleServerError } from '../../../server/db.js';
-import { requireSession } from '../../../server/auth.js';
+import { requireSession, verifyPin, hashPin } from '../../../server/auth.js';
 import { isPlainObject, MAX_UNIT_PRICE, MAX_QUANTITY } from '../../../server/validate.js';
 
 export const prerender = false;
@@ -58,6 +58,33 @@ export const PUT: APIRoute = async (context) => {
         SET payment_methods_usa = ${JSON.stringify(usa)},
             payment_methods_mexico = ${JSON.stringify(mex)},
             updated_at = NOW()
+        WHERE code = ${code}
+      `;
+    }
+
+    // PIN change. The profile screen has always shown a PIN field, but nothing sent
+    // it and this endpoint ignored it — a distributor could type a new PIN, see
+    // "Perfil actualizado", and still be on the old one.
+    //
+    // The current PIN is required. Without it, anyone who got hold of an active
+    // session could change the PIN and lock the real owner out — a step up from what
+    // a stolen session already allows.
+    if (body.currentPin || body.newPin) {
+      const currentPin = String(body.currentPin ?? '');
+      const newPin = String(body.newPin ?? '');
+
+      if (!/^\d{4}$/.test(newPin)) {
+        return errorResponse('El nuevo PIN debe ser de 4 dígitos numéricos.', 400);
+      }
+
+      const rows = await sql`SELECT pin_hash FROM distributors WHERE code = ${code}`;
+      if (!rows[0] || !verifyPin(currentPin, rows[0].pin_hash)) {
+        return errorResponse('El PIN actual es incorrecto.', 403);
+      }
+
+      await sql`
+        UPDATE distributors
+        SET pin_hash = ${hashPin(newPin)}, failed_attempts = 0, locked_until = NULL, updated_at = NOW()
         WHERE code = ${code}
       `;
     }

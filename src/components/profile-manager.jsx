@@ -15,6 +15,7 @@ export function ProfileManager({ distributorCode, currentPhotoUrl, onBack, onSav
     state: '',
     phone: '',
     email: '',
+    currentPin: '',
     pin: ''
   });
 
@@ -30,8 +31,9 @@ export function ProfileManager({ distributorCode, currentPhotoUrl, onBack, onSav
           state: profile.state || '',
           phone: profile.phone || '',
           email: profile.email || '',
-          // The PIN is never sent to the browser now. Leaving this blank means
-          // "keep the current PIN"; typing 4 digits sets a new one.
+          // The PIN is never sent to the browser. Leaving these blank keeps the
+          // current PIN; filling both changes it.
+          currentPin: '',
           pin: ''
         });
         if (profile.photo_url) setPreview(profile.photo_url);
@@ -82,8 +84,13 @@ export function ProfileManager({ distributorCode, currentPhotoUrl, onBack, onSav
         return;
       }
       const pin = (form.pin || '').trim();
+      const currentPin = (form.currentPin || '').trim();
       if (pin && !/^\d{4}$/.test(pin)) {
-        setError('El PIN debe ser de 4 dígitos numéricos');
+        setError('El nuevo PIN debe ser de 4 dígitos numéricos');
+        return;
+      }
+      if (pin && !/^\d{4}$/.test(currentPin)) {
+        setError('Ingresa tu PIN actual para poder cambiarlo');
         return;
       }
       setSaving(true);
@@ -97,7 +104,9 @@ export function ProfileManager({ distributorCode, currentPhotoUrl, onBack, onSav
         phone: (form.phone || '').trim(),
         email: (form.email || '').trim()
       };
-      await api.saveSettings({ profile });
+      // Only include the PIN change when she actually filled it in.
+      await api.saveSettings(pin ? { profile, currentPin, newPin: pin } : { profile });
+      if (pin) setForm(f => ({ ...f, currentPin: '', pin: '' }));
 
       alert('Perfil actualizado');
       if (onSaved) onSaved(profile);
