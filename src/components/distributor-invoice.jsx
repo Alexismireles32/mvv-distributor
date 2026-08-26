@@ -896,24 +896,33 @@ export function DistributorInvoiceSystem() {
     />;
   }
 
+  // Each of these tools writes straight to the server, so returning to the dashboard
+  // must re-pull. Without it, prices saved in PriceManager never reached this
+  // component's `defaultPrices`, and the invoice form showed empty price fields until
+  // the distributor reloaded the page — it looked like the prices had not saved.
+  const backToDashboard = () => {
+    setCurrentView('dashboard');
+    refreshMyData();
+  };
+
   if (currentView === 'inventory') {
     return <InventoryManager 
       distributorCode={distributorInfo.code}
-      onBack={() => setCurrentView('dashboard')}
+      onBack={backToDashboard}
     />;
   }
 
   if (currentView === 'prices') {
     return <PriceManager 
       distributorCode={distributorInfo.code}
-      onBack={() => setCurrentView('dashboard')}
+      onBack={backToDashboard}
     />;
   }
 
   if (currentView === 'paymentMethods') {
     return <PaymentMethodsManager 
       distributorCode={distributorInfo.code}
-      onBack={() => setCurrentView('dashboard')}
+      onBack={backToDashboard}
     />;
   }
 
@@ -921,7 +930,7 @@ export function DistributorInvoiceSystem() {
     return <ProfileManager 
       distributorCode={distributorInfo.code}
       currentPhotoUrl={distributorInfo.photo_url}
-      onBack={() => setCurrentView('dashboard')}
+      onBack={backToDashboard}
       onSaved={(updates)=> setDistributorInfo({...distributorInfo, ...updates})}
     />;
   }
@@ -930,7 +939,7 @@ export function DistributorInvoiceSystem() {
     return <ContactManager 
       distributorCode={distributorInfo.code}
       invoiceHistory={invoiceHistory}
-      onBack={() => setCurrentView('dashboard')}
+      onBack={backToDashboard}
     />;
   }
 
@@ -938,7 +947,7 @@ export function DistributorInvoiceSystem() {
     return <PDFExporter 
       distributorInfo={distributorInfo}
       invoiceHistory={invoiceHistory}
-      onBack={() => setCurrentView('dashboard')}
+      onBack={backToDashboard}
     />;
   }
 

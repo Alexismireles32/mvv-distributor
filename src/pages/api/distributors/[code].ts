@@ -10,6 +10,12 @@ export const prerender = false;
  * what to select, so `pin_hash` is unreachable. The old client did
  * `.select('*')` against the whole table and filtered locally, which handed every
  * visitor every distributor's PIN, phone and email.
+ *
+ * `country` and the two payment_methods columns must stay in this list: the checkout
+ * builds its payment options from them. Omitting them left every distributor with an
+ * empty payment list, which permanently disabled the "Enviar a Distribuidor" button
+ * and made it impossible for any customer to complete an order. They hold method
+ * names such as "OXXO", not credentials.
  */
 export const GET: APIRoute = async ({ params }) => {
   try {
@@ -20,7 +26,8 @@ export const GET: APIRoute = async ({ params }) => {
 
     const sql = getSql();
     const rows = await sql`
-      SELECT code, name, last_name, state, phone, email, photo_url
+      SELECT code, name, last_name, state, country, phone, email, photo_url,
+             payment_methods_usa, payment_methods_mexico
       FROM distributors
       WHERE code = ${code} AND is_active = TRUE
     `;

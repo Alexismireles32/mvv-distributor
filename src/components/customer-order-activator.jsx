@@ -48,7 +48,12 @@ export function CustomerOrderActivator() {
   }
 
   const handleActivate = async (overrideCode) => {
-    const codeToUse = (overrideCode ?? distributorCode).trim();
+    // Only treat the argument as a code when it really is a string. Passing this
+    // straight to onClick handed React's SyntheticEvent in as `overrideCode`, so
+    // `.trim()` was called on an event object — the TypeError was swallowed by the
+    // async function and the "Activar" button silently did nothing. Pressing Enter
+    // worked, because that path called handleActivate() with no argument.
+    const codeToUse = String(typeof overrideCode === 'string' ? overrideCode : distributorCode).trim();
     if (!codeToUse) {
       alert('Por favor ingresa un código de distribuidor');
       return;
@@ -82,7 +87,7 @@ export function CustomerOrderActivator() {
               disabled={loading}
             />
             <button
-              onClick={handleActivate}
+              onClick={() => handleActivate()}
               disabled={loading || !/^\d{3}$/.test(distributorCode)}
               className="px-4 py-2 bg-black text-white text-sm hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
             >
