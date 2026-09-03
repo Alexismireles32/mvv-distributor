@@ -45,7 +45,7 @@ function loadCart(code, prices) {
   }
 }
 
-export function CartProvider({ children }) {
+export function CartProvider({ children, initialCode }) {
   const [distributorCode, setDistributorCode] = useState('');
   const [distributorInfo, setDistributorInfo] = useState(null);
   const [distributorPrices, setDistributorPrices] = useState({});
@@ -78,11 +78,14 @@ export function CartProvider({ children }) {
       setDistributorPrices(pricesObj || {});
       setCart(loadCart(code, pricesObj || {}));
       setIsOrderActive(true);
-      // Persist code in URL for continuity
+      // Persist code in URL for continuity — but never on a /d/<slug> vanity URL,
+      // where appending ?code=NNN would undo the whole point of the pretty link.
       try {
-        const url = new URL(window.location.href);
-        url.searchParams.set('code', code);
-        window.history.replaceState({}, '', url.toString());
+        if (!window.location.pathname.startsWith('/d/')) {
+          const url = new URL(window.location.href);
+          url.searchParams.set('code', code);
+          window.history.replaceState({}, '', url.toString());
+        }
       } catch {}
       // Persist to localStorage to keep session across pages
       try {
@@ -198,9 +201,14 @@ export function CartProvider({ children }) {
     showNotification
   }), [distributorCode, distributorInfo, distributorPrices, cart, isCartOpen, isOrderActive]);
 
-  // Auto-activate from URL query param (?code=123) on first mount
+  // Auto-activate on first mount. `initialCode` comes from the server on a
+  // /d/<slug> route, where there is no query string to read.
   React.useEffect(() => {
     try {
+      if (initialCode && /^\d{3}$/.test(String(initialCode))) {
+        activateOrder(String(initialCode));
+        return;
+      }
       const params = new URLSearchParams(window.location.search);
       const code = params.get('code');
       if (code && /^\d{3}$/.test(code)) {

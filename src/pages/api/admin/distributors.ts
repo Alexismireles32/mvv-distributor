@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getSql, jsonResponse, errorResponse, handleServerError } from '../../../server/db.js';
 import { requireAdmin, hashPin } from '../../../server/auth.js';
+import { slugify, isValidSlug } from '../../../lib/slug.js';
 
 export const prerender = false;
 
@@ -22,7 +23,7 @@ export const GET: APIRoute = async (context) => {
     // distributor inside an awaited loop.
     const rows = await sql`
       SELECT d.code, d.name, d.last_name, d.state, d.country, d.phone, d.email,
-             d.is_active, d.is_admin,
+             d.is_active, d.is_admin, d.slug,
              COALESCE(SUM(i.total_amount), 0)      AS sales,
              COUNT(i.id)                            AS invoice_count,
              COUNT(DISTINCT i.client_number)        AS clients_count
@@ -33,7 +34,7 @@ export const GET: APIRoute = async (context) => {
     `;
 
     const distributors = rows.map((r) => ({
-      code: r.code, name: r.name, last_name: r.last_name, state: r.state,
+      code: r.code, name: r.name, last_name: r.last_name, state: r.state, slug: r.slug,
       country: r.country, phone: r.phone, email: r.email,
       is_active: r.is_active, is_admin: r.is_admin,
       sales: Number(r.sales) || 0,
@@ -75,6 +76,22 @@ export const PATCH: APIRoute = async (context) => {
       }
       await sql`UPDATE distributors SET pin_hash = ${hashPin(String(body.pin))}, updated_at = NOW()
                 WHERE code = ${code}`;
+    }
+
+    // Slug edits are normalised and uniqueness-checked before they land, so a
+    // vanity URL cannot be duplicated or contain characters a URL cannot carry.
+    if (body.slug !== undefined) {
+      const nextSlug = slugify(body.slug);
+      if (!isValidSlug(nextSlug)) {
+        return errorResponse('El enlace personalizado no es válido.', 400);
+      }
+      const clash = await sql`
+        SELECT code FROM distributors WHERE slug = ${nextSlug} AND code <> ${code}
+      `;
+      if (clash.length > 0) {
+        return errorResponse(`El enlace /d/${nextSlug} ya está en uso.`, 409);
+      }
+      await sql`UPDATE distributors SET slug = ${nextSlug}, updated_at = NOW() WHERE code = ${code}`;
     }
 
     await sql`

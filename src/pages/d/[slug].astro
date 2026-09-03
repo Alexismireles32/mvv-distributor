@@ -1,0 +1,58 @@
+---
+/**
+ * Vanity ordering URL: /d/<slug>  (e.g. /d/delmira)
+ *
+ * Namespaced under /d/ on purpose. The site root already holds 52 pages, several of
+ * which read like first names (/serenity, /primrose, /floryva), so a root-level
+ * distributor URL would compete with them — and a product page added later would
+ * silently shadow a distributor's link with no error. Nothing else can occupy /d/.
+ *
+ * Server-rendered rather than a redirect, so the pretty URL survives in the address
+ * bar. The code is handed to the page as a prop; CartProvider activates from it
+ * because there is no ?code= query string to read here.
+ */
+import Layout from '../../layouts/Layout.astro';
+import { CustomerOrderPage } from '../../components/customer-order-page.jsx';
+import SeoIntro from '../../components/seo-intro.astro';
+import { getSql } from '../../server/db.js';
+import { slugify } from '../../lib/slug.js';
+
+export const prerender = false;
+
+const raw = String(Astro.params.slug ?? '');
+// Normalise what the visitor typed, so /d/Delmira and /d/delmira both resolve.
+const slug = slugify(raw);
+
+let distributor = null;
+if (slug) {
+  try {
+    const sql = getSql();
+    const rows = await sql`
+      SELECT code, name, last_name, state
+      FROM distributors
+      WHERE slug = ${slug} AND is_active = TRUE
+    `;
+    distributor = rows[0] ?? null;
+  } catch (error) {
+    // A database problem must not hard-fail the page; fall through to the
+    // not-found branch, which sends the visitor somewhere useful.
+    console.error('[d/[slug]]', error);
+  }
+}
+
+// An unknown or mistyped slug goes to the verification page rather than a dead 404 —
+// a visitor who fumbled a link can still find their distributor by code.
+if (!distributor) {
+  return Astro.redirect('/verificar-distribuidor', 302);
+}
+
+const fullName = `${distributor.name} ${distributor.last_name ?? ''}`.trim();
+---
+
+<Layout
+  title={`Ordena con ${fullName} | MVV Natural`}
+  description={`Haz tu pedido de suplementos naturales MVV con ${fullName}, distribuidor autorizado${distributor.state ? ` en ${distributor.state}` : ''}.`}
+>
+  <CustomerOrderPage client:load initialCode={distributor.code} />
+  <SeoIntro />
+</Layout>

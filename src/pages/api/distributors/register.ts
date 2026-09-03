@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getSql, jsonResponse, errorResponse, handleServerError } from '../../../server/db.js';
 import { hashPin, createSessionToken, sessionCookie } from '../../../server/auth.js';
+import { buildUniqueSlug } from '../../../lib/slug.js';
 
 export const prerender = false;
 
@@ -75,18 +76,26 @@ export const POST: APIRoute = async (context) => {
 
       const code = available[Math.floor(Math.random() * available.length)];
 
+      // Every distributor gets a /d/<slug> vanity URL from the moment they register.
+      const takenSlugs = new Set(
+        (await sql`SELECT slug FROM distributors WHERE slug IS NOT NULL`)
+          .map((r: { slug: string }) => r.slug)
+      );
+      const slug = buildUniqueSlug(name, lastName, takenSlugs);
+
       try {
         await sql`
-          INSERT INTO distributors (code, name, last_name, state, country, phone, email, pin_hash)
-          VALUES (${code}, ${name}, ${lastName}, ${state}, ${country}, ${phone}, ${email}, ${pinHash})
+          INSERT INTO distributors (code, name, last_name, state, country, phone, email, pin_hash, slug)
+          VALUES (${code}, ${name}, ${lastName}, ${state}, ${country}, ${phone}, ${email}, ${pinHash}, ${slug})
         `;
 
         const token = createSessionToken({ code, role: 'distributor' });
         context.cookies.set(sessionCookie.name, token, sessionCookie.options);
 
         return jsonResponse({
-          distributor: { code, name, last_name: lastName, state, country, phone, email },
-          code
+          distributor: { code, name, last_name: lastName, state, country, phone, email, slug },
+          code,
+          slug
         }, 201);
       } catch (insertError: any) {
         // 23505 = unique_violation: another registration took this code first. Retry.

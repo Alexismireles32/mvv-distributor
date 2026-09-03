@@ -124,3 +124,13 @@ ALTER TABLE distributors ADD COLUMN IF NOT EXISTS locked_until TIMESTAMPTZ;
 UPDATE distributors SET country = 'USA' WHERE country IS NULL OR btrim(country) = '';
 ALTER TABLE distributors ALTER COLUMN country SET DEFAULT 'USA';
 ALTER TABLE distributors ALTER COLUMN country SET NOT NULL;
+
+-- ---------------------------------------------------------------------------
+-- Vanity URLs: /d/<slug>
+-- ---------------------------------------------------------------------------
+-- Namespaced under /d/ rather than the site root, because the root already holds
+-- 52 pages — several of which read like first names (/serenity, /primrose,
+-- /floryva). A root-level distributor URL would compete with those, and a product
+-- page added later would silently shadow a distributor's link.
+ALTER TABLE distributors ADD COLUMN IF NOT EXISTS slug TEXT;
+CREATE UNIQUE INDEX IF NOT EXISTS idx_distributors_slug ON distributors(slug);

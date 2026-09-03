@@ -12,9 +12,9 @@ import { Product4_2Enhanced } from "./product-04_2-enhanced";
 import { Cta25 } from "./cta-25";
 import { Footer2 } from "./footer-02";
 
-export function CustomerOrderPage() {
+export function CustomerOrderPage({ initialCode }) {
   return (
-    <CartProvider>
+    <CartProvider initialCode={initialCode}>
       <WhatsAppProvider>
         <Navbar6 />
 
